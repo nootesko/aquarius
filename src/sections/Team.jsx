@@ -18,7 +18,7 @@ function Portrait({ m }) {
   return (
     <div
       ref={ref}
-      className="relative aspect-[4/4.6] overflow-hidden rounded-[2rem] bg-navy-800 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)] ring-1 ring-white/10"
+      className="relative aspect-[4/4.6] overflow-hidden rounded-[2rem] bg-leaf-800 shadow-[0_40px_80px_-40px_rgba(15,74,38,0.9)] ring-1 ring-white/10"
     >
       <motion.picture style={reduce ? undefined : { y: imgY, scale: 1.1 }} className="absolute inset-0 block">
         <source srcSet={`${m.photo}.webp`} type="image/webp" />
@@ -67,12 +67,12 @@ function MemberRow({ m, flip }) {
             const Icon = CV_ICONS[c.label] ?? Briefcase
             return (
               <motion.div key={c.label} variants={riseIn} className="flex gap-4">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/[0.06] text-gold-400 ring-1 ring-inset ring-white/10">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-gold-300 ring-1 ring-inset ring-white/15">
                   <Icon size={18} strokeWidth={2.1} aria-hidden="true" />
                 </span>
                 <div>
-                  <dt className="text-[0.66rem] font-bold tracking-[0.2em] text-gold-400 uppercase">{c.label}</dt>
-                  <dd className="mt-1 text-[1.02rem] leading-relaxed text-white/85">{c.text}</dd>
+                  <dt className="text-[0.66rem] font-bold tracking-[0.2em] text-gold-300 uppercase">{c.label}</dt>
+                  <dd className="mt-1 text-[1.02rem] leading-relaxed text-white">{c.text}</dd>
                 </div>
               </motion.div>
             )
@@ -85,11 +85,11 @@ function MemberRow({ m, flip }) {
 
 export function Team() {
   return (
-    <section id="chapa" className="relative scroll-mt-20 overflow-hidden bg-navy-900 py-24 sm:py-32">
-      <div aria-hidden="true" className="paver-grid absolute inset-0 opacity-25" />
+    <section id="chapa" className="relative scroll-mt-20 overflow-hidden bg-leaf-700 py-24 sm:py-32">
+      <div aria-hidden="true" className="paver-grid-light absolute inset-0" />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_0%,rgba(10,23,48,0)_0%,#0a1730_75%)]"
+        className="absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_0%,rgba(54,178,93,0.55)_0%,transparent_70%)]"
       />
 
       <div className="shell relative">

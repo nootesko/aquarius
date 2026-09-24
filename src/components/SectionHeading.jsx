@@ -2,9 +2,9 @@ import { motion, useReducedMotion } from 'motion/react'
 import { Reveal, RevealWords } from './Reveal.jsx'
 import { EASE, VIEWPORT } from '../lib/motion.js'
 
-/* tone: 'dark' (fundo navy) | 'light' (fundo claro) | 'gold' (fundo amarelo) */
+/* tone: 'dark' (fundo colorido: céu ou gramado) | 'light' (fundo claro) | 'gold' (fundo amarelo) */
 const TONES = {
-  dark: { title: 'text-white', lead: 'text-white/65', overline: 'text-brand-300', rule: 'bg-gold-400' },
+  dark: { title: 'text-white', lead: 'text-white/85', overline: 'text-gold-300', rule: 'bg-gold-400' },
   light: { title: 'text-ink-900', lead: 'text-ink-600', overline: 'text-brand-700', rule: 'bg-gold-500' },
   gold: { title: 'text-navy-900', lead: 'text-navy-900/72', overline: 'text-navy-900/70', rule: 'bg-navy-900' },
 }

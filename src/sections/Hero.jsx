@@ -118,7 +118,7 @@ export function Hero() {
           initial={reduce ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE.out, delay: 0.5 }}
-          className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-[0.68rem] font-semibold tracking-[0.22em] text-brand-300 uppercase ring-1 ring-inset ring-white/12 backdrop-blur-sm sm:text-[0.72rem]"
+          className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/8 px-4 py-2 text-[0.68rem] font-semibold tracking-[0.22em] text-white uppercase ring-1 ring-inset ring-white/25 backdrop-blur-sm sm:text-[0.72rem]"
         >
           <Sparkles size={13} strokeWidth={2.6} aria-hidden="true" className="text-gold-400" />
           {hero.kicker}
@@ -181,7 +181,7 @@ export function Hero() {
         onClick={(e) => scrollTo(e, 'ruas')}
         aria-label="Rolar para o tema prioritário"
         style={{ y: contentY, opacity: cueOpacity }}
-        className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/45 transition-colors hover:text-white sm:flex"
+        className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/75 transition-colors hover:text-white sm:flex"
       >
         <span className="text-[0.6rem] font-semibold tracking-[0.28em] uppercase">Role</span>
         <motion.span

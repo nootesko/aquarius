@@ -57,7 +57,7 @@ export function Nav() {
       >
         <motion.div
           animate={{
-            backgroundColor: scrolled ? 'rgba(5,13,30,0.82)' : 'rgba(5,13,30,0)',
+            backgroundColor: scrolled ? 'rgba(11,95,198,0.9)' : 'rgba(11,95,198,0)',
             backdropFilter: scrolled ? 'blur(14px)' : 'blur(0px)',
             borderColor: scrolled ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0)',
           }}
@@ -71,7 +71,7 @@ export function Nav() {
                   <a
                     href={`#${item.id}`}
                     onClick={(e) => go(e, item.id)}
-                    className="relative block rounded-full px-4 py-2 text-[0.82rem] font-semibold tracking-wide text-white/70 transition-colors duration-200 hover:text-white"
+                    className="relative block rounded-full px-4 py-2 text-[0.82rem] font-semibold tracking-wide text-white/85 transition-colors duration-200 hover:text-white"
                   >
                     {active === item.id && (
                       <motion.span
@@ -152,7 +152,7 @@ export function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-navy-950/97 backdrop-blur-xl md:hidden"
+            className="fixed inset-0 z-40 bg-sky-800/97 backdrop-blur-xl md:hidden"
           >
             <motion.ul
               className="flex h-full flex-col justify-center gap-2 px-8"

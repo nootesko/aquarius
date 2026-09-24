@@ -12,15 +12,15 @@ export function TickerBand() {
   const xNavy = useTransform(scrollYProgress, [0, 1], ['4%', '-4%'])
 
   return (
-    <div ref={ref} className="relative z-10 -mt-8 h-[124px] overflow-x-clip bg-navy-950 select-none sm:h-[146px]">
+    <div ref={ref} className="relative z-10 -mt-8 h-[124px] overflow-x-clip bg-leaf-700 select-none sm:h-[146px]">
       <motion.div style={{ x: xNavy }} className="absolute inset-x-[-12%] top-6 rotate-[-2.5deg]">
-        <div className="border-y border-white/10 bg-navy-800/80 py-3 backdrop-blur-sm">
+        <div className="border-y border-white/10 bg-leaf-900 py-3">
           <Marquee
             items={closing.slogans}
             speed={46}
             reverse
             separator="●"
-            itemClassName="display text-[0.95rem] tracking-[0.06em] text-white/45 sm:text-[1.15rem]"
+            itemClassName="display text-[0.95rem] tracking-[0.06em] text-white/75 sm:text-[1.15rem]"
           />
         </div>
       </motion.div>

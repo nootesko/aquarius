@@ -128,7 +128,7 @@ export function ContactForm() {
       onSubmit={onSubmit}
       noValidate
       layout={!reduce}
-      className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-6 backdrop-blur-sm sm:p-9"
+      className="relative overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-white/[0.14] to-white/[0.07] p-6 backdrop-blur-sm sm:p-9"
     >
       <h3 className="display text-[1.4rem] text-white sm:text-[1.7rem]">Envie sua mensagem</h3>
 
@@ -136,7 +136,7 @@ export function ContactForm() {
       <div
         role="radiogroup"
         aria-label="Como você quer enviar"
-        className="mt-7 grid grid-cols-2 gap-1 rounded-2xl border border-white/10 bg-navy-950/50 p-1"
+        className="mt-7 grid grid-cols-2 gap-1 rounded-2xl border border-white/20 bg-sky-800/60 p-1"
       >
         {MODES.map((m) => {
           const isActive = mode === m.id
@@ -152,7 +152,7 @@ export function ContactForm() {
                 setStatus('idle')
               }}
               className={`relative isolate flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-[0.83rem] font-semibold transition-colors duration-200 ${
-                isActive ? 'text-navy-900' : 'text-white/55 hover:text-white/85'
+                isActive ? 'text-navy-900' : 'text-white/80 hover:text-white'
               }`}
             >
               {isActive && (
@@ -179,9 +179,9 @@ export function ContactForm() {
             transition={{ duration: 0.35, ease: EASE.out }}
             className="overflow-hidden"
           >
-            <div className="flex gap-3 rounded-2xl border border-brand-400/25 bg-brand-600/12 p-4">
-              <EyeOff size={18} strokeWidth={2.2} aria-hidden="true" className="mt-0.5 shrink-0 text-brand-300" />
-              <p className="text-[0.86rem] leading-relaxed text-white/72">
+            <div className="flex gap-3 rounded-2xl border border-white/20 bg-white/10 p-4">
+              <EyeOff size={18} strokeWidth={2.2} aria-hidden="true" className="mt-0.5 shrink-0 text-white" />
+              <p className="text-[0.86rem] leading-relaxed text-white/90">
                 Só o texto chega até a chapa — nenhum nome, telefone ou dado seu. Se quiser resposta, escolha
                 “Quero me identificar”.
               </p>
@@ -270,7 +270,7 @@ export function ContactForm() {
           />
           <div className="mt-2 flex justify-end">
             <motion.span
-              animate={{ color: remaining < 120 ? '#ffcc00' : 'rgba(252,252,252,0.35)' }}
+              animate={{ color: remaining < 120 ? '#ffdd52' : 'rgba(252,252,252,0.65)' }}
               className="text-[0.72rem] tabular-nums"
             >
               {form.mensagem.length}/{MAX}
@@ -334,7 +334,7 @@ export function ContactForm() {
           </AnimatePresence>
         </motion.button>
 
-        <p className="text-[0.75rem] leading-snug text-white/35 sm:max-w-[16rem] sm:text-right">
+        <p className="text-[0.75rem] leading-snug text-white/70 sm:max-w-[16rem] sm:text-right">
           {anon
             ? 'Não pedimos e não guardamos nenhum dado que te identifique.'
             : 'Seus dados são usados apenas para responder você.'}
@@ -352,7 +352,7 @@ function SuccessPanel({ anon, onReset }) {
       initial={reduce ? false : { opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.45, ease: EASE.out }}
-      className="relative overflow-hidden rounded-3xl border border-gold-400/30 bg-gradient-to-b from-brand-700/30 to-navy-900/60 p-9 text-center sm:p-12"
+      className="relative overflow-hidden rounded-3xl border border-white/25 bg-gradient-to-b from-white/[0.16] to-white/[0.06] p-9 text-center sm:p-12"
       role="status"
     >
       <motion.span

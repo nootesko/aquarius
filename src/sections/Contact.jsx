@@ -18,7 +18,7 @@ function WhatsAppCall() {
       whileHover={reduce ? undefined : { y: -5 }}
       whileTap={reduce ? undefined : { scale: 0.985 }}
       transition={SPRING.soft}
-      className="group relative flex h-full flex-col justify-center overflow-hidden rounded-3xl bg-[#25d366] p-7 text-navy-950 shadow-[0_30px_60px_-30px_rgba(37,211,102,0.6)] sm:p-9"
+      className="group relative flex h-full flex-col justify-center overflow-hidden rounded-3xl bg-[#25d366] p-7 text-navy-950 shadow-[0_30px_60px_-30px_rgba(10,79,168,0.8)] sm:p-9"
     >
       <span className="relative grid h-14 w-14 place-items-center rounded-2xl bg-navy-950 text-[#25d366]">
         <WhatsAppIcon size={26} />
@@ -43,10 +43,10 @@ function WhatsAppCall() {
 
 export function Contact() {
   return (
-    <section id="contato" className="relative scroll-mt-20 overflow-hidden bg-navy-950 py-24 sm:py-32">
+    <section id="contato" className="relative scroll-mt-20 overflow-hidden bg-gradient-to-b from-sky-600 to-sky-800 py-24 sm:py-32">
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(70%_55%_at_20%_0%,rgba(0,87,190,0.22),transparent_60%)]"
+        className="absolute inset-0 bg-[radial-gradient(70%_55%_at_20%_0%,rgba(255,255,255,0.14),transparent_60%)]"
       />
 
       <div className="shell relative">

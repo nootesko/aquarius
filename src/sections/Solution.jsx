@@ -192,7 +192,7 @@ export function Solution() {
   const street = streets[active]
 
   return (
-    <section id="ruas" className="relative scroll-mt-20 overflow-hidden bg-paper-100 py-24 sm:py-32">
+    <section id="ruas" className="relative scroll-mt-20 overflow-hidden bg-sun-50 py-24 sm:py-32">
       <div aria-hidden="true" className="paver-grid-ink absolute inset-0 opacity-[0.32]" />
       <div
         aria-hidden="true"

@@ -1,22 +1,22 @@
 import { motion, useReducedMotion } from 'motion/react'
 
-/* Fundo vivo do hero: malha de calçamento em perspectiva, brilhos que respiram
-   e "buracos" de luz. Tudo é decorativo — some para leitores de tela. */
+/* Fundo vivo do hero: céu azul de chácara, sol, malha de calçamento em perspectiva
+   que desce até o gramado. Tudo é decorativo — some para leitores de tela. */
 export function HeroBackdrop({ gridY, glowY, opacity }) {
   const reduce = useReducedMotion()
 
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       {/* base */}
-      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_-10%,#153163_0%,#0a1730_45%,#050d1e_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_-10%,#6cc0ff_0%,#2b8fe8_38%,#0b5fc6_78%)]" />
 
       {/* malha de paver em perspectiva, deslizando com o scroll */}
       <motion.div
         style={{ y: gridY, opacity }}
         className="absolute inset-x-[-30%] bottom-[-18%] h-[70%] [transform:perspective(760px)_rotateX(62deg)] origin-bottom"
       >
-        <div className="paver-grid h-full w-full opacity-70" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent" />
+        <div className="paver-grid-light h-full w-full opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-leaf-700 via-leaf-700/30 to-transparent" />
       </motion.div>
 
       {/* brilhos */}
@@ -24,13 +24,13 @@ export function HeroBackdrop({ gridY, glowY, opacity }) {
         style={{ y: glowY }}
         animate={reduce ? undefined : { opacity: [0.35, 0.6, 0.35], scale: [1, 1.08, 1] }}
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -top-32 left-[8%] h-[26rem] w-[26rem] rounded-full bg-brand-500/25 blur-[110px]"
+        className="absolute -top-32 left-[8%] h-[26rem] w-[26rem] rounded-full bg-white/25 blur-[110px]"
       />
       <motion.div
         style={{ y: glowY }}
         animate={reduce ? undefined : { opacity: [0.28, 0.5, 0.28], scale: [1.06, 1, 1.06] }}
         transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1.4 }}
-        className="absolute top-[18%] right-[4%] h-[22rem] w-[22rem] rounded-full bg-gold-400/16 blur-[120px]"
+        className="absolute top-[18%] right-[4%] h-[22rem] w-[22rem] rounded-full bg-gold-300/40 blur-[120px]"
       />
 
       {/* granulado sutil para tirar o aspecto "chapado" dos degradês */}
@@ -43,7 +43,7 @@ export function HeroBackdrop({ gridY, glowY, opacity }) {
       />
 
       {/* vinheta inferior para o texto respirar */}
-      <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-navy-950 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-leaf-700 to-transparent" />
     </div>
   )
 }

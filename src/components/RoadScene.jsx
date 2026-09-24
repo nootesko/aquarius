@@ -22,11 +22,11 @@ function SkyAndSurroundings() {
       {/* linha do horizonte / arvoredo */}
       <path
         d="M0 168 L0 140 Q40 118 78 138 Q104 108 140 132 Q176 104 212 134 Q252 110 292 136 Q330 116 372 138 Q412 112 452 136 Q494 110 534 134 Q574 108 614 132 Q652 112 692 136 Q730 116 800 140 L800 168 Z"
-        fill="#0d2a4d"
+        fill="#3f8f4e"
         opacity="0.95"
       />
       {/* casas ao fundo */}
-      <g fill="#12305a" opacity="0.9">
+      <g fill="#f1dfbd" opacity="0.95">
         <path d="M120 168 L120 128 L152 108 L184 128 L184 168 Z" />
         <path d="M228 168 L228 134 L256 116 L284 134 L284 168 Z" />
         <path d="M520 168 L520 130 L550 110 L580 130 L580 168 Z" />
@@ -68,12 +68,12 @@ export function RoadBefore() {
     <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" aria-label="Ilustração: rua de terra com buracos e poeira">
       <defs>
         <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#0a1730" />
-          <stop offset="100%" stopColor="#1d4f8a" />
+          <stop offset="0%" stopColor="#4aa8f5" />
+          <stop offset="100%" stopColor="#cfeaff" />
         </linearGradient>
         <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#1c3b28" />
-          <stop offset="100%" stopColor="#122a1d" />
+          <stop offset="0%" stopColor="#5bb85f" />
+          <stop offset="100%" stopColor="#3f9a4a" />
         </linearGradient>
         <linearGradient id="dirtGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#8d7a5e" />
@@ -159,15 +159,15 @@ export function RoadAfter() {
     <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" aria-label="Ilustração: a mesma rua com calçamento de bloco intertravado">
       <defs>
         <linearGradient id="skyGrad2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#0a1730" />
-          <stop offset="100%" stopColor="#2a6cb4" />
+          <stop offset="0%" stopColor="#4aa8f5" />
+          <stop offset="100%" stopColor="#cfeaff" />
         </linearGradient>
         <linearGradient id="grassGrad2" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#204a2e" />
-          <stop offset="100%" stopColor="#153520" />
+          <stop offset="0%" stopColor="#62c066" />
+          <stop offset="100%" stopColor="#43a04e" />
         </linearGradient>
         <linearGradient id="paverShade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#0a1730" stopOpacity="0.55" />
+          <stop offset="0%" stopColor="#0a1730" stopOpacity="0.18" />
           <stop offset="45%" stopColor="#0a1730" stopOpacity="0" />
         </linearGradient>
       </defs>
@@ -176,10 +176,10 @@ export function RoadAfter() {
         <rect x="0" y="0" width={W} height={HORIZON + 6} fill="url(#skyGrad2)" />
         <path
           d="M0 168 L0 140 Q40 118 78 138 Q104 108 140 132 Q176 104 212 134 Q252 110 292 136 Q330 116 372 138 Q412 112 452 136 Q494 110 534 134 Q574 108 614 132 Q652 112 692 136 Q730 116 800 140 L800 168 Z"
-          fill="#123b22"
+          fill="#3f8f4e"
           opacity="0.95"
         />
-        <g fill="#17436b" opacity="0.9">
+        <g fill="#f1dfbd" opacity="0.95">
           <path d="M120 168 L120 128 L152 108 L184 128 L184 168 Z" />
           <path d="M228 168 L228 134 L256 116 L284 134 L284 168 Z" />
           <path d="M520 168 L520 130 L550 110 L580 130 L580 168 Z" />

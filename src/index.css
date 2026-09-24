@@ -19,6 +19,23 @@
   --color-gold-400: #ffcc00;
   --color-gold-300: #ffdd52;
 
+  /* ---- Chácara: céu, gramado e sol (fundos vivos) ---- */
+  --color-sky-800: #0a4fa8;
+  --color-sky-700: #0b5fc6;
+  --color-sky-600: #1373dd;
+  --color-sky-500: #2b8fe8;
+  --color-sky-300: #8cc8ff;
+
+  --color-leaf-900: #0f4a26;
+  --color-leaf-800: #146232;
+  --color-leaf-700: #1b7a3c;
+  --color-leaf-600: #23964b;
+  --color-leaf-500: #36b25d;
+  --color-leaf-50: #f0f9f1;
+
+  --color-sun-50: #fffaf0;
+  --color-sun-100: #fff2d6;
+
   --color-paver-500: #a8a8a0;
   --color-paver-300: #d6d6cf;
   --color-cream: #fcfcfc;
@@ -145,6 +162,14 @@
   background-image:
     linear-gradient(to right, color-mix(in oklab, var(--color-brand-400) 12%, transparent) 1px, transparent 1px),
     linear-gradient(to bottom, color-mix(in oklab, var(--color-brand-400) 12%, transparent) 1px, transparent 1px);
+  background-size: 56px 34px;
+}
+
+/* Textura clara, para os fundos coloridos (céu e gramado) */
+@utility paver-grid-light {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.09) 1px, transparent 1px);
   background-size: 56px 34px;
 }
 

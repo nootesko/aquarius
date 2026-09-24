@@ -74,7 +74,7 @@ export function InstagramFeed() {
   const posts = instagram.posts ?? []
 
   return (
-    <section id="instagram" className="relative scroll-mt-20 overflow-hidden bg-paper-50 py-24 sm:py-32">
+    <section id="instagram" className="relative scroll-mt-20 overflow-hidden bg-sun-50 py-24 sm:py-32">
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(55%_40%_at_15%_0%,rgba(43,143,232,0.1),transparent_60%)]"
@@ -121,7 +121,7 @@ export function InstagramFeed() {
           </Reveal>
         ) : (
           <Reveal className="mt-12" delay={0.05}>
-            <div className="mx-auto max-w-2xl rounded-3xl border border-dashed border-paper-300 bg-paper-100 p-10 text-center">
+            <div className="mx-auto max-w-2xl rounded-3xl border border-dashed border-sun-100 bg-white p-10 text-center">
               <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-[linear-gradient(45deg,#feda75_0%,#fa7e1e_25%,#d62976_50%,#962fbf_75%,#4f5bd5_100%)] text-white">
                 <InstagramGlyph size={24} />
               </span>

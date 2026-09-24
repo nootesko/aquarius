@@ -4,14 +4,14 @@ import { EASE } from '../lib/motion.js'
 export function Field({ id, label, error, hint, children, optional = false }) {
   return (
     <div className="relative">
-      <label htmlFor={id} className="mb-2 flex items-baseline gap-2 text-[0.8rem] font-semibold tracking-wide text-white/75">
+      <label htmlFor={id} className="mb-2 flex items-baseline gap-2 text-[0.8rem] font-semibold tracking-wide text-white/90">
         {label}
-        {optional && <span className="text-[0.7rem] font-normal text-white/35">opcional</span>}
+        {optional && <span className="text-[0.7rem] font-normal text-white/60">opcional</span>}
       </label>
 
       {children}
 
-      {hint && !error && <p className="mt-1.5 text-[0.75rem] text-white/35">{hint}</p>}
+      {hint && !error && <p className="mt-1.5 text-[0.75rem] text-white/65">{hint}</p>}
 
       <motion.p
         initial={false}
@@ -27,4 +27,4 @@ export function Field({ id, label, error, hint, children, optional = false }) {
 }
 
 export const inputClass =
-  'w-full rounded-xl border border-white/12 bg-navy-950/60 px-4 py-3.5 text-[0.98rem] text-white placeholder:text-white/28 outline-none transition-[border-color,box-shadow,background-color] duration-200 focus:border-brand-400 focus:bg-navy-950 focus:shadow-[0_0_0_4px_rgba(43,143,232,0.18)]'
+  'w-full rounded-xl border border-white/25 bg-sky-800/55 px-4 py-3.5 text-[0.98rem] text-white placeholder:text-white/55 outline-none transition-[border-color,box-shadow,background-color] duration-200 focus:border-gold-300 focus:bg-sky-800 focus:shadow-[0_0_0_4px_rgba(255,221,82,0.22)]'

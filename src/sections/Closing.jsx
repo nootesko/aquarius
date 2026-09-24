@@ -27,11 +27,11 @@ export function Closing() {
   }
 
   return (
-    <footer ref={ref} className="relative overflow-hidden bg-navy-900">
-      <div aria-hidden="true" className="paver-grid absolute inset-0 opacity-30" />
+    <footer ref={ref} className="relative overflow-hidden bg-leaf-800">
+      <div aria-hidden="true" className="paver-grid-light absolute inset-0" />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(75%_60%_at_50%_100%,rgba(0,87,190,0.28),transparent_65%)]"
+        className="absolute inset-0 bg-[radial-gradient(75%_60%_at_50%_100%,rgba(54,178,93,0.45),transparent_65%)]"
       />
 
       <div className="shell relative py-24 sm:py-28">
@@ -72,7 +72,7 @@ export function Closing() {
         </RevealGroup>
 
         <Reveal className="mt-12 flex flex-col items-center gap-5" delay={0.15}>
-          <p className="max-w-xl text-center text-[1rem] leading-relaxed text-white/60 sm:text-[1.1rem]">
+          <p className="max-w-xl text-center text-[1rem] leading-relaxed text-white/85 sm:text-[1.1rem]">
             {closing.cta}
           </p>
 
@@ -96,7 +96,7 @@ export function Closing() {
                   <a
                     href={`#${item.id}`}
                     onClick={(e) => goTo(e, item.id)}
-                    className="relative text-[0.85rem] text-white/50 transition-colors hover:text-white"
+                    className="relative text-[0.85rem] text-white/75 transition-colors hover:text-white"
                   >
                     {item.label}
                   </a>
@@ -121,7 +121,7 @@ export function Closing() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: EASE.out }}
-            className="mt-8 text-center text-[0.76rem] leading-relaxed text-white/30"
+            className="mt-8 text-center text-[0.76rem] leading-relaxed text-white/60"
           >
             Material de campanha da chapa Aquarius Sem Buracos — candidata à administração do Residencial Aquarius.
             <br className="hidden sm:block" /> Conteúdo de responsabilidade da própria chapa.
