@@ -204,8 +204,7 @@ export function Solution() {
   const street = streets[active]
 
   return (
-    <section className="relative flow-root bg-sun-50 pb-24 sm:pb-32">
-      <div aria-hidden="true" className="paver-grid-ink absolute inset-0 opacity-[0.32]" />
+    <section className="relative flow-root bg-gradient-to-b from-sun-100 via-sun-50 to-paper-50 pb-12 sm:pb-16">
 
       <div className="shell relative">
         <div id="ruas" className="relative z-10 mx-auto -mt-28 max-w-5xl scroll-mt-24 sm:-mt-44">
