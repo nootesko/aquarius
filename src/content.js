@@ -50,25 +50,26 @@ export const solution = {
   after: 'Depois',
 }
 
-/* Ruas do Aquarius — antes/depois de cada uma.
+/* Ruas do Aquarius — antes/depois de cada uma, em ordem alfabética.
    Fotos em /public/assets/ruas/ (formato horizontal, de preferência 16:10):
      before: '/assets/ruas/francisco-ferreira-pinto-antes.jpg'
      after:  '/assets/ruas/francisco-ferreira-pinto-depois.jpg'
    Enquanto a foto for null, aparece a ilustração. */
 export const streets = [
-  { name: 'Rua Francisco Ferreira Pinto', before: null, after: null },
-  { name: 'Rua Benedita Maria de Jesus', before: null, after: null },
-  { name: 'Rua Lázaro Ferreira Pinto', before: null, after: null },
-  { name: 'Rua José Aidano Leôncio de Sá', before: null, after: null },
-  { name: 'Rua Nelson Caetano de Oliveira', before: null, after: null },
-  { name: 'Rua Antônio Pereira Lameu', before: null, after: null },
-  { name: 'Rua Valentina Sales', before: null, after: null },
-  { name: 'Rua Ademir Marques Charin', before: null, after: null },
-  { name: 'Rua Francisco Paulino Vicente', before: null, after: null },
-  { name: 'Rua José de Oliveira Leite', before: null, after: null },
-  { name: 'Rua Noel Infante', before: null, after: null },
-  { name: 'Rua João Adélino Pinto', before: null, after: null },
   { name: 'Rua Acácio Antunes Pinto', before: null, after: null },
+  { name: 'Rua Ademir Marques Charin', before: null, after: null },
+  { name: 'Rua Antônio Gonçalves', before: null, after: null },
+  { name: 'Rua Antônio Pereira Lameu', before: null, after: null },
+  { name: 'Rua Benedita Maria de Jesus', before: null, after: null },
+  { name: 'Rua Francisco Ferreira Pinto', before: null, after: null },
+  { name: 'Rua Francisco Paulino Vicente', before: null, after: null },
+  { name: 'Rua João Adélino Pinto', before: null, after: null },
+  { name: 'Rua José Aidano Leôncio de Sá', before: null, after: null },
+  { name: 'Rua José de Oliveira Leite', before: null, after: null },
+  { name: 'Rua Lázaro Ferreira Pinto', before: null, after: null },
+  { name: 'Rua Nelson Caetano de Oliveira', before: null, after: null },
+  { name: 'Rua Noel Infante', before: null, after: null },
+  { name: 'Rua Valentina Sales', before: null, after: null },
 ]
 
 /* Propostas organizadas por tema (documento "Propostas organizadas por tema").
