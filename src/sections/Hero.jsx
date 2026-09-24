@@ -67,7 +67,7 @@ export function Hero() {
       ref={ref}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
-      className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden pt-24 pb-36 sm:pt-28 sm:pb-56"
+      className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden pt-24 pb-48 sm:pt-28 sm:pb-72"
     >
       <HeroBackdrop gridY={gridY} glowY={glowY} opacity={bgOpacity} />
 
