@@ -44,7 +44,7 @@ export const hero = {
 
 /* Seção "Ruas" (antes da lista de propostas): o hoje e o amanhã do tema prioritário. */
 export const solution = {
-  overline: 'Tema prioritário',
+  overline: 'Prioridade',
   title: 'Ruas, pavimentação e drenagem.',
   before: 'Antes',
   after: 'Depois',
@@ -79,7 +79,7 @@ export const proposals = [
   {
     id: 'ruas',
     tab: 'Ruas e drenagem',
-    badge: 'Tema prioritário',
+    badge: 'Prioridade',
     title: 'Ruas, pavimentação e drenagem',
     items: [
       { title: 'Estudo técnico', text: 'Mapear ruas, prioridades e soluções mais adequadas para o residencial, considerando viabilidade técnica e financeira.' },
