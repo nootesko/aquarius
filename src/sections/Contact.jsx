@@ -7,7 +7,7 @@ import { SectionHeading } from '../components/SectionHeading.jsx'
 import { ContactForm } from '../components/ContactForm.jsx'
 import { SPRING } from '../lib/motion.js'
 
-/* Chamada direta para o WhatsApp da chapa. */
+/* Faixa fina com a chamada para o WhatsApp, logo abaixo do formulário. */
 function WhatsAppCall() {
   const reduce = useReducedMotion()
   return (
@@ -15,28 +15,28 @@ function WhatsAppCall() {
       href={whatsappLink}
       target="_blank"
       rel="noopener noreferrer"
-      whileHover={reduce ? undefined : { y: -5 }}
+      whileHover={reduce ? undefined : { y: -3 }}
       whileTap={reduce ? undefined : { scale: 0.985 }}
       transition={SPRING.soft}
-      className="group relative flex h-full flex-col justify-center overflow-hidden rounded-3xl bg-[#25d366] p-7 text-navy-950 shadow-[0_30px_60px_-30px_rgba(10,79,168,0.8)] sm:p-9"
+      className="group flex items-center gap-4 rounded-2xl bg-[#25d366] p-4 text-navy-950 shadow-[0_20px_40px_-24px_rgba(5,31,71,0.8)] sm:p-5"
     >
-      <span className="relative grid h-14 w-14 place-items-center rounded-2xl bg-navy-950 text-[#25d366]">
-        <WhatsAppIcon size={26} />
+      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-navy-950 text-[#25d366]">
+        <WhatsAppIcon size={24} />
       </span>
-
-      <span className="relative mt-8 block">
-        <span className="display block text-[clamp(1.6rem,3.6vw,2.2rem)] leading-tight">Prefere conversar?</span>
-        <span className="mt-2 block text-[1rem] font-medium text-navy-950/75">Chame a chapa no WhatsApp.</span>
-        <span className="mt-7 inline-flex items-center gap-2 rounded-full bg-navy-950 px-6 py-3.5 text-[0.8rem] font-bold tracking-[0.12em] text-white uppercase">
-          Abrir WhatsApp
-          <ArrowUpRight
-            size={17}
-            strokeWidth={2.6}
-            aria-hidden="true"
-            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          />
-        </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-[1.02rem] font-bold">Prefere conversar?</span>
+        <span className="block text-[0.9rem] text-navy-950/75">Chame a chapa no WhatsApp.</span>
       </span>
+      <span className="hidden shrink-0 items-center gap-2 rounded-full bg-navy-950 px-5 py-3 text-[0.75rem] font-bold tracking-[0.12em] text-white uppercase sm:inline-flex">
+        Abrir WhatsApp
+        <ArrowUpRight
+          size={16}
+          strokeWidth={2.6}
+          aria-hidden="true"
+          className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+        />
+      </span>
+      <ArrowUpRight size={20} strokeWidth={2.6} aria-hidden="true" className="shrink-0 sm:hidden" />
     </motion.a>
   )
 }
@@ -52,12 +52,12 @@ export function Contact() {
       <div className="shell relative">
         <SectionHeading overline={contact.overline} title={contact.title} lead={contact.lead} align="center" />
 
-        <div className="mx-auto mt-14 grid max-w-5xl gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-8">
+        <div className="mx-auto mt-14 max-w-2xl space-y-5">
           <Reveal>
-            <WhatsAppCall />
+            <ContactForm />
           </Reveal>
           <Reveal delay={0.08}>
-            <ContactForm />
+            <WhatsAppCall />
           </Reveal>
         </div>
       </div>
