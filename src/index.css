@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+@theme {
+  /* ---- Paleta extraída do logo da chapa ---- */
+  --color-navy-950: #050d1e;
+  --color-navy-900: #0a1730;
+  --color-navy-800: #0f2247;
+  --color-navy-700: #16305f;
+  --color-navy-600: #1d3d78;
+
+  --color-brand-700: #00429a;
+  --color-brand-600: #0057be;
+  --color-brand-500: #1b7be0;
+  --color-brand-400: #2b8fe8;
+  --color-brand-300: #6bb4f2;
+
+  --color-gold-600: #c99e00;
+  --color-gold-500: #e5b400;
+  --color-gold-400: #ffcc00;
+  --color-gold-300: #ffdd52;
+
+  --color-paver-500: #a8a8a0;
+  --color-paver-300: #d6d6cf;
+  --color-cream: #fcfcfc;
+
+  /* ---- Seções claras ---- */
+  --color-paper-50: #ffffff;
+  --color-paper-100: #f4f6f9;
+  --color-paper-200: #e9ecf1;
+  --color-paper-300: #dcdfe6;
+
+  /* Texto sobre fundo claro. Nunca usar gold-400 como texto aqui:
+     #ffcc00 sobre branco dá 1,6:1 e reprova em qualquer critério.
+     Para amarelo em texto claro existe o gold-ink. */
+  --color-ink-900: #0a1730;
+  --color-ink-700: #33435c;
+  --color-ink-600: #4b5a6e;
+  --color-ink-500: #6b7889;
+  --color-gold-ink: #7a5c00;
+
+  /* ---- Tipografia ---- */
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* ---- Movimento ---- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-navy-950);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-gold-400);
+    color: var(--color-navy-900);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-gold-400);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Scrollbar discreta em navegadores desktop */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-navy-950); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-navy-700);
+    border-radius: 999px;
+    border: 2px solid var(--color-navy-950);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-brand-600); }
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 92%;
+  letter-spacing: -0.02em;
+  /* 0.95 em vez de 0.92: os acentos maiúsculos do português (Ô, Ã, Ú) precisam
+     de folga acima da altura de caixa alta em títulos de duas linhas. */
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+/* O itálico variável do Archivo não traz os acentos maiúsculos do português
+   (Ã, Ú, Í…), então a inclinação é feita por transform sobre a face normal. */
+@utility display-italic {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 88%;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  transform: skewX(-8deg);
+  transform-origin: 0 100%;
+}
+
+@utility text-stroke-navy {
+  -webkit-text-stroke: 2px var(--color-navy-900);
+  paint-order: stroke fill;
+}
+
+@utility shell {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .shell { padding-inline: 2.5rem; }
+}
+
+/* Textura de calçamento intertravado (paver) usada em fundos de seção */
+@utility paver-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-brand-400) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-brand-400) 12%, transparent) 1px, transparent 1px);
+  background-size: 56px 34px;
+}
+
+/* Mesma textura, para fundos claros e para a seção amarela */
+@utility paver-grid-ink {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-ink-900) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-ink-900) 10%, transparent) 1px, transparent 1px);
+  background-size: 56px 34px;
+}
+
+@keyframes marquee-x {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  70% { transform: scale(1.9); opacity: 0; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+@keyframes shimmer {
+  from { background-position: -180% 0; }
+  to { background-position: 180% 0; }
+}
+
+/* Trilho de carrossel: rolagem horizontal com encaixe, sem barra visível */
+@utility scroll-track {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+
+.scroll-track::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-track { scroll-behavior: auto; }
+}
