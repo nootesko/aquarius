@@ -27,9 +27,7 @@ export function Hero() {
   const bgOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.25])
   const logoY = useTransform(scrollYProgress, [0, 1], [0, -110])
   const logoScale = useTransform(scrollYProgress, [0, 1], [1, 0.86])
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, 70])
   const contentOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0])
-  const cueOpacity = useTransform(scrollYProgress, [0, 0.28], [1, 0])
 
   /* inclinação 3D do emblema seguindo o ponteiro (desktop) */
   const px = useMotionValue(0)
@@ -69,7 +67,7 @@ export function Hero() {
       ref={ref}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
-      className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden pt-24 pb-24 sm:pt-28"
+      className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden pt-24 pb-36 sm:pt-28 sm:pb-56"
     >
       <HeroBackdrop gridY={gridY} glowY={glowY} opacity={bgOpacity} />
 
@@ -175,23 +173,6 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* ------- indicador de scroll ------- */}
-      <motion.a
-        href="#ruas"
-        onClick={(e) => scrollTo(e, 'ruas')}
-        aria-label="Rolar para o tema prioritário"
-        style={{ y: contentY, opacity: cueOpacity }}
-        className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/75 transition-colors hover:text-white sm:flex"
-      >
-        <span className="text-[0.6rem] font-semibold tracking-[0.28em] uppercase">Role</span>
-        <motion.span
-          animate={reduce ? undefined : { y: [0, 7, 0] }}
-          transition={{ duration: 1.9, repeat: Infinity, ease: 'easeInOut' }}
-          className="grid h-9 w-9 place-items-center rounded-full ring-1 ring-inset ring-white/20"
-        >
-          <ArrowDown size={15} strokeWidth={2.4} aria-hidden="true" />
-        </motion.span>
-      </motion.a>
     </section>
   )
 }

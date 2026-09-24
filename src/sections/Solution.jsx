@@ -11,7 +11,6 @@ import {
 import { MoveHorizontal } from 'lucide-react'
 import { solution, streets } from '../content.js'
 import { Reveal } from '../components/Reveal.jsx'
-import { SectionHeading } from '../components/SectionHeading.jsx'
 import { RoadAfter, RoadBefore } from '../components/RoadScene.jsx'
 import { EASE, SPRING } from '../lib/motion.js'
 
@@ -145,81 +144,88 @@ function RoadCompare({ street }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Lista das ruas: fileira rolável no celular, coluna no desktop. */
-function StreetPicker({ active, onPick }) {
+/* Nomes das ruas em abas, logo abaixo do antes/depois.
+   Celular: fileira que rola para o lado. Desktop: abas quebrando em linhas. */
+function StreetTabs({ active, onPick }) {
+  const onKeyDown = (e) => {
+    const last = streets.length - 1
+    let next = null
+    if (e.key === 'ArrowRight') next = active === last ? 0 : active + 1
+    if (e.key === 'ArrowLeft') next = active === 0 ? last : active - 1
+    if (e.key === 'Home') next = 0
+    if (e.key === 'End') next = last
+    if (next === null) return
+    e.preventDefault()
+    onPick(next)
+    document.getElementById(`rua-tab-${next}`)?.focus()
+  }
+
   return (
-    <nav aria-label="Escolha a rua">
-      <p className="mb-3 hidden text-[0.64rem] font-bold tracking-[0.24em] text-ink-500 uppercase lg:block">
-        {streets.length} ruas
-      </p>
-      <ol className="-mx-5 flex snap-x scroll-px-5 gap-2 overflow-x-auto px-5 pb-2 sm:-mx-10 sm:scroll-px-10 sm:px-10 [scrollbar-width:none] lg:mx-0 lg:flex-col lg:gap-0.5 lg:overflow-visible lg:px-0 lg:pb-0">
-        {streets.map((st, i) => {
-          const isActive = i === active
-          return (
-            <li key={st.name} className="shrink-0 snap-start">
-              <button
-                type="button"
-                onClick={() => onPick(i)}
-                aria-current={isActive ? 'true' : undefined}
-                className={`relative isolate flex w-full items-center gap-3 rounded-full px-4 py-2.5 text-left text-[0.86rem] font-semibold whitespace-nowrap transition-colors duration-200 lg:rounded-lg lg:px-3 lg:py-2 ${
-                  isActive
-                    ? 'text-navy-900'
-                    : 'bg-paper-50 text-ink-600 ring-1 ring-paper-300 ring-inset hover:text-ink-900 lg:bg-transparent lg:ring-0'
-                }`}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="street-active"
-                    className="absolute inset-0 -z-10 rounded-full bg-gold-400 lg:rounded-lg"
-                    transition={SPRING.snappy}
-                  />
-                )}
-                <span className={`font-mono text-[0.68rem] tabular-nums ${isActive ? 'text-navy-900/70' : 'text-ink-500'}`}>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                {st.name.replace(/^Rua /, '')}
-              </button>
-            </li>
-          )
-        })}
-      </ol>
-    </nav>
+    <div
+      role="tablist"
+      aria-label="Ruas do Aquarius"
+      onKeyDown={onKeyDown}
+      className="-mx-5 flex snap-x scroll-px-5 gap-2 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:-mx-10 sm:scroll-px-10 sm:px-10 lg:mx-0 lg:flex-wrap lg:justify-center lg:overflow-visible lg:px-0 lg:pb-0"
+    >
+      {streets.map((st, i) => {
+        const isActive = i === active
+        return (
+          <button
+            key={st.name}
+            id={`rua-tab-${i}`}
+            type="button"
+            role="tab"
+            aria-selected={isActive}
+            aria-controls="rua-painel"
+            tabIndex={isActive ? 0 : -1}
+            onClick={() => onPick(i)}
+            className={`relative isolate shrink-0 snap-start rounded-full px-4 py-2.5 text-[0.86rem] font-semibold whitespace-nowrap transition-colors duration-200 ${
+              isActive ? 'text-navy-900' : 'bg-white text-ink-600 ring-1 ring-paper-300 ring-inset hover:text-ink-900 hover:ring-gold-400'
+            }`}
+          >
+            {isActive && (
+              <motion.span
+                layoutId="street-active"
+                className="absolute inset-0 -z-10 rounded-full bg-gold-400"
+                transition={SPRING.snappy}
+              />
+            )}
+            {st.name.replace(/^Rua /, '')}
+          </button>
+        )
+      })}
+    </div>
   )
 }
 
+/* O antes/depois faz a ponte entre o hero e esta seção: sobe por cima do fim do hero. */
 export function Solution() {
   const [active, setActive] = useState(0)
   const street = streets[active]
 
   return (
-    <section id="ruas" className="relative scroll-mt-20 overflow-hidden bg-sun-50 py-24 sm:py-32">
+    <section className="relative flow-root bg-sun-50 pb-24 sm:pb-32">
       <div aria-hidden="true" className="paver-grid-ink absolute inset-0 opacity-[0.32]" />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(43,143,232,0.14),transparent_60%)]"
-      />
 
       <div className="shell relative">
-        <SectionHeading
-          overline={solution.overline}
-          title={solution.title}
-          lead={solution.lead}
-          align="center"
-          tone="light"
-        />
+        <div id="ruas" className="relative z-10 mx-auto -mt-28 max-w-5xl scroll-mt-24 sm:-mt-44">
+          <Reveal>
+            <div id="rua-painel" role="tabpanel" aria-labelledby={`rua-tab-${active}`}>
+              <RoadCompare street={street} />
+            </div>
+          </Reveal>
 
-        <Reveal className="mt-14 grid grid-cols-1 gap-6 [&>*]:min-w-0 lg:grid-cols-[17rem_minmax(0,1fr)] lg:items-start lg:gap-10" delay={0.05}>
-          <StreetPicker active={active} onPick={setActive} />
-          <div>
-            <RoadCompare street={street} />
-            <p className="mt-4 flex items-baseline justify-between gap-4 text-ink-900">
-              <span className="display text-[clamp(1.05rem,2.4vw,1.35rem)]">{street.name}</span>
-              <span className="font-mono text-[0.72rem] font-bold text-gold-ink tabular-nums">
-                {String(active + 1).padStart(2, '0')} / {String(streets.length).padStart(2, '0')}
-              </span>
+          <Reveal className="mt-7 text-center" delay={0.05}>
+            <p className="text-[0.68rem] font-bold tracking-[0.24em] text-brand-700 uppercase">
+              {solution.overline} · {solution.title.replace(/\.$/, '')}
             </p>
-          </div>
-        </Reveal>
+            <p className="display mt-2 text-[clamp(1.4rem,3.6vw,2.2rem)] text-ink-900">{street.name}</p>
+          </Reveal>
+
+          <Reveal className="mt-7" delay={0.1}>
+            <StreetTabs active={active} onPick={setActive} />
+          </Reveal>
+        </div>
       </div>
     </section>
   )

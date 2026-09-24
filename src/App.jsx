@@ -1,6 +1,5 @@
 import { Nav } from './components/Nav.jsx'
 import { FloatingWhatsApp } from './components/FloatingWhatsApp.jsx'
-import { TickerBand } from './components/TickerBand.jsx'
 import { Hero } from './sections/Hero.jsx'
 import { Solution } from './sections/Solution.jsx'
 import { Proposals } from './sections/Proposals.jsx'
@@ -16,7 +15,6 @@ export default function App() {
       <Nav />
       <main id="conteudo">
         <Hero />
-        <TickerBand />
         <Solution />
         <Proposals />
         <Team />

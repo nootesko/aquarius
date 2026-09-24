@@ -65,7 +65,7 @@ export function RoadBefore() {
   const ruts = [-0.34, 0.34]
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" aria-label="Ilustração: rua de terra com buracos e poeira">
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" className="h-full w-full" role="img" aria-label="Ilustração: rua de terra com buracos e poeira">
       <defs>
         <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#4aa8f5" />
@@ -156,7 +156,7 @@ export function RoadAfter() {
   }
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="h-full w-full" role="img" aria-label="Ilustração: a mesma rua com calçamento de bloco intertravado">
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" className="h-full w-full" role="img" aria-label="Ilustração: a mesma rua com calçamento de bloco intertravado">
       <defs>
         <linearGradient id="skyGrad2" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#4aa8f5" />
