@@ -18,16 +18,16 @@ function WhatsAppCall() {
       whileHover={reduce ? undefined : { y: -3 }}
       whileTap={reduce ? undefined : { scale: 0.985 }}
       transition={SPRING.soft}
-      className="group flex items-center gap-4 rounded-2xl bg-[#25d366] p-4 text-navy-950 shadow-[0_20px_40px_-24px_rgba(5,31,71,0.8)] sm:p-5"
+      className="group flex items-center gap-4 rounded-2xl bg-[#0f8a44] p-4 text-white shadow-[0_20px_40px_-24px_rgba(5,31,71,0.8)] ring-1 ring-white/15 sm:p-5"
     >
-      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-navy-950 text-[#25d366]">
+      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-white text-[#0f8a44]">
         <WhatsAppIcon size={24} />
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-[1.02rem] font-bold">Prefere conversar?</span>
-        <span className="block text-[0.9rem] text-navy-950/75">Chame a chapa no WhatsApp.</span>
+        <span className="block text-[0.9rem] text-white/90">Chame a chapa no WhatsApp.</span>
       </span>
-      <span className="hidden shrink-0 items-center gap-2 rounded-full bg-navy-950 px-5 py-3 text-[0.75rem] font-bold tracking-[0.12em] text-white uppercase sm:inline-flex">
+      <span className="hidden shrink-0 items-center gap-2 rounded-full bg-white px-5 py-3 text-[0.75rem] font-bold tracking-[0.12em] text-[#0f8a44] uppercase sm:inline-flex">
         Abrir WhatsApp
         <ArrowUpRight
           size={16}
