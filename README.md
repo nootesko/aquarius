@@ -102,7 +102,25 @@ plugar um serviço de feed (Behold, EmbedSocial, SnapWidget) preenchendo `posts`
 
 ---
 
-## 4. Publicando
+## 4. Apresentação (/apresentacao)
+
+Em `/apresentacao/` fica uma apresentação em slides, feita para ser lida por todos:
+
+- **Celular:** cada slide ocupa a tela, com letra grande, botões grandes "Anterior / Próximo"
+  e deslizar para os lados. Slides longos continuam rolando a página.
+- **Computador:** formato 16:9, como um PowerPoint (setas do teclado também funcionam).
+- **Baixar PDF:** um slide por página. Os itens das propostas aparecem sempre abertos.
+
+Os textos vêm de `src/content.js` (os mesmos do site). **Sempre que mudar o conteúdo,
+gere o PDF de novo**, com o servidor rodando (`npm run dev`):
+
+```bash
+npm run pdf   # grava public/apresentacao/aquarius-sem-buracos.pdf
+```
+
+Se o Playwright não achar o Chrome sozinho, informe o caminho em `CHROME_PATH`.
+
+## 5. Publicando
 
 O build gera arquivos estáticos em `dist/` — serve em qualquer hospedagem.
 
@@ -122,6 +140,8 @@ src/content.js       TODO o texto e as configurações da página
 src/lib/motion.js    curvas, durações e variantes de animação compartilhadas
 src/components/      Nav, botões, carrossel, formulário, ilustrações SVG, faixas
 src/sections/        as seções na ordem em que aparecem
+src/apresentacao/    a apresentação em slides (/apresentacao)
+scripts/             gerar-pdf-apresentacao.mjs (npm run pdf)
 ```
 
 Ordem da página e cor de cada bloco:

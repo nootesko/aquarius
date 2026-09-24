@@ -1,0 +1,30 @@
+/* Fundo azul-céu dos slides de capa e encerramento. */
+.slide-bg-sky {
+  background: radial-gradient(120% 90% at 50% -10%, #6cc0ff 0%, #2b8fe8 40%, #0b5fc6 85%);
+}
+
+/* PDF: cada slide é uma página 1280×720. */
+@page {
+  size: 1280px 720px;
+  margin: 0;
+}
+
+.print-slide {
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  break-after: page;
+}
+
+.print-slide:last-child {
+  break-after: auto;
+}
+
+@media print {
+  html,
+  body {
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
