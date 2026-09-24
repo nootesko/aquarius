@@ -219,7 +219,9 @@ export function Solution() {
             <p className="text-[0.68rem] font-bold tracking-[0.24em] text-brand-700 uppercase">
               {solution.overline} · {solution.title.replace(/\.$/, '')}
             </p>
-            <p className="display mt-2 text-[clamp(1.4rem,3.6vw,2.2rem)] text-ink-900">Selecione sua rua para ver uma prévia</p>
+            <p className="display mt-2 text-[clamp(1.4rem,3.6vw,2.2rem)] text-ink-900">
+              Selecione sua rua<span className="hidden sm:inline"> para ver uma prévia</span>
+            </p>
           </Reveal>
 
           <Reveal className="mt-7" delay={0.1}>

@@ -67,7 +67,7 @@ export function Hero() {
       ref={ref}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
-      className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden pt-24 pb-48 sm:pt-28 sm:pb-72"
+      className="relative isolate flex flex-col items-center justify-center overflow-hidden pt-24 pb-48 sm:min-h-[100svh] sm:pt-28 sm:pb-72"
     >
       <HeroBackdrop gridY={gridY} glowY={glowY} opacity={bgOpacity} />
 
@@ -75,7 +75,7 @@ export function Hero() {
         {/* ------- emblema ------- */}
         <motion.div
           style={{ y: logoY, scale: logoScale, perspective: 1000 }}
-          className="relative mb-5 w-full max-w-[13rem] sm:max-w-[19rem] lg:max-w-[23rem]"
+          className="relative mb-5 w-full max-w-[18rem] sm:mb-5 sm:max-w-[19rem] lg:max-w-[23rem]"
         >
           {/* halo pulsante atrás do emblema */}
           <motion.div
