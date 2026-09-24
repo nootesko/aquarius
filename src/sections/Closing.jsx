@@ -27,11 +27,11 @@ export function Closing() {
   }
 
   return (
-    <footer ref={ref} className="relative overflow-hidden bg-leaf-800">
+    <footer ref={ref} className="relative overflow-hidden bg-sky-950">
       <div aria-hidden="true" className="paver-grid-light absolute inset-0" />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(75%_60%_at_50%_100%,rgba(54,178,93,0.45),transparent_65%)]"
+        className="absolute inset-0 bg-[radial-gradient(75%_60%_at_50%_100%,rgba(43,143,232,0.35),transparent_65%)]"
       />
 
       <div className="shell relative py-24 sm:py-28">

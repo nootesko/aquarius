@@ -18,7 +18,7 @@ function Portrait({ m }) {
   return (
     <div
       ref={ref}
-      className="relative aspect-[4/4.6] overflow-hidden rounded-[2rem] bg-leaf-800 shadow-[0_40px_80px_-40px_rgba(15,74,38,0.9)] ring-1 ring-white/10"
+      className="relative aspect-[4/4.6] overflow-hidden rounded-[2rem] bg-sky-950 shadow-[0_40px_80px_-40px_rgba(5,31,71,0.9)] ring-1 ring-white/10"
     >
       <motion.picture style={reduce ? undefined : { y: imgY, scale: 1.1 }} className="absolute inset-0 block">
         <source srcSet={`${m.photo}.webp`} type="image/webp" />
@@ -85,11 +85,11 @@ function MemberRow({ m, flip }) {
 
 export function Team() {
   return (
-    <section id="chapa" className="relative scroll-mt-20 overflow-hidden bg-leaf-700 py-24 sm:py-32">
+    <section id="chapa" className="relative scroll-mt-20 overflow-hidden bg-sky-900 py-24 sm:py-32">
       <div aria-hidden="true" className="paver-grid-light absolute inset-0" />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_0%,rgba(54,178,93,0.55)_0%,transparent_70%)]"
+        className="absolute inset-0 bg-[radial-gradient(70%_55%_at_50%_0%,rgba(43,143,232,0.45)_0%,transparent_70%)]"
       />
 
       <div className="shell relative">

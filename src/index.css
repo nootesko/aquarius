@@ -19,19 +19,16 @@
   --color-gold-400: #ffcc00;
   --color-gold-300: #ffdd52;
 
-  /* ---- Chácara: céu, gramado e sol (fundos vivos) ---- */
+  /* ---- Chácara: céu e sol (fundos vivos) ---- */
   --color-sky-800: #0a4fa8;
   --color-sky-700: #0b5fc6;
   --color-sky-600: #1373dd;
   --color-sky-500: #2b8fe8;
   --color-sky-300: #8cc8ff;
 
-  --color-leaf-900: #0f4a26;
-  --color-leaf-800: #146232;
-  --color-leaf-700: #1b7a3c;
-  --color-leaf-600: #23964b;
-  --color-leaf-500: #36b25d;
-  --color-leaf-50: #f0f9f1;
+  --color-sky-900: #0a3f8a;
+  --color-sky-950: #072d66;
+  --color-sky-975: #051f47;
 
   --color-sun-50: #fffaf0;
   --color-sun-100: #fff2d6;

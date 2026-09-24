@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react'
 
 /* Fundo vivo do hero: céu azul de chácara, sol, malha de calçamento em perspectiva
-   que desce até o gramado. Tudo é decorativo — some para leitores de tela. */
+   que desce até o azul escuro. Tudo é decorativo — some para leitores de tela. */
 export function HeroBackdrop({ gridY, glowY, opacity }) {
   const reduce = useReducedMotion()
 
@@ -16,7 +16,7 @@ export function HeroBackdrop({ gridY, glowY, opacity }) {
         className="absolute inset-x-[-30%] bottom-[-18%] h-[70%] [transform:perspective(760px)_rotateX(62deg)] origin-bottom"
       >
         <div className="paver-grid-light h-full w-full opacity-80" />
-        <div className="absolute inset-0 bg-gradient-to-t from-leaf-700 via-leaf-700/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-sky-900 via-sky-900/30 to-transparent" />
       </motion.div>
 
       {/* brilhos */}
@@ -43,7 +43,7 @@ export function HeroBackdrop({ gridY, glowY, opacity }) {
       />
 
       {/* vinheta inferior para o texto respirar */}
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-leaf-700 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-sky-900 to-transparent" />
     </div>
   )
 }
