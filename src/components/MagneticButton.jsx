@@ -62,7 +62,8 @@ export function MagneticButton({
   const sizes = {
     sm: 'px-5 py-2.5 text-[0.8rem] tracking-[0.12em]',
     md: 'px-7 py-3.5 text-[0.86rem] tracking-[0.13em]',
-    lg: 'px-9 py-4.5 text-[0.95rem] tracking-[0.13em]',
+    // no celular, letra e espaçamento menores para o texto caber numa linha só
+    lg: 'px-6 py-4 text-[0.82rem] tracking-[0.08em] sm:px-9 sm:py-4.5 sm:text-[0.95rem] sm:tracking-[0.13em]',
   }
 
   const Comp = as === 'button' ? motion.button : motion.a

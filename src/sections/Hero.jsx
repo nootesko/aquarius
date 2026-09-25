@@ -164,7 +164,7 @@ export function Hero() {
             onClick={(e) => scrollTo(e, 'propostas')}
             variant="gold"
             size="lg"
-            className="w-full sm:w-auto"
+            className="w-full whitespace-nowrap sm:w-auto"
             icon={<ArrowDown size={17} strokeWidth={2.8} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-y-0.5" />}
           >
             {hero.primaryCta}
