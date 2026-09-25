@@ -117,7 +117,7 @@ function ProposalBlock({ p, index }) {
           </h3>
         </Reveal>
 
-        <RevealGroup as="ol" className="mt-8 grid items-start gap-x-10 sm:grid-cols-2" staggerChildren={0.05}>
+        <RevealGroup as="ol" className="mt-8 grid items-start" staggerChildren={0.05}>
           {p.items.map((item) => (
             <ItemAccordion key={item.title} item={item} featured={featured} />
           ))}
