@@ -218,7 +218,7 @@ function CommitmentSlide() {
   )
 }
 
-const SIM_URL = '/ruas-novas/'
+const SIM_URL = 'https://aquariussemburacos.com.br/ruas-novas/' // absoluto: o link também vale dentro do PDF
 const SIM_URL_LABEL = 'aquariussemburacos.com.br/ruas-novas'
 
 function SimulateSlide() {
