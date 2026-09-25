@@ -228,8 +228,8 @@ export const commitment = {
 /* Página /ruas-novas: o morador envia a foto da rua e recebe uma simulação com bloquete. */
 export const simulator = {
   overline: 'Simulador',
-  title: 'Veja a sua rua com bloquete.',
-  lead: 'Envie uma foto da sua rua de terra e veja uma simulação de como ela ficaria com bloquete sextavado e grama bem cuidada nas laterais.',
+  title: 'Veja a sua rua.',
+  lead: 'Envie uma foto da sua rua e veja como ela ficaria sem terra e sem buracos.',
   tips: ['Foto na horizontal, de dia', 'Mostre bem o chão da rua', 'Sem pessoas em primeiro plano'],
   disclaimer: 'Imagem gerada por inteligência artificial, apenas ilustrativa. Não representa projeto técnico nem compromisso de obra.',
 }
