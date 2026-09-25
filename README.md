@@ -31,7 +31,6 @@ Tudo que a chapa edita está em **`src/content.js`**. Procure por `TROCAR`.
 | `config.formEndpoint` | Endereço que recebe o formulário (veja o item 2). |
 | `config.electionDate` | Data da assembleia, se quiser divulgar. |
 | `members` / `team` | Fabi e Latrofe: cargo, formação e experiência, e a foto de cada um (`public/assets/chapa/`). |
-| `instagram` | Perfil da chapa e as últimas publicações (veja o item 3). |
 
 As fotos de antes/depois das ruas vão em `public/assets/ruas/` (horizontais, de preferência 16:10)
 e são apontadas em `streets`, em `src/content.js`. Enquanto uma rua não tiver foto, o comparador
@@ -78,31 +77,7 @@ O que é enviado em cada modo:
 { "tipo": "mensagem-anonima", "mensagem": "…" }
 ```
 
-## 3. Instagram
-
-A seção "Últimas do Instagram" é alimentada por `instagram` em `src/content.js`:
-
-```js
-export const instagram = {
-  handle: '@chapaaquariussemburacos',          // TROCAR
-  url: 'https://instagram.com/chapaaquarius…', // TROCAR
-  posts: [
-    { id: 1, image: '/assets/instagram/post-1.jpg',
-      caption: 'Legenda curta', url: 'https://instagram.com/p/XXXX' },
-  ],
-}
-```
-
-As imagens vão em `public/assets/instagram/`. Enquanto `posts` estiver vazio, a seção mostra
-apenas o convite para seguir o perfil — nada quebra.
-
-O Instagram não libera mais o feed público sem token, então a lista é manual de propósito:
-não depende de aprovação da Meta nem quebra sozinha. Se depois quiserem automatizar, dá para
-plugar um serviço de feed (Behold, EmbedSocial, SnapWidget) preenchendo `posts` na mesma forma.
-
----
-
-## 4. Apresentação (/apresentacao)
+## 3. Apresentação (/apresentacao)
 
 Em `/apresentacao/` fica uma apresentação em slides, feita para ser lida por todos:
 
@@ -120,7 +95,7 @@ npm run pdf   # grava public/apresentacao/aquarius-sem-buracos.pdf
 
 Se o Playwright não achar o Chrome sozinho, informe o caminho em `CHROME_PATH`.
 
-## 5. Simulador de rua (/ruas-novas)
+## 4. Simulador de rua (/ruas-novas)
 
 O morador envia a foto da rua e recebe uma simulação com bloquete sextavado, gerada pela
 OpenAI (`gpt-image-2`, edição de imagem), já com o logo da chapa no canto. A chave fica só no
@@ -147,7 +122,7 @@ servidor, na função `api/ruas-novas.js`; o prompt usado está fixo nesse arqui
 
 Sem chave configurada, a página continua no ar e avisa que o simulador ainda não foi ativado.
 
-## 6. Publicando
+## 5. Publicando
 
 O build gera arquivos estáticos em `dist/` — serve em qualquer hospedagem.
 
@@ -182,8 +157,8 @@ Ordem da página e cor de cada bloco:
 | 5 | Propostas (6 temas) | `sections/Proposals.jsx` | branco |
 | 6 | Quem compõe a chapa (Fabi e Latrofe) | `sections/Team.jsx` | navy |
 | 7 | Faça parte | `sections/ChangeCta.jsx` | **amarelo** |
-| 8 | Instagram (carrossel) | `sections/InstagramFeed.jsx` | branco |
-| 9 | Fale conosco | `sections/Contact.jsx` | navy escuro |
+| 8 | Fale conosco | `sections/Contact.jsx` | navy escuro |
+| 9 | Nosso compromisso | `sections/Commitment.jsx` | claro |
 | 10 | Fechamento / rodapé | `sections/Closing.jsx` | navy |
 
 As ilustrações da seção "A rua que temos e a rua que queremos" são **desenhos vetoriais**

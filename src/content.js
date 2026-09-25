@@ -165,20 +165,6 @@ export const changeCta = {
   cta: 'Entrar no grupo dos moradores',
 }
 
-/* Instagram — TROCAR: perfil da chapa e as últimas publicações.
-   Cada item precisa de uma imagem em /public/assets/instagram/ e do link do post.
-   Sem itens preenchidos, a seção mostra só o convite para seguir o perfil. */
-export const instagram = {
-  handle: '@chapaaquariussemburacos',
-  url: 'https://instagram.com/chapaaquariussemburacos',
-  overline: 'Acompanhe de perto',
-  title: 'Últimas do Instagram',
-  lead: 'O que a chapa está publicando, conversando e mostrando para os moradores.',
-  posts: [
-    // { id: 1, image: '/assets/instagram/post-1.jpg', caption: 'Legenda curta do post', url: 'https://instagram.com/p/XXXX' },
-  ],
-}
-
 /* Quem compõe a chapa — formação e experiência da arte de apresentação. */
 export const team = {
   overline: 'Quem compõe a chapa',

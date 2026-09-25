@@ -5,7 +5,6 @@ import { Solution } from './sections/Solution.jsx'
 import { Proposals } from './sections/Proposals.jsx'
 import { Team } from './sections/Team.jsx'
 import { ChangeCta } from './sections/ChangeCta.jsx'
-import { InstagramFeed } from './sections/InstagramFeed.jsx'
 import { Contact } from './sections/Contact.jsx'
 import { Closing } from './sections/Closing.jsx'
 import { Commitment } from './sections/Commitment.jsx'
@@ -20,7 +19,6 @@ export default function App() {
         <Proposals />
         <Team />
         <ChangeCta />
-        <InstagramFeed />
         <Contact />
         <Commitment />
       </main>
