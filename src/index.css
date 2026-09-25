@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+/* sm/lg também valem dentro de .force-desktop, sem depender da largura da tela.
+   Usado no PDF da apresentação: ao imprimir, o Chrome mede a página pelo papel padrão
+   e cairia no layout de celular. */
+@custom-variant sm {
+  @media (width >= 40rem) {
+    @slot;
+  }
+  &:where(.force-desktop, .force-desktop *) {
+    @slot;
+  }
+}
+@custom-variant lg {
+  @media (width >= 64rem) {
+    @slot;
+  }
+  &:where(.force-desktop, .force-desktop *) {
+    @slot;
+  }
+}
+
 @theme {
   /* ---- Paleta extraída do logo da chapa ---- */
   --color-navy-950: #050d1e;

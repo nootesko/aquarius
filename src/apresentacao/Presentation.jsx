@@ -350,7 +350,7 @@ const SLIDES = [
 /* ------------------------------------------------------------------ */
 function PrintDeck() {
   return (
-    <div className="print-deck">
+    <div className="print-deck force-desktop">
       {SLIDES.map((s) => (
         <section key={s.id} className="print-slide flex">
           {s.render()}
