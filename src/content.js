@@ -73,7 +73,7 @@ export const streets = [
   { name: 'Rua Benedita Maria de Jesus', photos: [] },
   { name: 'Rua Francisco Ferreira Pinto', photos: [] },
   { name: 'Rua Francisco Paulino Vicente', photos: fotos('francisco-paulino-vicente', 1) },
-  { name: 'Rua João Adélino Pinto', photos: [] },
+  { name: 'Rua João Adelino Pinto', photos: [] },
   { name: 'Rua José Aidano Leôncio de Sá', photos: [] },
   { name: 'Rua José de Oliveira Leite', photos: fotos('jose-de-oliveira-leite', 1) },
   { name: 'Rua Lázaro Ferreira Pinto', photos: fotos('lazaro-ferreira-pinto', [3, 1, 2]) }, // 3 = portaria,
