@@ -263,7 +263,7 @@ export function ContactForm() {
             placeholder={
               anon
                 ? 'Escreva o que você quer contar para a chapa.'
-                : 'Conte o que você gostaria que a chapa resolvesse.'
+                : 'Conte o que precisa ser resolvido. A chapa vai atrás.'
             }
             className={`${inputClass} resize-y`}
             aria-invalid={!!errors.mensagem}

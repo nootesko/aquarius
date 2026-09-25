@@ -92,10 +92,10 @@ export const proposals = [
     badge: 'Prioridade',
     title: 'Ruas, pavimentação e drenagem',
     items: [
-      { title: 'Estudo técnico', text: 'Mapear ruas, prioridades e soluções mais adequadas para o residencial, considerando viabilidade técnica e financeira.' },
-      { title: 'Parcerias e recursos', text: 'Buscar alternativas, apoios institucionais e caminhos para viabilizar a obra com responsabilidade.' },
-      { title: 'Decisão em assembleia', text: 'Apresentar custos, etapas e opções para que os proprietários avaliem, escolham e aprovem em Assembleia.' },
-      { title: 'Bloquetes e drenagem', text: 'Avaliar soluções com piso intertravado, drenagem e durabilidade para um resultado mais consistente.' },
+      { title: 'Estudo técnico', text: 'Mapear todas as ruas, definir prioridades e escolher as soluções mais adequadas, com viabilidade técnica e financeira.' },
+      { title: 'Parcerias e recursos', text: 'Correr atrás de alternativas, apoios institucionais e recursos para viabilizar a obra com responsabilidade.' },
+      { title: 'Decisão em assembleia', text: 'Apresentar custos, etapas e opções para os proprietários escolherem e aprovarem em Assembleia.' },
+      { title: 'Bloquetes e drenagem', text: 'Definir a melhor solução de piso intertravado com drenagem, feita para durar.' },
     ],
   },
   {
@@ -103,10 +103,10 @@ export const proposals = [
     tab: 'Segurança',
     title: 'Segurança e controle',
     items: [
-      { title: 'Monitoramento solidário', text: 'Fortalecer a participação dos moradores, com redes de comunicação e apoio entre vizinhos.' },
-      { title: 'Controle de visitantes', text: 'Adotar e aprimorar procedimentos para identificação e registro de visitantes.' },
-      { title: 'Circulação de veículos', text: 'Revisar fluxos, sinalização e regras, buscando mais segurança e tranquilidade para todos.' },
-      { title: 'Câmeras de segurança', text: 'Estudar implantação e ampliação, comparando alternativas técnicas e custos, com discussão do projeto em Assembleia.' },
+      { title: 'Monitoramento solidário', text: 'Fortalecer a rede entre vizinhos, com comunicação rápida e apoio de todos.' },
+      { title: 'Controle de visitantes', text: 'Adotar procedimentos mais rigorosos para identificar e registrar visitantes.' },
+      { title: 'Circulação de veículos', text: 'Revisar fluxos, sinalização e regras para trazer mais segurança e tranquilidade a todos.' },
+      { title: 'Câmeras de segurança', text: 'Levar à Assembleia o projeto de implantação e ampliação das câmeras, com alternativas técnicas e custos comparados.' },
     ],
   },
   {
@@ -114,10 +114,10 @@ export const proposals = [
     tab: 'Transparência',
     title: 'Transparência, participação e governança',
     items: [
-      { title: 'Gestão transparente e participativa', text: 'Promover acompanhamento das ações e decisões com participação dos proprietários.' },
-      { title: 'Aplicativo de informações', text: 'Reunir informações financeiras, ações realizadas e outros dados relevantes para consulta e acompanhamento.' },
-      { title: 'Estatuto e Regimento Interno', text: 'Propor atualização das regras para reforçar transparência, participação e procedimentos de governança.' },
-      { title: 'Salvaguardas em decisões relevantes', text: 'Prever mecanismos de consulta e aprovação para decisões de maior impacto e gastos elevados.' },
+      { title: 'Gestão transparente e participativa', text: 'Prestar contas de todas as ações e decisões, com participação dos proprietários.' },
+      { title: 'Aplicativo de informações', text: 'Colocar num aplicativo as informações financeiras, as ações realizadas e os dados relevantes, para consulta a qualquer hora.' },
+      { title: 'Estatuto e Regimento Interno', text: 'Levar à Assembleia a atualização das regras, reforçando transparência, participação e governança.' },
+      { title: 'Salvaguardas em decisões relevantes', text: 'Garantir consulta e aprovação dos proprietários nas decisões de maior impacto e nos gastos elevados.' },
     ],
   },
   {
@@ -134,7 +134,7 @@ export const proposals = [
       { title: 'Festas sazonais', text: 'Julina, Natal, Páscoa, Halloween e outras celebrações.' },
       { title: 'Feiras e sabores', text: 'Artesanato, comidas típicas e valorização de talentos.' },
       { title: 'Família e fim de semana', text: 'Piscina, salão, lazer, descanso e integração entre gerações.' },
-      { title: 'Salão do Clube', text: 'Estudo técnico de adequação do salão, com apoio especializado, para atender às necessidades da comunidade.' },
+      { title: 'Salão do Clube', text: 'Adequar o salão com estudo técnico e apoio especializado, para atender às necessidades da comunidade.' },
     ],
   },
   {
@@ -142,10 +142,10 @@ export const proposals = [
     tab: 'Podas e natureza',
     title: 'Natureza, podas e sustentabilidade',
     items: [
-      { title: 'Recolhimento e destinação adequada', text: 'Organizar o fluxo das podas e buscar destinação apropriada.' },
-      { title: 'Compostagem e parcerias', text: 'Avaliar compostagem e parcerias com órgãos públicos e instituições privadas.' },
-      { title: 'Menos descarte irregular', text: 'Criar caminhos para reduzir descarte inadequado no residencial.' },
-      { title: 'Mais limpeza e organização', text: 'Integrar a destinação das podas à manutenção e organização dos espaços.' },
+      { title: 'Recolhimento e destinação adequada', text: 'Organizar o fluxo das podas e dar a destinação correta.' },
+      { title: 'Compostagem e parcerias', text: 'Colocar a compostagem em prática, com parcerias com órgãos públicos e instituições privadas.' },
+      { title: 'Menos descarte irregular', text: 'Combater o descarte irregular no residencial.' },
+      { title: 'Mais limpeza e organização', text: 'Integrar a destinação das podas à manutenção, com espaços mais limpos e organizados.' },
     ],
   },
   {
@@ -154,8 +154,8 @@ export const proposals = [
     title: 'Comunidade e serviços',
     items: [
       { title: 'Pets e animais comunitários', text: 'Criar comissão dedicada aos animais comunitários do Aquarius, com critérios, ações e parcerias voltados ao bem-estar animal e à convivência harmoniosa.' },
-      { title: 'Entrega de correspondências', text: 'Buscar, junto aos Correios, a viabilidade de entrega no residencial.' },
-      { title: 'Participação dos proprietários', text: 'Manter decisões relevantes conectadas a informação, discussão e deliberação dos proprietários.' },
+      { title: 'Entrega de correspondências', text: 'Levar aos Correios o pedido de entrega no residencial e acompanhar até a solução.' },
+      { title: 'Participação dos proprietários', text: 'Garantir que as decisões relevantes passem por informação, discussão e deliberação dos proprietários.' },
     ],
   },
 ]

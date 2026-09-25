@@ -253,7 +253,7 @@ export function Proposals() {
     <section id="propostas" className="relative scroll-mt-20 overflow-clip bg-paper-50 py-24 sm:py-32">
 
       <div className="shell relative">
-        <SectionHeading overline="O que queremos fazer" title="O Aquarius pode ser muito melhor" align="center" tone="light" />
+        <SectionHeading overline="O que vamos fazer" title="O Aquarius vai ser muito melhor" align="center" tone="light" />
 
         <div ref={ref} className="mt-16 grid gap-10 lg:grid-cols-[220px_1fr] lg:gap-16">
           {/* índice fixo (desktop) */}
