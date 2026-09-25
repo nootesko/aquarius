@@ -120,7 +120,34 @@ npm run pdf   # grava public/apresentacao/aquarius-sem-buracos.pdf
 
 Se o Playwright não achar o Chrome sozinho, informe o caminho em `CHROME_PATH`.
 
-## 5. Publicando
+## 5. Simulador de rua (/ruas-novas)
+
+O morador envia a foto da rua e recebe uma simulação com bloquete sextavado, gerada pela
+OpenAI (`gpt-image-1`, edição de imagem), já com o logo da chapa no canto. A chave fica só no
+servidor, na função `api/ruas-novas.js`; o prompt usado está fixo nesse arquivo.
+
+**Limites de uso** (para o custo não passar do previsto):
+1. **1 simulação por aparelho**, por cookie. A imagem fica guardada no aparelho para ver e baixar de novo.
+2. **3 por conexão (IP)**: segura quem limpa o cookie ou usa aba anônima, sem barrar vizinhos
+   que saem pela mesma conexão da operadora. Ajuste com `SIMULADOR_POR_IP`.
+3. **Teto de 700 no total** (`SIMULADOR_MAX`). Ao chegar lá, a página avisa que acabou.
+   Simulação que falha não conta.
+
+**Ativando na Vercel:**
+1. *Storage → Create → Upstash (Redis)*, plano gratuito, ligado a este projeto. Ele cria sozinho
+   `KV_REST_API_URL` e `KV_REST_API_TOKEN`. **Sem o Redis, os contadores zeram a cada reinício
+   da função e o teto de 700 não é garantido.**
+2. *Settings → Environment Variables*: `OPENAI_API_KEY` com a chave de platform.openai.com.
+   Opcionais: `OPENAI_IMAGE_QUALITY` (`low`, `medium` — padrão — ou `high`), `OPENAI_IMAGE_MODEL`,
+   `SIMULADOR_MAX`, `SIMULADOR_POR_IP`.
+3. Publique de novo. Por garantia, defina também um limite de gastos na conta da OpenAI.
+
+**Local:** crie `.env.local` na raiz com `OPENAI_API_KEY=...` e rode `npm run dev`
+(sem Redis, os contadores ficam em memória — serve para testar).
+
+Sem chave configurada, a página continua no ar e avisa que o simulador ainda não foi ativado.
+
+## 6. Publicando
 
 O build gera arquivos estáticos em `dist/` — serve em qualquer hospedagem.
 

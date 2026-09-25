@@ -51,25 +51,35 @@ export const solution = {
 }
 
 /* Ruas do Aquarius — antes/depois de cada uma, em ordem alfabética.
-   Fotos em /public/assets/ruas/ (formato horizontal, de preferência 16:10):
-     before: '/assets/ruas/francisco-ferreira-pinto-antes.jpg'
-     after:  '/assets/ruas/francisco-ferreira-pinto-depois.jpg'
-   Enquanto a foto for null, aparece a ilustração. */
+   Fotos em /public/assets/ruas/, recortadas em 16:10 (1440×900, WebP), no padrão
+     <rua>-<n>-antes.webp  e  <rua>-<n>-depois.webp
+   Rua com mais de uma foto ganha o seletor "Foto 1 · 2 · 3".
+   Passe o total de fotos, ou a lista na ordem em que devem aparecer (ex.: [3, 1, 2]).
+   Sem foto, aparece a ilustração. */
+const fotos = (slug, ordem) =>
+  (Array.isArray(ordem) ? ordem : Array.from({ length: ordem }, (_, i) => i + 1)).map((n) => ({
+    before: `/assets/ruas/${slug}-${n}-antes.webp`,
+    after: `/assets/ruas/${slug}-${n}-depois.webp`,
+  }))
+
+/* Rua que aparece primeiro no site: a Lázaro, com a foto da portaria. */
+export const defaultStreet = 'Rua Lázaro Ferreira Pinto'
+
 export const streets = [
-  { name: 'Rua Acácio Antunes Pinto', before: null, after: null },
-  { name: 'Rua Ademir Marques Charin', before: null, after: null },
-  { name: 'Rua Antônio Gonçalves', before: null, after: null },
-  { name: 'Rua Antônio Pereira Lameu', before: null, after: null },
-  { name: 'Rua Benedita Maria de Jesus', before: null, after: null },
-  { name: 'Rua Francisco Ferreira Pinto', before: null, after: null },
-  { name: 'Rua Francisco Paulino Vicente', before: null, after: null },
-  { name: 'Rua João Adélino Pinto', before: null, after: null },
-  { name: 'Rua José Aidano Leôncio de Sá', before: null, after: null },
-  { name: 'Rua José de Oliveira Leite', before: null, after: null },
-  { name: 'Rua Lázaro Ferreira Pinto', before: null, after: null },
-  { name: 'Rua Nelson Caetano de Oliveira', before: null, after: null },
-  { name: 'Rua Noel Infante', before: null, after: null },
-  { name: 'Rua Valentina Sales', before: null, after: null },
+  { name: 'Rua Acácio Antunes Pinto', photos: [] },
+  { name: 'Rua Ademir Marques Charin', photos: [] },
+  { name: 'Rua Antônio Gonçalves', photos: [] },
+  { name: 'Rua Antônio Pereira Lameu', photos: [] },
+  { name: 'Rua Benedita Maria de Jesus', photos: [] },
+  { name: 'Rua Francisco Ferreira Pinto', photos: [] },
+  { name: 'Rua Francisco Paulino Vicente', photos: fotos('francisco-paulino-vicente', 1) },
+  { name: 'Rua João Adélino Pinto', photos: [] },
+  { name: 'Rua José Aidano Leôncio de Sá', photos: [] },
+  { name: 'Rua José de Oliveira Leite', photos: fotos('jose-de-oliveira-leite', 1) },
+  { name: 'Rua Lázaro Ferreira Pinto', photos: fotos('lazaro-ferreira-pinto', [3, 1, 2]) }, // 3 = portaria,
+  { name: 'Rua Nelson Caetano de Oliveira', photos: [] },
+  { name: 'Rua Noel Infante', photos: fotos('noel-infante', 2) },
+  { name: 'Rua Valentina Sales', photos: [] },
 ]
 
 /* Propostas organizadas por tema (documento "Propostas organizadas por tema").
@@ -216,4 +226,24 @@ export const closing = {
   title: 'Aquarius Sem Buracos',
   slogans: ['Sem buracos nas ruas.', 'Sem buracos na segurança.', 'Sem buracos nas contas.', 'Sem buracos na transparência.'],
   cta: 'Juntos somos mais fortes.',
+}
+
+/* Compromisso com a pavimentação — fecha o site e a página /ruas-novas. */
+export const commitment = {
+  overline: 'Nosso compromisso',
+  title: 'Sem promessas vazias.',
+  paragraphs: [
+    'Com a nossa eleição, não podemos prometer que a pavimentação das ruas com blocos sextavados será feita de imediato, principalmente porque, ao que tudo indica, o condomínio não terá caixa disponível para uma obra desse porte.',
+    'O que podemos garantir é diferente: essa será uma das nossas principais prioridades. Enquanto a atual administração já informou que não pretende avançar nesse sentido, nós vamos trabalhar incansavelmente para buscar alternativas, viabilizar recursos e encontrar uma forma responsável de tornar esse projeto possível.',
+    'Não queremos fazer promessas vazias. Queremos assumir o compromisso de lutar pela pavimentação com planejamento, transparência e responsabilidade.',
+  ],
+}
+
+/* Página /ruas-novas: o morador envia a foto da rua e recebe uma simulação com bloquete. */
+export const simulator = {
+  overline: 'Simulador',
+  title: 'Veja a sua rua com bloquete.',
+  lead: 'Envie uma foto da sua rua de terra e veja uma simulação de como ela ficaria com bloquete sextavado e grama bem cuidada nas laterais.',
+  tips: ['Foto na horizontal, de dia', 'Mostre bem o chão da rua', 'Sem pessoas em primeiro plano'],
+  disclaimer: 'Imagem gerada por inteligência artificial, apenas ilustrativa. Não representa projeto técnico nem compromisso de obra.',
 }

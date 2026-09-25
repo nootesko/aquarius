@@ -1,0 +1,5 @@
+{
+  "functions": {
+    "api/ruas-novas.js": { "maxDuration": 120 }
+  }
+}

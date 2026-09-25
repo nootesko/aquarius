@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   AnimatePresence,
   motion,
@@ -8,8 +8,8 @@ import {
   useSpring,
   useTransform,
 } from 'motion/react'
-import { MoveHorizontal } from 'lucide-react'
-import { solution, streets } from '../content.js'
+import { ArrowRight, ChevronLeft, ChevronRight, MoveHorizontal, Sparkles } from 'lucide-react'
+import { defaultStreet, solution, streets } from '../content.js'
 import { Reveal } from '../components/Reveal.jsx'
 import { RoadAfter, RoadBefore } from '../components/RoadScene.jsx'
 import { EASE, SPRING } from '../lib/motion.js'
@@ -28,7 +28,8 @@ function StreetLayer({ src, alt, Fallback }) {
   )
 }
 
-function RoadCompare({ street }) {
+/* ratio (opcional): proporção da foto, ex. 1.5. Sem ele, a moldura é 16:10. */
+export function RoadCompare({ street, photo, index = 0, total = 1, onPhoto, ratio }) {
   const wrapRef = useRef(null)
   const reduce = useReducedMotion()
   const [pct, setPct] = useState(52)
@@ -75,6 +76,8 @@ function RoadCompare({ street }) {
     setPct(Math.round(next))
   }
 
+  const fotoLabel = total > 1 ? `, foto ${index + 1}` : ''
+
   return (
     <div
       ref={wrapRef}
@@ -82,13 +85,16 @@ function RoadCompare({ street }) {
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      className={`relative aspect-[16/10] w-full touch-pan-y overflow-hidden rounded-3xl border border-paper-300 shadow-[0_36px_70px_-40px_rgba(10,23,48,0.55)] select-none sm:aspect-[16/10] ${
+      style={ratio ? { aspectRatio: ratio } : undefined}
+      className={`relative w-full touch-pan-y overflow-hidden rounded-3xl border border-paper-300 shadow-[0_36px_70px_-40px_rgba(10,23,48,0.55)] select-none ${
+        ratio ? '' : 'aspect-[16/10]'
+      } ${
         dragging ? 'cursor-grabbing' : 'cursor-grab'
       }`}
     >
       <AnimatePresence initial={false}>
         <motion.div
-          key={street.name}
+          key={`${street.name}-${index}`}
           initial={reduce ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -96,10 +102,10 @@ function RoadCompare({ street }) {
           className="absolute inset-0"
         >
           <div className="absolute inset-0">
-            <StreetLayer src={street.after} alt={`${street.name}, depois`} Fallback={RoadAfter} />
+            <StreetLayer src={photo.after} alt={`${street.name}${fotoLabel}, depois`} Fallback={RoadAfter} />
           </div>
           <motion.div style={{ clipPath: clip }} className="absolute inset-0">
-            <StreetLayer src={street.before} alt={`${street.name}, antes`} Fallback={RoadBefore} />
+            <StreetLayer src={photo.before} alt={`${street.name}${fotoLabel}, antes`} Fallback={RoadBefore} />
           </motion.div>
         </motion.div>
       </AnimatePresence>
@@ -139,6 +145,61 @@ function RoadCompare({ street }) {
           )}
         </motion.div>
       </motion.div>
+
+      {total > 1 && <PhotoPicker index={index} total={total} onPick={onPhoto} />}
+    </div>
+  )
+}
+
+/* Rua com várias fotos: "‹ Foto 1 · Foto 2 · Foto 3 ›" no pé da imagem, circular.
+   Fica fora do arraste do comparador (pointerdown não sobe). */
+function PhotoPicker({ index, total, onPick }) {
+  const go = (dir) => onPick((index + dir + total) % total)
+  const arrow =
+    'grid h-9 w-9 shrink-0 place-items-center rounded-full text-white/85 transition-colors hover:bg-white/15 hover:text-white focus-visible:ring-2 focus-visible:ring-gold-400 outline-none'
+
+  return (
+    <div
+      onPointerDown={(e) => e.stopPropagation()}
+      className="absolute inset-x-0 bottom-3 flex justify-center px-3 sm:bottom-4"
+    >
+      <div
+        role="group"
+        aria-label="Fotos desta rua"
+        className="flex cursor-default items-center gap-0.5 rounded-full bg-navy-950/75 p-1 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] backdrop-blur-md"
+      >
+        <button type="button" onClick={() => go(-1)} aria-label="Foto anterior" className={arrow}>
+          <ChevronLeft size={18} strokeWidth={2.6} aria-hidden="true" />
+        </button>
+        {Array.from({ length: total }, (_, i) => {
+          const isActive = i === index
+          return (
+            <button
+              key={i}
+              type="button"
+              onClick={() => onPick(i)}
+              aria-pressed={isActive}
+              aria-label={`Foto ${i + 1} de ${total}`}
+              className={`relative isolate rounded-full px-3 py-1.5 text-[0.72rem] font-bold tracking-[0.08em] uppercase outline-none transition-colors focus-visible:ring-2 focus-visible:ring-gold-400 sm:px-3.5 ${
+                isActive ? 'text-navy-900' : 'text-white/75 hover:text-white'
+              }`}
+            >
+              {isActive && (
+                <motion.span
+                  layoutId="photo-active"
+                  className="absolute inset-0 -z-10 rounded-full bg-gold-400"
+                  transition={SPRING.snappy}
+                />
+              )}
+              <span className="hidden sm:inline">Foto </span>
+              {i + 1}
+            </button>
+          )
+        })}
+        <button type="button" onClick={() => go(1)} aria-label="Próxima foto" className={arrow}>
+          <ChevronRight size={18} strokeWidth={2.6} aria-hidden="true" />
+        </button>
+      </div>
     </div>
   )
 }
@@ -147,6 +208,19 @@ function RoadCompare({ street }) {
 /* Nomes das ruas em abas, logo abaixo do antes/depois.
    Celular: fileira que rola para o lado. Desktop: abas quebrando em linhas. */
 function StreetTabs({ active, onPick }) {
+  const listRef = useRef(null)
+
+  /* No celular a fileira rola para o lado: abre já mostrando a rua ativa (só a fileira, não a página). */
+  useEffect(() => {
+    const list = listRef.current
+    const tab = list?.querySelector('[aria-selected="true"]')
+    if (list && tab && list.scrollWidth > list.clientWidth) {
+      const l = list.getBoundingClientRect()
+      const t = tab.getBoundingClientRect()
+      list.scrollLeft += t.left - l.left - (l.width - t.width) / 2
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   const onKeyDown = (e) => {
     const last = streets.length - 1
     let next = null
@@ -162,6 +236,7 @@ function StreetTabs({ active, onPick }) {
 
   return (
     <div
+      ref={listRef}
       role="tablist"
       aria-label="Ruas do Aquarius"
       onKeyDown={onKeyDown}
@@ -200,8 +275,24 @@ function StreetTabs({ active, onPick }) {
 
 /* O antes/depois faz a ponte entre o hero e esta seção: sobe por cima do fim do hero. */
 export function Solution() {
-  const [active, setActive] = useState(0)
+  const [active, setActive] = useState(() => Math.max(0, streets.findIndex((st) => st.name === defaultStreet)))
+  const [photoIdx, setPhotoIdx] = useState(0)
   const street = streets[active]
+  const total = street.photos.length
+  const photo = street.photos[photoIdx] ?? { before: null, after: null }
+
+  const pickStreet = (i) => {
+    setActive(i)
+    setPhotoIdx(0)
+  }
+
+  /* Adianta o download das outras fotos da rua escolhida, para a troca ser instantânea. */
+  useEffect(() => {
+    street.photos.forEach((p) => {
+      new Image().src = p.before
+      new Image().src = p.after
+    })
+  }, [street])
 
   return (
     <section className="relative flow-root bg-gradient-to-b from-sun-100 via-sun-50 to-paper-50 pb-12 sm:pb-16">
@@ -210,7 +301,7 @@ export function Solution() {
         <div id="ruas" className="relative z-10 mx-auto -mt-28 max-w-5xl scroll-mt-24 sm:-mt-44">
           <Reveal>
             <div id="rua-painel" role="tabpanel" aria-labelledby={`rua-tab-${active}`}>
-              <RoadCompare street={street} />
+              <RoadCompare street={street} photo={photo} index={photoIdx} total={total} onPhoto={setPhotoIdx} />
             </div>
           </Reveal>
 
@@ -224,7 +315,18 @@ export function Solution() {
           </Reveal>
 
           <Reveal className="mt-7" delay={0.1}>
-            <StreetTabs active={active} onPick={setActive} />
+            <StreetTabs active={active} onPick={pickStreet} />
+          </Reveal>
+
+          <Reveal className="mt-8 flex justify-center" delay={0.15}>
+            <a
+              href="/ruas-novas/"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-navy-900 px-5 py-3 text-[0.88rem] font-semibold text-white shadow-[0_14px_30px_-16px_rgba(10,23,48,0.8)] transition-colors hover:bg-navy-800"
+            >
+              <Sparkles size={16} strokeWidth={2.6} className="text-gold-400" aria-hidden="true" />
+              Simule a sua rua com bloquete
+              <ArrowRight size={16} strokeWidth={2.6} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </a>
           </Reveal>
         </div>
       </div>

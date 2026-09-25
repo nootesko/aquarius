@@ -8,6 +8,7 @@ import { ChangeCta } from './sections/ChangeCta.jsx'
 import { InstagramFeed } from './sections/InstagramFeed.jsx'
 import { Contact } from './sections/Contact.jsx'
 import { Closing } from './sections/Closing.jsx'
+import { Commitment } from './sections/Commitment.jsx'
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <ChangeCta />
         <InstagramFeed />
         <Contact />
+        <Commitment />
       </main>
       <Closing />
       <FloatingWhatsApp />
