@@ -221,14 +221,16 @@ function StreetTabs({ active, onPick }) {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  /* As setas pulam as ruas "Em breve". */
   const onKeyDown = (e) => {
-    const last = streets.length - 1
+    const open = streets.map((st, i) => (st.photos.length ? i : -1)).filter((i) => i >= 0)
+    const pos = open.indexOf(active)
     let next = null
-    if (e.key === 'ArrowRight') next = active === last ? 0 : active + 1
-    if (e.key === 'ArrowLeft') next = active === 0 ? last : active - 1
-    if (e.key === 'Home') next = 0
-    if (e.key === 'End') next = last
-    if (next === null) return
+    if (e.key === 'ArrowRight') next = open[(pos + 1) % open.length]
+    if (e.key === 'ArrowLeft') next = open[(pos - 1 + open.length) % open.length]
+    if (e.key === 'Home') next = open[0]
+    if (e.key === 'End') next = open[open.length - 1]
+    if (next == null) return
     e.preventDefault()
     onPick(next)
     document.getElementById(`rua-tab-${next}`)?.focus()
@@ -244,6 +246,7 @@ function StreetTabs({ active, onPick }) {
     >
       {streets.map((st, i) => {
         const isActive = i === active
+        const soon = !st.photos.length
         return (
           <button
             key={st.name}
@@ -252,10 +255,16 @@ function StreetTabs({ active, onPick }) {
             role="tab"
             aria-selected={isActive}
             aria-controls="rua-painel"
+            aria-disabled={soon || undefined}
+            disabled={soon}
             tabIndex={isActive ? 0 : -1}
             onClick={() => onPick(i)}
-            className={`relative isolate shrink-0 snap-start rounded-full px-4 py-2.5 text-[0.86rem] font-semibold whitespace-nowrap transition-colors duration-200 ${
-              isActive ? 'text-navy-900' : 'bg-white text-ink-600 ring-1 ring-paper-300 ring-inset hover:text-ink-900 hover:ring-gold-400'
+            className={`relative isolate inline-flex shrink-0 snap-start items-center gap-2 rounded-full px-4 py-2.5 text-[0.86rem] font-semibold whitespace-nowrap transition-colors duration-200 ${
+              isActive
+                ? 'text-navy-900'
+                : soon
+                  ? 'cursor-not-allowed bg-paper-100 text-ink-500 ring-1 ring-paper-300 ring-inset'
+                  : 'bg-white text-ink-600 ring-1 ring-paper-300 ring-inset hover:text-ink-900 hover:ring-gold-400'
             }`}
           >
             {isActive && (
@@ -266,6 +275,11 @@ function StreetTabs({ active, onPick }) {
               />
             )}
             {st.name.replace(/^Rua /, 'R. ')}
+            {soon && (
+              <span className="rounded-full bg-paper-300 px-2 py-0.5 text-[0.62rem] font-bold tracking-[0.1em] text-ink-600 uppercase">
+                Em breve
+              </span>
+            )}
           </button>
         )
       })}
