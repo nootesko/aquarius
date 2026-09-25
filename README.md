@@ -25,7 +25,7 @@ Tudo que a chapa edita está em **`src/content.js`**. Procure por `TROCAR`.
 
 | Onde | O que trocar |
 | --- | --- |
-| `config.whatsappNumber` | Número da chapa, só dígitos, com país e DDD (ex.: `5515999999999`). Hoje está com um número de exemplo. |
+| `config.whatsappNumber` | Número da chapa, só dígitos, com país e DDD (ex.: `5515999999999`). |
 | `config.whatsappGroupUrl` | Link de convite do grupo de WhatsApp dos moradores. |
 | `streets` | Fotos de antes/depois de cada rua (veja abaixo). |
 | `config.formEndpoint` | Endereço que recebe o formulário (veja o item 2). |

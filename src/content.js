@@ -5,8 +5,8 @@
    ========================================================================= */
 
 export const config = {
-  // TROCAR: número da chapa no formato internacional, só dígitos (55 + DDD + número)
-  whatsappNumber: '5515999999999',
+  // número da chapa no formato internacional, só dígitos (55 + DDD + número)
+  whatsappNumber: '5511998922945',
   whatsappMessage: 'Olá! Vim pelo site da chapa Aquarius Sem Buracos e quero falar com vocês.',
 
   // TROCAR: link de convite do grupo de WhatsApp dos moradores
