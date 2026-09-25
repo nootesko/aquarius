@@ -3,7 +3,7 @@
 
    Variáveis de ambiente:
      OPENAI_API_KEY        chave da OpenAI (obrigatória)
-     OPENAI_IMAGE_MODEL    modelo de imagem (padrão gpt-image-1)
+     OPENAI_IMAGE_MODEL    modelo de imagem (padrão gpt-image-2)
      OPENAI_IMAGE_QUALITY  low | medium | high (padrão medium)
      SIMULADOR_MAX         teto de gerações no total (padrão 700)
      SIMULADOR_POR_IP      gerações por conexão/IP (padrão 3)
@@ -155,13 +155,14 @@ export default async function handler(req, res) {
     return send(res, 503, { error: FAIL })
   }
 
+  const model = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2'
   const form = new FormData()
-  form.append('model', process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1')
+  form.append('model', model)
   form.append('image', new Blob([bytes], { type: match[1] }), `rua.${match[1].split('/')[1]}`)
   form.append('prompt', PROMPT)
   form.append('size', sizeFor(Number(body.ratio)))
   form.append('quality', process.env.OPENAI_IMAGE_QUALITY || 'medium')
-  form.append('input_fidelity', 'high')
+  if (model.startsWith('gpt-image-1')) form.append('input_fidelity', 'high') // só a família 1 aceita
   form.append('output_format', 'jpeg')
   form.append('output_compression', '85')
   form.append('n', '1')

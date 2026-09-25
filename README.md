@@ -123,7 +123,7 @@ Se o Playwright não achar o Chrome sozinho, informe o caminho em `CHROME_PATH`.
 ## 5. Simulador de rua (/ruas-novas)
 
 O morador envia a foto da rua e recebe uma simulação com bloquete sextavado, gerada pela
-OpenAI (`gpt-image-1`, edição de imagem), já com o logo da chapa no canto. A chave fica só no
+OpenAI (`gpt-image-2`, edição de imagem), já com o logo da chapa no canto. A chave fica só no
 servidor, na função `api/ruas-novas.js`; o prompt usado está fixo nesse arquivo.
 
 **Limites de uso** (para o custo não passar do previsto):

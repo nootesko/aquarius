@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { ArrowLeft, Check, Download, ImageUp, RotateCcw, Sparkles, TriangleAlert } from 'lucide-react'
+import { ArrowLeft, Check, Download, ImageUp, RotateCcw, Share2, Sparkles, TriangleAlert } from 'lucide-react'
 import { simulator } from '../content.js'
 import { RoadCompare } from '../sections/Solution.jsx'
 import { Commitment } from '../sections/Commitment.jsx'
@@ -77,6 +77,29 @@ function save(data) {
       /* sem espaço ou bloqueado: segue sem guardar */
     }
   }
+}
+
+/* Compartilhar: no celular abre a folha de compartilhamento com a imagem (WhatsApp, Instagram...).
+   Onde não dá para mandar arquivo, compartilha o link do simulador; no último caso, abre o WhatsApp. */
+const SHARE_TEXT = 'Olha como a minha rua ficaria com bloquete! Simule a sua também:'
+
+async function shareResult(dataUrl) {
+  const url = `${window.location.origin}/ruas-novas/`
+  try {
+    const blob = await (await fetch(dataUrl)).blob()
+    const file = new File([blob], 'minha-rua-com-bloquete.jpg', { type: 'image/jpeg' })
+    if (navigator.canShare?.({ files: [file] })) {
+      await navigator.share({ files: [file], text: `${SHARE_TEXT} ${url}` })
+      return
+    }
+    if (navigator.share) {
+      await navigator.share({ text: SHARE_TEXT, url })
+      return
+    }
+  } catch (e) {
+    if (e?.name === 'AbortError') return // a pessoa fechou a folha de compartilhamento
+  }
+  window.open(`https://wa.me/?text=${encodeURIComponent(`${SHARE_TEXT} ${url}`)}`, '_blank', 'noopener')
 }
 
 function Header() {
@@ -352,7 +375,11 @@ function Simulator() {
             )}
           </div>
           {photo.dataUrl && <p className="mt-4 text-center text-[0.85rem] text-ink-600">Arraste a barra para comparar o antes e o depois.</p>}
-          <div className="mt-5 flex justify-center">
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <button type="button" onClick={() => shareResult(result)} className={`${btn} bg-navy-900 text-white hover:bg-navy-800`}>
+              <Share2 size={17} strokeWidth={2.6} aria-hidden="true" />
+              Compartilhar
+            </button>
             <a href={result} download="minha-rua-com-bloquete.jpg" className={`${btn} bg-gold-400 text-navy-900 hover:bg-gold-300`}>
               <Download size={17} strokeWidth={2.6} aria-hidden="true" />
               Baixar imagem
