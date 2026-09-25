@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { ChevronLeft, ChevronRight, Download, Award, Briefcase, GraduationCap } from 'lucide-react'
-import { closing, members, proposals, streets, whatsappLink } from '../content.js'
+import { ChevronLeft, ChevronRight, Download, Award, Briefcase, GraduationCap, Sparkles } from 'lucide-react'
+import { closing, commitment, defaultStreet, members, proposals, simulator, streets, whatsappLink } from '../content.js'
 import { WhatsAppIcon } from '../components/WhatsAppIcon.jsx'
 import { EASE } from '../lib/motion.js'
 
@@ -126,6 +126,139 @@ function StreetsSlide() {
   )
 }
 
+/* ---------------- Antes e depois (fotos reais + simulação) ---------------- */
+const featuredStreet = streets.find((st) => st.name === defaultStreet)
+const otherStreets = streets.filter((st) => st.photos.length && st !== featuredStreet).slice(0, 3)
+
+function Shot({ src, label, alt, className = '' }) {
+  const after = label === 'Depois'
+  return (
+    <figure className={`relative overflow-hidden rounded-xl bg-paper-200 ${className}`}>
+      <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-cover" />
+      <figcaption
+        className={`absolute top-2.5 left-2.5 rounded-full px-3 py-1 text-[0.85rem] font-bold tracking-[0.12em] uppercase lg:text-[0.95rem] ${
+          after ? 'bg-gold-400 text-navy-900' : 'bg-navy-950/80 text-white'
+        }`}
+      >
+        {label}
+      </figcaption>
+    </figure>
+  )
+}
+
+function PortariaSlide() {
+  const photo = featuredStreet.photos[0]
+  return (
+    <div className="flex flex-1 flex-col justify-center gap-6 bg-sun-50 px-6 py-8 lg:gap-7 lg:px-16">
+      <div>
+        <Kicker>Antes e depois</Kicker>
+        <h2 className="display mt-2 text-[clamp(2rem,8vw,3.2rem)] leading-[0.95] text-ink-900 lg:text-[3.6rem]">
+          A entrada que todo mundo conhece
+        </h2>
+        <p className="mt-2 text-[1.15rem] text-ink-700 lg:text-[1.45rem]">{featuredStreet.name}, na portaria</p>
+      </div>
+      <div className="grid gap-4 lg:grid-cols-2 lg:gap-5">
+        <Shot src={photo.before} label="Antes" alt={`${featuredStreet.name}, antes`} className="aspect-[16/10]" />
+        <Shot src={photo.after} label="Depois" alt={`${featuredStreet.name}, depois`} className="aspect-[16/10]" />
+      </div>
+      <p className="text-[0.95rem] text-ink-600 lg:text-[1.05rem]">O “depois” é uma simulação ilustrativa, feita a partir da foto real.</p>
+    </div>
+  )
+}
+
+function StreetsCompareSlide() {
+  return (
+    <div className="flex flex-1 flex-col justify-center gap-6 bg-white px-6 py-8 lg:gap-6 lg:px-16">
+      <div>
+        <Kicker>Antes e depois</Kicker>
+        <h2 className="display mt-2 text-[clamp(2rem,8vw,3.2rem)] leading-[0.95] text-ink-900 lg:text-[3.4rem]">
+          Outras ruas do Aquarius
+        </h2>
+      </div>
+      <div className="grid gap-8 lg:grid-cols-3 lg:gap-6">
+        {otherStreets.map((st) => (
+          <div key={st.name}>
+            <p className="mb-2.5 text-[1.2rem] font-bold text-navy-900 lg:text-[1.3rem]">{st.name}</p>
+            <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-1">
+              <Shot src={st.photos[0].before} label="Antes" alt={`${st.name}, antes`} className="aspect-[16/10]" />
+              <Shot src={st.photos[0].after} label="Depois" alt={`${st.name}, depois`} className="aspect-[16/10]" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function CommitmentSlide() {
+  return (
+    <div className="flex flex-1 flex-col justify-center gap-6 bg-sun-50 px-6 py-8 lg:gap-8 lg:px-20">
+      <div>
+        <Kicker>{commitment.overline}</Kicker>
+        <h2 className="display mt-2 text-[clamp(2.2rem,9vw,3.4rem)] leading-[0.95] text-ink-900 lg:text-[4rem]">
+          {commitment.title.replace(/\.$/, '')}
+          <span className="text-gold-500">.</span>
+        </h2>
+      </div>
+      <div className="space-y-4 border-l-[6px] border-gold-400 pl-5 lg:space-y-5 lg:pl-8">
+        {commitment.paragraphs.map((p, i) => (
+          <p
+            key={i}
+            className={`leading-snug ${
+              i === commitment.paragraphs.length - 1
+                ? 'text-[1.25rem] font-bold text-ink-900 lg:text-[1.6rem]'
+                : 'text-[1.15rem] text-ink-700 lg:text-[1.4rem]'
+            }`}
+          >
+            {p}
+          </p>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const SIM_URL = '/ruas-novas/'
+const SIM_URL_LABEL = 'aquariussemburacos.com.br/ruas-novas'
+
+function SimulateSlide() {
+  const example = otherStreets[0]?.photos[0] ?? featuredStreet.photos[0]
+  return (
+    <div className="slide-bg-sky flex flex-1 flex-col items-center gap-8 px-6 py-10 text-white lg:flex-row lg:gap-14 lg:px-16">
+      <div className="flex flex-1 flex-col gap-5 lg:gap-6">
+        <Kicker tone="light">{simulator.overline}</Kicker>
+        <h2 className="display text-[clamp(2.4rem,10vw,3.8rem)] leading-[0.95] lg:text-[4.6rem]">
+          {simulator.title.replace(/\.$/, '')}
+          <span className="text-gold-300">.</span>
+        </h2>
+        <p className="max-w-[30rem] text-[1.25rem] leading-snug text-white/90 lg:text-[1.6rem]">{simulator.lead}</p>
+        <div className="flex flex-wrap items-center gap-5">
+          <a
+            href={SIM_URL}
+            className="inline-flex items-center gap-3 rounded-full bg-gold-400 px-7 py-4 text-[1.1rem] font-bold tracking-[0.06em] text-navy-900 uppercase lg:text-[1.3rem]"
+          >
+            <Sparkles size={22} strokeWidth={2.6} aria-hidden="true" />
+            Simular minha rua
+          </a>
+          <div className="flex items-center gap-3">
+            <span className="rounded-xl bg-white p-2.5">
+              <img src="/assets/qr-ruas-novas.svg" alt={`QR code para ${SIM_URL_LABEL}`} className="h-24 w-24 lg:h-28 lg:w-28" />
+            </span>
+            <p className="text-[0.95rem] leading-snug text-white/85 lg:text-[1.05rem]">
+              Aponte a câmera do celular
+              <span className="mt-1 block font-semibold break-all text-white lg:break-normal lg:whitespace-nowrap">{SIM_URL_LABEL}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="grid w-full max-w-[34rem] shrink-0 gap-3 lg:w-[30rem]">
+        <Shot src={example.before} label="Antes" alt="Exemplo de rua antes" className="aspect-[16/10] ring-4 ring-white/20" />
+        <Shot src={example.after} label="Depois" alt="Exemplo de rua depois" className="aspect-[16/10] ring-4 ring-white/20" />
+      </div>
+    </div>
+  )
+}
+
 function ThemeSlide({ p, index }) {
   const featured = Boolean(p.badge)
   const dense = p.items.length > 6
@@ -204,6 +337,10 @@ const SLIDES = [
   { id: 'capa', label: 'Capa', render: () => <CoverSlide /> },
   ...members.map((m, i) => ({ id: m.id, label: m.name, render: () => <MemberSlide m={m} index={i} /> })),
   { id: 'ruas', label: 'As ruas', render: () => <StreetsSlide /> },
+  { id: 'portaria', label: 'Antes e depois: portaria', render: () => <PortariaSlide /> },
+  { id: 'antes-depois', label: 'Antes e depois: outras ruas', render: () => <StreetsCompareSlide /> },
+  { id: 'compromisso', label: 'Nosso compromisso', render: () => <CommitmentSlide /> },
+  { id: 'simule', label: 'Simule a sua rua', render: () => <SimulateSlide /> },
   ...proposals.map((p, i) => ({ id: p.id, label: p.tab, render: () => <ThemeSlide p={p} index={i} /> })),
   { id: 'fim', label: 'Encerramento', render: () => <ClosingSlide /> },
 ]
