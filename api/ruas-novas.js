@@ -23,7 +23,7 @@
 import { createHash } from 'node:crypto'
 
 const PROMPT =
-  'Substitua a rua de terra por uma rua de bloquete sextavado. Não faça calçadas, tem que ser grama, mas porém uma grama bem cortada e cuidada.'
+  'Substitua a rua de terra por uma rua de bloquete sextavado, com guia (meio-fio) de concreto nas duas laterais. Não faça calçadas: depois da guia tem que ser grama, uma grama bem cortada e cuidada.'
 
 const MAX_BYTES = 3.5 * 1024 * 1024
 const TYPES = ['image/jpeg', 'image/png', 'image/webp']
