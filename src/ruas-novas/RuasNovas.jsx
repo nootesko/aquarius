@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { Check, Download, ImageUp, RotateCcw, Share2, Sparkles, TriangleAlert } from 'lucide-react'
+import { Camera, Check, Download, ImageUp, RotateCcw, Share2, Sparkles, TriangleAlert, X } from 'lucide-react'
 import { simulator } from '../content.js'
 import { RoadCompare } from '../sections/Solution.jsx'
 import { Commitment } from '../sections/Commitment.jsx'
@@ -103,9 +103,90 @@ async function shareResult(dataUrl) {
   window.open(`https://wa.me/?text=${encodeURIComponent(`${SHARE_TEXT} ${url}`)}`, '_blank', 'noopener')
 }
 
+/* Câmera pelo navegador, para onde o input com capture não abre a câmera (computador com webcam). */
+function CameraModal({ onShot, onClose }) {
+  const videoRef = useRef(null)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    let stream
+    let cancelled = false
+    navigator.mediaDevices
+      .getUserMedia({ video: { facingMode: 'environment', width: { ideal: 1920 } }, audio: false })
+      .then((s) => {
+        if (cancelled) return s.getTracks().forEach((t) => t.stop())
+        stream = s
+        videoRef.current.srcObject = s
+      })
+      .catch(() => setError('Não foi possível abrir a câmera. Verifique a permissão do navegador ou envie uma foto.'))
+    const onKey = (e) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    return () => {
+      cancelled = true
+      stream?.getTracks().forEach((t) => t.stop())
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [onClose])
+
+  const shoot = () => {
+    const v = videoRef.current
+    if (!v?.videoWidth) return
+    const canvas = document.createElement('canvas')
+    canvas.width = v.videoWidth
+    canvas.height = v.videoHeight
+    canvas.getContext('2d').drawImage(v, 0, 0)
+    canvas.toBlob((blob) => blob && onShot(new File([blob], 'foto-da-rua.jpg', { type: 'image/jpeg' })), 'image/jpeg', 0.92)
+  }
+
+  return (
+    <div role="dialog" aria-modal="true" aria-label="Tirar foto da rua" className="fixed inset-0 z-50 grid place-items-center bg-navy-900/85 p-4">
+      <div className="w-full max-w-2xl overflow-hidden rounded-3xl bg-paper-50 shadow-2xl">
+        <div className="relative bg-black">
+          {error ? (
+            <p className="px-6 py-16 text-center text-[0.95rem] text-white/90">{error}</p>
+          ) : (
+            <video ref={videoRef} autoPlay playsInline muted className="block aspect-video w-full object-cover" />
+          )}
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar câmera"
+            className="absolute top-3 right-3 grid h-10 w-10 place-items-center rounded-full bg-black/55 text-white transition-colors hover:bg-black/75"
+          >
+            <X size={20} strokeWidth={2.4} aria-hidden="true" />
+          </button>
+        </div>
+        {!error && (
+          <div className="flex justify-center p-4">
+            <button
+              type="button"
+              onClick={shoot}
+              className="inline-flex items-center gap-2.5 rounded-full bg-gold-400 px-6 py-3.5 text-[0.95rem] font-semibold text-navy-900 transition-colors hover:bg-gold-300"
+            >
+              <Camera size={18} strokeWidth={2.4} aria-hidden="true" />
+              Capturar foto
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+const hasTouch = () => window.matchMedia('(pointer: coarse)').matches
+
 function Dropzone({ onFile }) {
   const inputRef = useRef(null)
+  const cameraRef = useRef(null)
   const [over, setOver] = useState(false)
+  const [webcam, setWebcam] = useState(false)
+  const closeWebcam = useCallback(() => setWebcam(false), [])
+
+  /* No celular, o input com capture abre a câmera nativa; no computador, abre a webcam numa janela. */
+  const openCamera = () => {
+    if (hasTouch() || !navigator.mediaDevices?.getUserMedia) cameraRef.current?.click()
+    else setWebcam(true)
+  }
 
   const onDrop = (e) => {
     e.preventDefault()
@@ -116,30 +197,70 @@ function Dropzone({ onFile }) {
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => inputRef.current?.click()}
-        onDragOver={(e) => {
-          e.preventDefault()
-          setOver(true)
-        }}
-        onDragLeave={() => setOver(false)}
-        onDrop={onDrop}
-        className={`group flex w-full flex-col items-center justify-center gap-4 rounded-3xl border-2 border-dashed px-6 py-14 text-center transition-colors outline-none focus-visible:ring-4 focus-visible:ring-brand-500 sm:py-20 ${
-          over ? 'border-brand-500 bg-brand-500/8' : 'border-paper-300 bg-paper-100 hover:border-brand-400 hover:bg-paper-50'
-        }`}
-      >
-        <span className="grid h-16 w-16 place-items-center rounded-2xl bg-gold-400 text-navy-900 shadow-[0_12px_30px_-12px_rgba(229,180,0,0.8)] transition-transform group-hover:-translate-y-1">
-          <ImageUp size={28} strokeWidth={2.2} aria-hidden="true" />
-        </span>
-        <span>
-          <span className="display block text-[1.35rem] text-ink-900 sm:text-[1.6rem]">Enviar foto da rua</span>
-          <span className="mt-1.5 block text-[0.92rem] text-ink-600">
-            <span className="sm:hidden">Tire uma foto agora ou escolha da galeria</span>
-            <span className="hidden sm:inline">Clique para escolher ou arraste a foto para cá</span>
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          onDragOver={(e) => {
+            e.preventDefault()
+            setOver(true)
+          }}
+          onDragLeave={() => setOver(false)}
+          onDrop={onDrop}
+          className={`group flex flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed px-3 py-9 text-center transition-colors outline-none focus-visible:ring-4 focus-visible:ring-brand-500 sm:gap-4 sm:px-6 sm:py-16 ${
+            over ? 'border-brand-500 bg-brand-500/8' : 'border-paper-300 bg-paper-100 hover:border-brand-400 hover:bg-paper-50'
+          }`}
+        >
+          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gold-400 text-navy-900 shadow-[0_12px_30px_-12px_rgba(229,180,0,0.8)] transition-transform group-hover:-translate-y-1 sm:h-16 sm:w-16">
+            <ImageUp size={26} strokeWidth={2.2} aria-hidden="true" />
           </span>
-        </span>
-      </button>
+          <span>
+            <span className="display block text-[1.1rem] text-ink-900 sm:text-[1.5rem]">Enviar foto</span>
+            <span className="mt-1.5 block text-[0.8rem] leading-snug text-ink-600 sm:text-[0.92rem]">
+              <span className="pointer-fine:hidden">Escolha da galeria</span>
+              <span className="hidden pointer-fine:inline">Clique para escolher ou arraste a foto para cá</span>
+            </span>
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={openCamera}
+          className="group flex flex-col items-center justify-center gap-3 rounded-3xl bg-navy-900 px-3 py-9 text-center shadow-[0_14px_30px_-16px_rgba(10,23,48,0.8)] transition-colors outline-none hover:bg-navy-800 focus-visible:ring-4 focus-visible:ring-brand-500 sm:gap-4 sm:px-6 sm:py-16"
+        >
+          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-gold-400 text-navy-900 shadow-[0_12px_30px_-12px_rgba(229,180,0,0.8)] transition-transform group-hover:-translate-y-1 sm:h-16 sm:w-16">
+            <Camera size={26} strokeWidth={2.2} aria-hidden="true" />
+          </span>
+          <span>
+            <span className="display block text-[1.1rem] text-white sm:text-[1.5rem]">Tirar foto</span>
+            <span className="mt-1.5 block text-[0.8rem] leading-snug text-white/75 sm:text-[0.92rem]">
+              <span className="pointer-fine:hidden">Abre a câmera agora</span>
+              <span className="hidden pointer-fine:inline">Use a câmera do computador</span>
+            </span>
+          </span>
+        </button>
+      </div>
+      {webcam && (
+        <CameraModal
+          onClose={closeWebcam}
+          onShot={(file) => {
+            setWebcam(false)
+            onFile(file)
+          }}
+        />
+      )}
+      <input
+        ref={cameraRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        className="sr-only"
+        tabIndex={-1}
+        onChange={(e) => {
+          const file = e.target.files?.[0]
+          e.target.value = ''
+          if (file) onFile(file)
+        }}
+      />
       <input
         ref={inputRef}
         type="file"
