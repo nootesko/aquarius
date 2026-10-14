@@ -4,10 +4,9 @@ import { WhatsAppIcon } from '../components/WhatsAppIcon.jsx'
 import { contact, whatsappLink } from '../content.js'
 import { Reveal } from '../components/Reveal.jsx'
 import { SectionHeading } from '../components/SectionHeading.jsx'
-import { ContactForm } from '../components/ContactForm.jsx'
 import { SPRING } from '../lib/motion.js'
 
-/* Faixa fina com a chamada para o WhatsApp, logo abaixo do formulário. */
+/* Chamada para o grupo do WhatsApp. */
 function WhatsAppCall() {
   const reduce = useReducedMotion()
   return (
@@ -24,8 +23,8 @@ function WhatsAppCall() {
         <WhatsAppIcon size={24} />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[1.02rem] font-bold">Prefere conversar?</span>
-        <span className="block text-[0.9rem] text-white/90">Entre no nosso grupo do WhatsApp.</span>
+        <span className="block text-[1.02rem] font-bold">Grupo dos moradores</span>
+        <span className="block text-[0.9rem] text-white/90">Converse com a chapa e acompanhe as novidades.</span>
       </span>
       <span className="hidden shrink-0 items-center gap-2 rounded-full bg-white px-5 py-3 text-[0.75rem] font-bold tracking-[0.12em] text-[#25d366] uppercase sm:inline-flex">
         Abrir WhatsApp
@@ -54,9 +53,6 @@ export function Contact() {
 
         <div className="mx-auto mt-14 max-w-2xl space-y-5">
           <Reveal>
-            <ContactForm />
-          </Reveal>
-          <Reveal delay={0.08}>
             <WhatsAppCall />
           </Reveal>
         </div>

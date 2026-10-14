@@ -14,11 +14,6 @@ export const config = {
   // TROCAR: e-mail da chapa
   email: 'contato@aquariussemburacos.com.br',
 
-  // TROCAR (opcional): endpoint do formulário (Formspree, Basin, Getform...).
-  // Enquanto estiver vazio, o formulário abre o WhatsApp com a mensagem montada
-  // e a denúncia anônima é enviada sem qualquer identificação.
-  formEndpoint: '',
-
   // TROCAR: data da assembleia / eleição
   electionDate: '',
 }
@@ -205,7 +200,7 @@ export const members = [
 export const contact = {
   overline: 'Contato',
   title: 'Fale com a chapa.',
-  lead: 'Mande sua mensagem sem se identificar ou, se preferir, deixe nome, rua e telefone para receber retorno.',
+  lead: 'Entre no nosso grupo do WhatsApp para conversar com a chapa e acompanhar as novidades.',
 }
 
 export const closing = {
