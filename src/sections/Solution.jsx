@@ -9,7 +9,7 @@ import {
   useTransform,
 } from 'motion/react'
 import { ArrowRight, ChevronLeft, ChevronRight, MoveHorizontal, Sparkles } from 'lucide-react'
-import { defaultStreet, solution, streets, whatsappLink } from '../content.js'
+import { config, defaultStreet, solution, streets } from '../content.js'
 import { Reveal } from '../components/Reveal.jsx'
 import { WhatsAppIcon } from '../components/WhatsAppIcon.jsx'
 import { RoadAfter, RoadBefore } from '../components/RoadScene.jsx'
@@ -343,7 +343,7 @@ export function Solution() {
               <ArrowRight size={16} strokeWidth={2.6} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </a>
             <a
-              href={whatsappLink}
+              href={config.whatsappGroupUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-2.5 rounded-full bg-gold-400 px-5 py-3 text-[0.88rem] font-semibold text-navy-900 shadow-[0_14px_30px_-16px_rgba(255,204,0,0.8)] transition-colors hover:bg-gold-300"

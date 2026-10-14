@@ -9,8 +9,7 @@ export const config = {
   whatsappNumber: '5511998922945',
   whatsappMessage: 'Olá! Vim pelo site da chapa Aquarius Sem Buracos e quero falar com vocês.',
 
-  // TROCAR: link de convite do grupo de WhatsApp dos moradores
-  whatsappGroupUrl: 'https://chat.whatsapp.com/SEU-LINK-AQUI',
+  whatsappGroupUrl: 'https://chat.whatsapp.com/CLQqXREyZiaAZkksXzeK8h',
 
   // TROCAR: e-mail da chapa
   email: 'contato@aquariussemburacos.com.br',
