@@ -1,19 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { ArrowRight, Camera, Check, Download, ImageUp, RotateCcw, Share2, Sparkles, TriangleAlert, X } from 'lucide-react'
 import { config, simulator } from '../content.js'
 import { RoadCompare } from '../sections/Solution.jsx'
 import { Commitment } from '../sections/Commitment.jsx'
 import { SubpageFooter, SubpageHeader } from '../components/Subpage.jsx'
 import { WhatsAppIcon } from '../components/WhatsAppIcon.jsx'
-import { EASE } from '../lib/motion.js'
 
 const MAX_SIDE = 1536
 const TIMEOUT_MS = 150_000
 const SAVED_KEY = 'ruas-novas:resultado'
 
 /* Frases que se revezam enquanto a IA trabalha (costuma levar de 20 s a 1 min). */
-const STEPS = ['Analisando a foto da rua…', 'Tirando a terra e os buracos…', 'Assentando o bloquete sextavado…', 'Aparando a grama das laterais…', 'Dando os últimos retoques…']
 
 /* Reduz a foto no navegador antes de enviar: corrige a rotação do celular,
    limita o lado maior e manda em JPEG. Deixa o envio rápido e barato. */
@@ -288,14 +286,12 @@ function Dropzone({ onFile }) {
 
 function Working({ photo }) {
   const reduce = useReducedMotion()
-  const [step, setStep] = useState(0)
   const [secs, setSecs] = useState(0)
 
   useEffect(() => {
     const t = setInterval(() => setSecs((s) => s + 1), 1000)
     return () => clearInterval(t)
   }, [])
-  useEffect(() => setStep(Math.min(STEPS.length - 1, Math.floor(secs / 8))), [secs])
 
   return (
     <div
@@ -320,23 +316,24 @@ function Working({ photo }) {
         >
           <Sparkles size={24} strokeWidth={2.4} aria-hidden="true" />
         </motion.span>
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={step}
-            initial={reduce ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.3, ease: EASE.out }}
-            className="display text-[1.2rem] text-white sm:text-[1.5rem]"
-          >
-            {STEPS[step]}
-          </motion.p>
-        </AnimatePresence>
+        <p className="display text-[1.3rem] text-white sm:text-[1.6rem]">Gerando foto…</p>
+        <a
+          href={config.whatsappGroupUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${btn} ${whatsBtn}`}
+        >
+          <WhatsAppIcon size={18} />
+          Ajude-nos entrando em nosso grupo de WhatsApp
+        </a>
         <p className="text-[0.82rem] text-white/70">Isso leva cerca de 1 minuto. Não feche a página. · {secs}s</p>
       </div>
     </div>
   )
 }
+
+/* Verde do WhatsApp, escuro o bastante para o texto branco ter contraste. */
+const whatsBtn = 'bg-green-600 text-white shadow-[0_14px_30px_-16px_rgba(22,163,74,0.9)] hover:bg-green-700'
 
 const btn =
   'inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[0.9rem] font-bold transition-colors outline-none focus-visible:ring-4 focus-visible:ring-brand-500'
@@ -520,23 +517,21 @@ export function RuasNovas() {
               </span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-[1.02rem] leading-relaxed text-white/85 sm:text-[1.1rem]">{simulator.lead}</p>
+            <a
+              href={config.whatsappGroupUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${btn} ${whatsBtn} group mt-7`}
+            >
+              <WhatsAppIcon size={18} />
+              Entre no WhatsApp e faça parte dessa mudança
+              <ArrowRight size={16} strokeWidth={2.6} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </a>
           </div>
 
           <div className="mx-auto mt-10 max-w-4xl sm:mt-14">
             <Simulator />
             <p className="mt-5 text-center text-[0.78rem] leading-relaxed text-white/60">{simulator.disclaimer}</p>
-            <div className="mt-8 flex justify-center">
-              <a
-                href={config.whatsappGroupUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${btn} group bg-gold-400 text-navy-900 shadow-[0_14px_30px_-16px_rgba(255,204,0,0.8)] hover:bg-gold-300`}
-              >
-                <WhatsAppIcon size={18} />
-                Entre no WhatsApp e faça parte dessa mudança
-                <ArrowRight size={16} strokeWidth={2.6} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-              </a>
-            </div>
           </div>
         </main>
       </div>
