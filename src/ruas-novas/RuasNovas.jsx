@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { Camera, Check, Download, ImageUp, RotateCcw, Share2, Sparkles, TriangleAlert, X } from 'lucide-react'
-import { simulator } from '../content.js'
+import { ArrowRight, Camera, Check, Download, ImageUp, RotateCcw, Share2, Sparkles, TriangleAlert, X } from 'lucide-react'
+import { config, simulator } from '../content.js'
 import { RoadCompare } from '../sections/Solution.jsx'
 import { Commitment } from '../sections/Commitment.jsx'
 import { SubpageFooter, SubpageHeader } from '../components/Subpage.jsx'
+import { WhatsAppIcon } from '../components/WhatsAppIcon.jsx'
 import { EASE } from '../lib/motion.js'
 
 const MAX_SIDE = 1536
@@ -524,6 +525,18 @@ export function RuasNovas() {
           <div className="mx-auto mt-10 max-w-4xl sm:mt-14">
             <Simulator />
             <p className="mt-5 text-center text-[0.78rem] leading-relaxed text-white/60">{simulator.disclaimer}</p>
+            <div className="mt-8 flex justify-center">
+              <a
+                href={config.whatsappGroupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${btn} group bg-gold-400 text-navy-900 shadow-[0_14px_30px_-16px_rgba(255,204,0,0.8)] hover:bg-gold-300`}
+              >
+                <WhatsAppIcon size={18} />
+                Entre no WhatsApp e faça parte dessa mudança
+                <ArrowRight size={16} strokeWidth={2.6} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </main>
       </div>
