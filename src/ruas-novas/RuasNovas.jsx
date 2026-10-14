@@ -316,7 +316,8 @@ function Working({ photo }) {
         >
           <Sparkles size={24} strokeWidth={2.4} aria-hidden="true" />
         </motion.span>
-        <p className="display text-[1.3rem] text-white sm:text-[1.6rem]">Gerando foto…</p>
+        <p className="display text-[1.3rem] text-white sm:text-[1.6rem]">Gerando imagem…</p>
+        <p className="max-w-sm text-[0.95rem] leading-snug text-white/90">Ajude-nos na causa entrando em nosso grupo:</p>
         <a
           href={config.whatsappGroupUrl}
           target="_blank"
@@ -324,7 +325,7 @@ function Working({ photo }) {
           className={`${btn} ${whatsBtn}`}
         >
           <WhatsAppIcon size={18} />
-          Ajude-nos entrando em nosso grupo de WhatsApp
+          Entrar no grupo do WhatsApp
         </a>
         <p className="text-[0.82rem] text-white/70">Isso leva cerca de 1 minuto. Não feche a página. · {secs}s</p>
       </div>
