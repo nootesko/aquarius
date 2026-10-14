@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
-import { ArrowRight, Camera, Check, Download, ImageUp, RotateCcw, Share2, Sparkles, TriangleAlert, X } from 'lucide-react'
+import { ArrowDown, Camera, Check, Download, ImageUp, RotateCcw, Share2, Sparkles, TriangleAlert, X } from 'lucide-react'
 import { config, simulator } from '../content.js'
 import { RoadCompare } from '../sections/Solution.jsx'
 import { Commitment } from '../sections/Commitment.jsx'
@@ -76,6 +76,25 @@ function save(data) {
     } catch {
       /* sem espaço ou bloqueado: segue sem guardar */
     }
+  }
+}
+
+/* Nome e endereço ficam no aparelho para não precisar digitar de novo. */
+const LEAD_KEY = 'ruas-novas-cadastro'
+
+function loadLead() {
+  try {
+    return { nome: '', endereco: '', ...JSON.parse(localStorage.getItem(LEAD_KEY) ?? '{}') }
+  } catch {
+    return { nome: '', endereco: '' }
+  }
+}
+
+function saveLead(lead) {
+  try {
+    localStorage.setItem(LEAD_KEY, JSON.stringify(lead))
+  } catch {
+    /* bloqueado: segue sem guardar */
   }
 }
 
@@ -336,6 +355,9 @@ function Working({ photo }) {
 /* Verde do WhatsApp, escuro o bastante para o texto branco ter contraste. */
 const whatsBtn = 'bg-green-600 text-white shadow-[0_14px_30px_-16px_rgba(22,163,74,0.9)] hover:bg-green-700'
 
+const field =
+  'w-full rounded-xl border border-paper-300 bg-white px-4 py-3 text-[0.95rem] font-normal text-ink-900 outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-500/20'
+
 const btn =
   'inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[0.9rem] font-bold transition-colors outline-none focus-visible:ring-4 focus-visible:ring-brand-500'
 
@@ -346,6 +368,9 @@ function Simulator() {
   // idle | ready | working | done | error | used | soldOut
   const [status, setStatus] = useState(saved ? 'done' : 'idle')
   const [error, setError] = useState('')
+  const [lead, setLead] = useState(loadLead)
+  const leadOk = lead.nome.trim().length >= 2 && lead.endereco.trim().length >= 3
+  const setField = (k) => (e) => setLead((l) => ({ ...l, [k]: e.target.value }))
 
   /* Pergunta ao servidor se este aparelho já usou a vez ou se as vagas acabaram. */
   useEffect(() => {
@@ -379,7 +404,10 @@ function Simulator() {
     }
   }
 
-  const generate = async () => {
+  const generate = async (e) => {
+    e?.preventDefault()
+    if (!leadOk) return
+    saveLead(lead)
     setStatus('working')
     setError('')
     const ctrl = new AbortController()
@@ -388,7 +416,7 @@ function Simulator() {
       const r = await fetch('/api/ruas-novas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: photo.dataUrl, ratio: photo.ratio }),
+        body: JSON.stringify({ image: photo.dataUrl, ratio: photo.ratio, nome: lead.nome.trim(), endereco: lead.endereco.trim() }),
         signal: ctrl.signal,
       })
       const data = await r.json().catch(() => ({}))
@@ -451,12 +479,23 @@ function Simulator() {
           <p className="mt-5 text-center text-[0.85rem] text-ink-600">
             <strong className="font-semibold text-ink-900">Cada morador pode gerar uma simulação.</strong> Confira se é a foto certa.
           </p>
+          <form id="cadastro" onSubmit={generate} className="mx-auto mt-5 grid max-w-xl gap-3 sm:grid-cols-2">
+            <label className="block text-[0.8rem] font-semibold text-ink-700">
+              Seu nome
+              <input className={`${field} mt-1.5`} value={lead.nome} onChange={setField('nome')} autoComplete="name" maxLength={120} required />
+            </label>
+            <label className="block text-[0.8rem] font-semibold text-ink-700">
+              Seu endereço (rua e número)
+              <input className={`${field} mt-1.5`} value={lead.endereco} onChange={setField('endereco')} autoComplete="street-address" maxLength={120} required />
+            </label>
+            <p className="text-[0.75rem] text-ink-500 sm:col-span-2">Seus dados ficam só com a chapa e não aparecem na imagem.</p>
+          </form>
           <div className="mt-4 flex flex-col-reverse gap-3 sm:flex-row sm:justify-center">
             <button type="button" onClick={reset} className={`${btn} bg-paper-100 text-ink-700 ring-1 ring-paper-300 ring-inset hover:bg-paper-200`}>
               <RotateCcw size={16} strokeWidth={2.6} aria-hidden="true" />
               Trocar foto
             </button>
-            <button type="button" onClick={generate} className={`${btn} bg-gold-400 text-navy-900 hover:bg-gold-300`}>
+            <button type="submit" form="cadastro" disabled={!leadOk} className={`${btn} bg-gold-400 text-navy-900 hover:bg-gold-300 disabled:cursor-not-allowed disabled:opacity-50`}>
               <Sparkles size={17} strokeWidth={2.6} aria-hidden="true" />
               {status === 'error' ? 'Tentar de novo' : 'Ver com bloquete'}
             </button>
@@ -518,19 +557,14 @@ export function RuasNovas() {
               </span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-[1.02rem] leading-relaxed text-white/85 sm:text-[1.1rem]">{simulator.lead}</p>
-            <a
-              href={config.whatsappGroupUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${btn} ${whatsBtn} group mt-7`}
-            >
-              <WhatsAppIcon size={18} />
-              Entre no WhatsApp e faça parte dessa mudança
-              <ArrowRight size={16} strokeWidth={2.6} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            <a href="#simulador" className={`${btn} group mt-7 bg-gold-400 text-navy-900 shadow-[0_14px_30px_-16px_rgba(255,204,0,0.8)] hover:bg-gold-300`}>
+              <Sparkles size={17} strokeWidth={2.6} aria-hidden="true" />
+              Fazer simulação
+              <ArrowDown size={16} strokeWidth={2.6} className="transition-transform group-hover:translate-y-0.5" aria-hidden="true" />
             </a>
           </div>
 
-          <div className="mx-auto mt-10 max-w-4xl sm:mt-14">
+          <div id="simulador" className="mx-auto mt-10 max-w-4xl scroll-mt-6 sm:mt-14">
             <Simulator />
             <p className="mt-5 text-center text-[0.78rem] leading-relaxed text-white/60">{simulator.disclaimer}</p>
           </div>

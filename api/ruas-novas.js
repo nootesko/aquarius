@@ -7,9 +7,7 @@
      OPENAI_IMAGE_QUALITY  low | medium | high (padrão medium)
      SIMULADOR_MAX         teto de gerações no total (padrão 700)
      SIMULADOR_POR_IP      gerações por conexão/IP (padrão 3)
-     KV_REST_API_URL / KV_REST_API_TOKEN   Redis da Upstash (a integração da Vercel cria sozinha;
-       também aceita UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN). Sem Redis, os contadores
-       ficam só na memória da função e zeram quando ela reinicia — não use assim em produção.
+     KV_REST_API_URL / KV_REST_API_TOKEN   Redis da Upstash (veja api/_store.js)
 
    Limites, do mais fácil ao mais difícil de burlar:
      1. cookie: uma geração por aparelho/navegador;
@@ -18,9 +16,11 @@
    Geração que falha devolve a vaga.
 
    GET  → { used, soldOut }
-   POST { image: "data:image/jpeg;base64,...", ratio: largura/altura } → { image } ou { error, code } */
+   POST { image: "data:image/jpeg;base64,...", ratio: largura/altura, nome, endereco } → { image } ou { error, code }
+   Nome e endereço ficam guardados para a chapa (veja /api/painel). */
 
 import { createHash } from 'node:crypto'
+import { LEADS_KEY, send, store } from './_store.js'
 
 const PROMPT =
   'Substitua a rua de terra por uma rua de bloquete sextavado, com guia (meio-fio) de concreto nas duas laterais. Não faça calçadas: depois da guia tem que ser grama, uma grama bem cortada e cuidada.'
@@ -32,47 +32,10 @@ const PER_IP = Number(process.env.SIMULADOR_POR_IP) || 3
 const COOKIE = 'rn_usado'
 const TOTAL_KEY = 'ruas-novas:total'
 
-/* ---------------- contadores: Redis (Upstash REST) ou memória ---------------- */
-const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL
-const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN
-
-async function redis(...cmd) {
-  const r = await fetch(REDIS_URL, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
-    body: JSON.stringify(cmd),
-  })
-  const data = await r.json()
-  if (!r.ok || data.error) throw new Error(`redis: ${data.error ?? r.status}`)
-  return data.result
-}
-
-const mem = new Map()
-const store =
-  REDIS_URL && REDIS_TOKEN
-    ? {
-        incr: (k) => redis('INCR', k),
-        decr: (k) => redis('DECR', k),
-        get: async (k) => Number(await redis('GET', k)) || 0,
-      }
-    : {
-        incr: async (k) => mem.set(k, (mem.get(k) ?? 0) + 1).get(k),
-        decr: async (k) => mem.set(k, (mem.get(k) ?? 0) - 1).get(k),
-        get: async (k) => mem.get(k) ?? 0,
-      }
-
 /* O IP não é guardado: vira um hash curto. */
 const ipKey = (ip) => `ruas-novas:ip:${createHash('sha256').update(`aquarius:${ip}`).digest('hex').slice(0, 24)}`
 
 /* ---------------- utilitários HTTP ---------------- */
-function send(res, status, body, headers = {}) {
-  res.statusCode = status
-  res.setHeader('Content-Type', 'application/json; charset=utf-8')
-  res.setHeader('Cache-Control', 'no-store')
-  for (const [k, v] of Object.entries(headers)) res.setHeader(k, v)
-  res.end(JSON.stringify(body))
-}
-
 const hasCookie = (req) => new RegExp(`(?:^|;\\s*)${COOKIE}=`).test(req.headers.cookie ?? '')
 
 function usedCookie(req) {
@@ -99,6 +62,8 @@ function sizeFor(ratio) {
   if (ratio <= 1 / 1.2) return '1024x1536'
   return '1024x1024'
 }
+
+const clean = (v) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, 120)
 
 const FAIL = 'Não conseguimos gerar a simulação agora. Tente novamente em instantes.'
 const USED = 'Você já fez a sua simulação. Cada morador pode gerar uma imagem.'
@@ -129,6 +94,12 @@ export default async function handler(req, res) {
   const bytes = Buffer.from(match[2], 'base64')
   if (bytes.length > MAX_BYTES) return send(res, 413, { error: 'A foto ficou grande demais. Tente outra.' })
 
+  const nome = clean(body.nome)
+  const endereco = clean(body.endereco)
+  if (nome.length < 2 || endereco.length < 3) {
+    return send(res, 400, { error: 'Preencha seu nome e endereço para fazer a simulação.', code: 'lead' })
+  }
+
   /* Reserva a vaga antes de chamar a OpenAI (INCR é atômico: dois pedidos ao mesmo tempo
      não furam o teto). Se der errado lá na frente, devolve. */
   const ip = String(req.headers['x-forwarded-for'] ?? req.socket?.remoteAddress ?? '').split(',')[0].trim()
@@ -154,6 +125,11 @@ export default async function handler(req, res) {
     await release()
     return send(res, 503, { error: FAIL })
   }
+
+  /* Guarda o cadastro antes de gerar: se a geração falhar, a chapa ainda tem o contato. */
+  await store
+    .lpush(LEADS_KEY, JSON.stringify({ nome, endereco, em: new Date().toISOString() }))
+    .catch((e) => console.error('[ruas-novas] cadastro', e))
 
   const model = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2'
   const form = new FormData()
