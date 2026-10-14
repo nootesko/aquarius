@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banner de Rua</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&display=swap" rel="stylesheet">
+<style>
+  /* Cada banner é desenhado em 3000 × 1000 (proporção 3:1 — ex.: 3 m × 1 m).
+     1u = 1px desse desenho, então tudo escala junto. */
+  :root {
+    --azul: #0b5fd6;
+    --azul-escuro: #0a1f44;
+    --amarelo: #ffcd00;
+    --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a1f44' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #d9dde3;
+    font-family: 'Archivo', system-ui, sans-serif;
+    padding: 32px 16px 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
+  }
+  .versao { width: min(100%, 1500px); }
+  .versao h2 {
+    font: 700 18px/1.3 system-ui, sans-serif;
+    color: #1d2633;
+    margin-bottom: 4px;
+  }
+  .versao p {
+    font: 400 14px/1.45 system-ui, sans-serif;
+    color: #4a5260;
+    margin-bottom: 12px;
+    max-width: 900px;
+  }
+  .palco {
+    width: 100%;
+    aspect-ratio: 3 / 1;
+    container-type: inline-size;
+    box-shadow: 0 10px 40px rgba(0,0,0,.25);
+  }
+  .banner {
+    --u: calc(100cqw / 3000);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    color: var(--azul-escuro);
+  }
+  .banner img { display: block; width: 100%; height: auto; }
+
+  /* peças comuns */
+  .lista { list-style: none; display: flex; flex-direction: column; }
+  .lista li {
+    display: flex;
+    align-items: center;
+    font-weight: 900;
+    font-stretch: 75%;
+    line-height: 1;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .lista li::before {
+    content: "";
+    flex: none;
+    border-radius: 50%;
+    background: var(--amarelo) var(--check) center / 62% no-repeat;
+  }
+  .up { text-transform: uppercase; }
+
+  /* ───────── VERSÃO 1 — Três colunas (logo | propostas | chapa) ───────── */
+  .v1 {
+    background: #fff;
+    display: grid;
+    grid-template-columns: calc(1000 * var(--u)) 1fr calc(820 * var(--u));
+    grid-template-rows: 1fr calc(190 * var(--u));
+    column-gap: calc(60 * var(--u));
+    padding: calc(50 * var(--u)) calc(80 * var(--u)) 0 calc(40 * var(--u));
+  }
+  .v1::before {
+    content: ""; position: absolute; inset: 0 0 auto 0;
+    height: calc(24 * var(--u));
+    background: linear-gradient(90deg, var(--azul) 0 70%, var(--amarelo) 70% 100%);
+  }
+  .v1 .logo { grid-row: 1 / 3; align-self: center; }
+  .v1 .lista { align-self: center; gap: calc(34 * var(--u)); }
+  .v1 .lista li { font-size: calc(100 * var(--u)); gap: calc(36 * var(--u)); }
+  .v1 .lista li::before { width: calc(90 * var(--u)); height: calc(90 * var(--u)); }
+  .v1 .chapa { align-self: center; display: flex; flex-direction: column; gap: calc(40 * var(--u)); }
+  .v1 .cargo {
+    background: var(--amarelo);
+    border-radius: calc(44 * var(--u));
+    padding: calc(34 * var(--u)) calc(40 * var(--u)) calc(38 * var(--u));
+    text-align: center;
+    box-shadow: 0 calc(10 * var(--u)) 0 var(--azul-escuro);
+  }
+  .v1 .nome { display: block; font-weight: 900; font-stretch: 80%; font-size: calc(160 * var(--u)); line-height: .95; }
+  .v1 .funcao { display: block; margin-top: calc(10 * var(--u)); font-weight: 800; font-size: calc(58 * var(--u)); letter-spacing: .04em; }
+  .v1 .site {
+    grid-column: 2 / 4; align-self: start;
+    background: var(--azul); color: #fff;
+    border-radius: calc(40 * var(--u));
+    height: calc(150 * var(--u));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-stretch: 85%; font-size: calc(104 * var(--u));
+  }
+
+  /* ───────── VERSÃO 2 — Fundo escuro, nomes no topo ───────── */
+  .v2 {
+    background:
+      radial-gradient(ellipse at 18% 50%, #16408a 0%, transparent 60%),
+      var(--azul-escuro);
+    color: #fff;
+    display: grid;
+    grid-template-columns: calc(1080 * var(--u)) 1fr;
+    padding: calc(40 * var(--u)) calc(90 * var(--u)) calc(40 * var(--u)) calc(30 * var(--u));
+    column-gap: calc(50 * var(--u));
+  }
+  .v2 .logo { align-self: center; }
+  .v2 .direita {
+    display: flex; flex-direction: column; justify-content: center;
+    gap: calc(56 * var(--u));
+  }
+  .v2 .nomes { display: flex; align-items: stretch; gap: calc(60 * var(--u)); }
+  .v2 .nomes > div { flex: 1; }
+  .v2 .nomes .sep { flex: none; width: calc(8 * var(--u)); background: var(--amarelo); border-radius: 99px; }
+  .v2 .nome { display: block; font-weight: 900; font-stretch: 80%; font-size: calc(220 * var(--u)); line-height: .9; color: var(--amarelo); }
+  .v2 .funcao { display: block; margin-top: calc(14 * var(--u)); font-weight: 800; font-size: calc(62 * var(--u)); letter-spacing: .06em; }
+  .v2 .lista {
+    display: grid; grid-template-columns: auto auto;
+    justify-content: start;
+    column-gap: calc(90 * var(--u)); row-gap: calc(30 * var(--u));
+  }
+  .v2 .lista li { font-size: calc(86 * var(--u)); gap: calc(28 * var(--u)); }
+  .v2 .lista li::before { width: calc(76 * var(--u)); height: calc(76 * var(--u)); }
+  .v2 .site {
+    align-self: start;
+    background: var(--amarelo); color: var(--azul-escuro);
+    border-radius: calc(36 * var(--u));
+    padding: calc(22 * var(--u)) calc(60 * var(--u));
+    font-weight: 900; font-stretch: 85%; font-size: calc(96 * var(--u)); line-height: 1;
+  }
+
+  /* ───────── VERSÃO 3 — Logo no centro, simétrica ───────── */
+  .v3 {
+    background: #fff;
+    display: grid;
+    grid-template-columns: 1fr calc(1060 * var(--u)) 1fr;
+    grid-template-rows: 1fr calc(200 * var(--u));
+  }
+  .v3::before {
+    content: ""; position: absolute; inset: 0 0 auto 0;
+    height: calc(30 * var(--u)); background: var(--amarelo);
+  }
+  .v3 .lista {
+    align-self: center; justify-self: center;
+    gap: calc(36 * var(--u));
+    padding-top: calc(30 * var(--u));
+  }
+  .v3 .lista li { font-size: calc(98 * var(--u)); gap: calc(30 * var(--u)); }
+  .v3 .lista li::before { width: calc(84 * var(--u)); height: calc(84 * var(--u)); }
+  .v3 .logo {
+    align-self: center;
+    padding: calc(40 * var(--u)) 0 calc(10 * var(--u));
+  }
+  .v3 .chapa {
+    align-self: center; justify-self: center; text-align: center;
+    display: flex; flex-direction: column; gap: calc(44 * var(--u));
+    padding-top: calc(30 * var(--u));
+  }
+  .v3 .nome { display: block; font-weight: 900; font-stretch: 80%; font-size: calc(190 * var(--u)); line-height: .9; color: var(--azul); }
+  .v3 .funcao {
+    display: inline-block; margin-top: calc(14 * var(--u));
+    background: var(--amarelo);
+    padding: calc(8 * var(--u)) calc(30 * var(--u));
+    border-radius: calc(14 * var(--u));
+    font-weight: 800; font-size: calc(56 * var(--u)); letter-spacing: .05em;
+  }
+  .v3 .site {
+    grid-column: 1 / 4;
+    background: var(--azul-escuro); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    letter-spacing: .02em;
+    font-weight: 900; font-stretch: 85%; font-size: calc(110 * var(--u));
+  }
+</style>
+</head>
+<body>
+
+  <section class="versao">
+    <h2>Versão 1: Três colunas</h2>
+    <p>Lê da esquerda para a direita: marca, propostas, quem é a chapa e, no fim, o site. É a mais próxima da sua referência e a mais organizada.</p>
+    <div class="palco">
+      <div class="banner v1">
+        <div class="logo"><img src="/assets/logo-banner.png" alt="Chapa Aquarius Sem Buracos"></div>
+        <ul class="lista">
+          <li>Pavimentação</li>
+          <li>Podas e coletas</li>
+          <li>Aplicativo</li>
+          <li>Feiras no CCR</li>
+        </ul>
+        <div class="chapa up">
+          <div class="cargo"><span class="nome">Fabi</span><span class="funcao">Presidente</span></div>
+          <div class="cargo"><span class="nome">Latrofe</span><span class="funcao">Vice-presidente</span></div>
+        </div>
+        <div class="site up">aquariussemburacos.com.br</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="versao">
+    <h2>Versão 2: Fundo escuro, nomes em destaque</h2>
+    <p>O fundo azul-marinho faz o logo e o amarelo saltarem na rua, inclusive no fim da tarde. Os nomes ficam no topo e são os maiores textos do banner. As propostas vêm em duas colunas logo abaixo.</p>
+    <div class="palco">
+      <div class="banner v2">
+        <div class="logo"><img src="/assets/logo-banner.png" alt="Chapa Aquarius Sem Buracos"></div>
+        <div class="direita up">
+          <div class="nomes">
+            <div><span class="nome">Fabi</span><span class="funcao">Presidente</span></div>
+            <div class="sep"></div>
+            <div><span class="nome">Latrofe</span><span class="funcao">Vice-presidente</span></div>
+          </div>
+          <ul class="lista">
+            <li>Pavimentação</li>
+            <li>Aplicativo</li>
+            <li>Podas e coletas</li>
+            <li>Feiras no CCR</li>
+          </ul>
+          <div class="site">aquariussemburacos.com.br</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="versao">
+    <h2>Versão 3: Logo no centro</h2>
+    <p>O logo fica no meio, que é onde o olho bate primeiro, com o site numa faixa escura que atravessa o banner todo. As propostas ficam de um lado e os nomes do outro. É simétrica e funciona bem num muro ou grade comprida.</p>
+    <div class="palco">
+      <div class="banner v3">
+        <ul class="lista">
+          <li>Pavimentação</li>
+          <li>Podas e coletas</li>
+          <li>Aplicativo</li>
+          <li>Feiras no CCR</li>
+        </ul>
+        <div class="logo"><img src="/assets/logo-banner.png" alt="Chapa Aquarius Sem Buracos"></div>
+        <div class="chapa up">
+          <div><span class="nome">Fabi</span><br><span class="funcao">Presidente</span></div>
+          <div><span class="nome">Latrofe</span><br><span class="funcao">Vice-presidente</span></div>
+        </div>
+        <div class="site up">aquariussemburacos.com.br</div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
