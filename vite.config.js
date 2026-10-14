@@ -31,6 +31,7 @@ export default defineConfig(({ mode }) => {
           apresentacao: resolve(import.meta.dirname, 'apresentacao/index.html'),
           ruasNovas: resolve(import.meta.dirname, 'ruas-novas/index.html'),
           calcamento: resolve(import.meta.dirname, 'calcamento/index.html'),
+          banner: resolve(import.meta.dirname, 'banner/index.html'),
         },
       },
     },
