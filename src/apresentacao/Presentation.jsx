@@ -102,30 +102,6 @@ function MemberSlide({ m, index }) {
   )
 }
 
-function StreetsSlide() {
-  return (
-    <div className="flex flex-1 flex-col justify-center gap-6 bg-sun-50 px-6 py-8 lg:px-16">
-      <div>
-        <Kicker>Prioridade</Kicker>
-        <h2 className="display mt-2 text-[clamp(2rem,8vw,3.2rem)] leading-[0.95] text-ink-900 lg:text-[4rem]">
-          As {streets.length} ruas do Aquarius
-        </h2>
-      </div>
-      <ol className="grid gap-x-10 gap-y-2 sm:grid-cols-2 lg:gap-x-8 lg:gap-y-1">
-        {streets.map((st) => (
-          <li
-            key={st.name}
-            className="flex items-center gap-3 border-b border-gold-400/40 py-2.5 text-[1.2rem] font-semibold text-ink-900 lg:py-3 lg:text-[1.5rem]"
-          >
-            <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full bg-gold-400" />
-            {st.name}
-          </li>
-        ))}
-      </ol>
-    </div>
-  )
-}
-
 /* ---------------- Antes e depois (fotos reais + simulação) ---------------- */
 const featuredStreet = streets.find((st) => st.name === defaultStreet)
 const otherStreets = streets.filter((st) => st.photos.length && st !== featuredStreet).slice(0, 3)
@@ -336,7 +312,6 @@ function ClosingSlide() {
 const SLIDES = [
   { id: 'capa', label: 'Capa', render: () => <CoverSlide /> },
   ...members.map((m, i) => ({ id: m.id, label: m.name, render: () => <MemberSlide m={m} index={i} /> })),
-  { id: 'ruas', label: 'As ruas', render: () => <StreetsSlide /> },
   { id: 'portaria', label: 'Antes e depois: portaria', render: () => <PortariaSlide /> },
   { id: 'antes-depois', label: 'Antes e depois: outras ruas', render: () => <StreetsCompareSlide /> },
   { id: 'compromisso', label: 'Nosso compromisso', render: () => <CommitmentSlide /> },
