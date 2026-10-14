@@ -23,7 +23,8 @@ export const config = {
   electionDate: '',
 }
 
-export const whatsappLink = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(config.whatsappMessage)}`
+/* Todos os botões de WhatsApp do site levam ao grupo dos moradores. */
+export const whatsappLink = config.whatsappGroupUrl
 
 export const nav = [
   { id: 'ruas', label: 'Ruas' },

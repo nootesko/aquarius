@@ -21,7 +21,7 @@ export function FloatingWhatsApp() {
           whileHover={reduce ? undefined : { scale: 1.08 }}
           whileTap={{ scale: 0.94 }}
           transition={SPRING.pop}
-          aria-label="Falar com a chapa no WhatsApp"
+          aria-label="Entrar no grupo do WhatsApp"
           className="group fixed right-4 bottom-4 z-40 grid h-14 w-14 place-items-center rounded-full bg-gold-400 text-navy-900 shadow-[0_14px_34px_-10px_rgba(255,204,0,0.75)] sm:right-6 sm:bottom-6"
         >
           {!reduce && (

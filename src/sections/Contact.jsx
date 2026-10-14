@@ -25,7 +25,7 @@ function WhatsAppCall() {
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-[1.02rem] font-bold">Prefere conversar?</span>
-        <span className="block text-[0.9rem] text-white/90">Chame a chapa no WhatsApp.</span>
+        <span className="block text-[0.9rem] text-white/90">Entre no nosso grupo do WhatsApp.</span>
       </span>
       <span className="hidden shrink-0 items-center gap-2 rounded-full bg-white px-5 py-3 text-[0.75rem] font-bold tracking-[0.12em] text-[#25d366] uppercase sm:inline-flex">
         Abrir WhatsApp

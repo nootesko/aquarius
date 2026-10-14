@@ -302,7 +302,7 @@ function ClosingSlide() {
         className="mt-2 inline-flex items-center gap-3 rounded-full bg-gold-400 px-7 py-4 text-[1.1rem] font-bold tracking-[0.08em] text-navy-900 uppercase lg:px-9 lg:py-5 lg:text-[1.4rem]"
       >
         <WhatsAppIcon size={24} />
-        Fale com a chapa
+        Entre no nosso grupo
       </a>
       <p className="text-[1.2rem] text-white/90 lg:text-[1.6rem]">{closing.cta}</p>
     </div>
