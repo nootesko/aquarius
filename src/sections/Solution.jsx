@@ -14,9 +14,6 @@ import { Reveal } from '../components/Reveal.jsx'
 import { RoadAfter, RoadBefore } from '../components/RoadScene.jsx'
 import { EASE, SPRING } from '../lib/motion.js'
 
-/* Botão para /ruas-novas escondido por enquanto; volte para true para mostrar. */
-const SHOW_SIMULATOR = false
-
 const clamp = (v, min = 4, max = 96) => Math.min(max, Math.max(min, v))
 
 /* ------------------------------------------------------------------ *
@@ -335,7 +332,6 @@ export function Solution() {
             <StreetTabs active={active} onPick={pickStreet} />
           </Reveal>
 
-          {SHOW_SIMULATOR && (
           <Reveal className="mt-8 flex justify-center" delay={0.15}>
             <a
               href="/ruas-novas/"
@@ -346,7 +342,6 @@ export function Solution() {
               <ArrowRight size={16} strokeWidth={2.6} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </a>
           </Reveal>
-          )}
         </div>
       </div>
     </section>
