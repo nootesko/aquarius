@@ -16,8 +16,8 @@
    Geração que falha devolve a vaga.
 
    GET  → { used, soldOut }
-   POST { image: "data:image/jpeg;base64,...", ratio: largura/altura, nome, endereco } → { image } ou { error, code }
-   Nome e endereço ficam guardados para a chapa (veja /api/painel). */
+   POST { image: "data:image/jpeg;base64,...", ratio: largura/altura, nome, whatsapp } → { image } ou { error, code }
+   Nome e WhatsApp ficam guardados para a chapa (veja /api/painel). */
 
 import { createHash } from 'node:crypto'
 import { LEADS_KEY, send, store } from './_store.js'
@@ -95,9 +95,9 @@ export default async function handler(req, res) {
   if (bytes.length > MAX_BYTES) return send(res, 413, { error: 'A foto ficou grande demais. Tente outra.' })
 
   const nome = clean(body.nome)
-  const endereco = clean(body.endereco)
-  if (nome.length < 2 || endereco.length < 3) {
-    return send(res, 400, { error: 'Preencha seu nome e endereço para fazer a simulação.', code: 'lead' })
+  const whatsapp = String(body.whatsapp ?? '').replace(/\D/g, '')
+  if (nome.length < 2 || whatsapp.length < 10 || whatsapp.length > 13) {
+    return send(res, 400, { error: 'Preencha seu nome e WhatsApp com DDD para fazer a simulação.', code: 'lead' })
   }
 
   /* Reserva a vaga antes de chamar a OpenAI (INCR é atômico: dois pedidos ao mesmo tempo
@@ -128,7 +128,7 @@ export default async function handler(req, res) {
 
   /* Guarda o cadastro antes de gerar: se a geração falhar, a chapa ainda tem o contato. */
   await store
-    .lpush(LEADS_KEY, JSON.stringify({ nome, endereco, em: new Date().toISOString() }))
+    .lpush(LEADS_KEY, JSON.stringify({ nome, whatsapp, em: new Date().toISOString() }))
     .catch((e) => console.error('[ruas-novas] cadastro', e))
 
   const model = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-2'

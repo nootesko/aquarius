@@ -79,15 +79,24 @@ function save(data) {
   }
 }
 
-/* Nome e endereço ficam no aparelho para não precisar digitar de novo. */
+/* Nome e WhatsApp ficam no aparelho para não precisar digitar de novo. */
 const LEAD_KEY = 'ruas-novas-cadastro'
 
 function loadLead() {
   try {
-    return { nome: '', endereco: '', ...JSON.parse(localStorage.getItem(LEAD_KEY) ?? '{}') }
+    return { nome: '', whatsapp: '', ...JSON.parse(localStorage.getItem(LEAD_KEY) ?? '{}') }
   } catch {
-    return { nome: '', endereco: '' }
+    return { nome: '', whatsapp: '' }
   }
+}
+
+/* (15) 99999-9999 enquanto digita */
+function formatPhone(v) {
+  const d = v.replace(/\D/g, '').slice(0, 11)
+  if (d.length <= 2) return d.length ? `(${d}` : ''
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`
 }
 
 function saveLead(lead) {
@@ -369,7 +378,8 @@ function Simulator() {
   const [status, setStatus] = useState(saved ? 'done' : 'idle')
   const [error, setError] = useState('')
   const [lead, setLead] = useState(loadLead)
-  const leadOk = lead.nome.trim().length >= 2 && lead.endereco.trim().length >= 3
+  const phoneDigits = lead.whatsapp.replace(/\D/g, '')
+  const leadOk = lead.nome.trim().length >= 2 && phoneDigits.length >= 10 && phoneDigits.length <= 13
   const setField = (k) => (e) => setLead((l) => ({ ...l, [k]: e.target.value }))
 
   /* Pergunta ao servidor se este aparelho já usou a vez ou se as vagas acabaram. */
@@ -416,7 +426,7 @@ function Simulator() {
       const r = await fetch('/api/ruas-novas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: photo.dataUrl, ratio: photo.ratio, nome: lead.nome.trim(), endereco: lead.endereco.trim() }),
+        body: JSON.stringify({ image: photo.dataUrl, ratio: photo.ratio, nome: lead.nome.trim(), whatsapp: phoneDigits }),
         signal: ctrl.signal,
       })
       const data = await r.json().catch(() => ({}))
@@ -485,8 +495,18 @@ function Simulator() {
               <input className={`${field} mt-1.5`} value={lead.nome} onChange={setField('nome')} autoComplete="name" maxLength={120} required />
             </label>
             <label className="block text-[0.8rem] font-semibold text-ink-700">
-              Seu endereço (rua e número)
-              <input className={`${field} mt-1.5`} value={lead.endereco} onChange={setField('endereco')} autoComplete="street-address" maxLength={120} required />
+              Seu WhatsApp (com DDD)
+              <input
+                className={`${field} mt-1.5`}
+                type="tel"
+                inputMode="tel"
+                placeholder="(15) 99999-9999"
+                value={lead.whatsapp}
+                onChange={(e) => setLead((l) => ({ ...l, whatsapp: formatPhone(e.target.value) }))}
+                autoComplete="tel-national"
+                maxLength={20}
+                required
+              />
             </label>
             <p className="text-[0.75rem] text-ink-500 sm:col-span-2">Seus dados ficam só com a chapa e não aparecem na imagem.</p>
           </form>

@@ -47,5 +47,5 @@ export function send(res, status, body, headers = {}) {
   res.end(JSON.stringify(body))
 }
 
-/* Cadastros de quem pediu uma simulação (nome e endereço), o mais recente primeiro. */
+/* Cadastros de quem pediu uma simulação (nome e WhatsApp), o mais recente primeiro. */
 export const LEADS_KEY = 'ruas-novas:cadastros'

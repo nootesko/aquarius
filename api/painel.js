@@ -1,10 +1,10 @@
-/* /api/painel — lista os cadastros (nome e endereço) de quem pediu simulação.
+/* /api/painel — lista os cadastros (nome e WhatsApp) de quem pediu simulação.
 
    Login por Basic Auth, conferido aqui no servidor. Usuário e senha vêm das variáveis de
    ambiente PAINEL_USUARIO e PAINEL_SENHA (configure na Vercel). Sem elas, o painel fica fechado:
    o repositório é público, então a senha nunca vai no código.
 
-   GET (Authorization: Basic ...) → { itens: [{ nome, endereco, em }], persistente } */
+   GET (Authorization: Basic ...) → { itens: [{ nome, whatsapp, em }], persistente } */
 
 import { timingSafeEqual } from 'node:crypto'
 import { LEADS_KEY, persistent, send, store } from './_store.js'

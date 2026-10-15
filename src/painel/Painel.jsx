@@ -26,9 +26,19 @@ const writeAuth = (v) => {
 const fmt = (iso) =>
   new Date(iso).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })
 
+/* Números são guardados só com dígitos; sem o 55 na frente, é do Brasil. */
+const waNumber = (d) => (d.length <= 11 ? `55${d}` : d)
+
+function phone(d) {
+  const n = d.length > 11 && d.startsWith('55') ? d.slice(2) : d
+  if (n.length === 11) return `(${n.slice(0, 2)}) ${n.slice(2, 7)}-${n.slice(7)}`
+  if (n.length === 10) return `(${n.slice(0, 2)}) ${n.slice(2, 6)}-${n.slice(6)}`
+  return d
+}
+
 function toCsv(itens) {
   const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`
-  const rows = [['Data', 'Nome', 'Endereço'], ...itens.map((i) => [fmt(i.em), i.nome, i.endereco])]
+  const rows = [['Data', 'Nome', 'WhatsApp'], ...itens.map((i) => [fmt(i.em), i.nome, i.whatsapp ? phone(i.whatsapp) : (i.endereco ?? '')])]
   return '﻿' + rows.map((r) => r.map(cell).join(';')).join('\r\n')
 }
 
@@ -175,7 +185,7 @@ function Lista({ auth, data, onData, onLogout }) {
               <tr>
                 <th className="px-4 py-3 font-bold">Data</th>
                 <th className="px-4 py-3 font-bold">Nome</th>
-                <th className="px-4 py-3 font-bold">Endereço</th>
+                <th className="px-4 py-3 font-bold">WhatsApp</th>
               </tr>
             </thead>
             <tbody>
@@ -183,7 +193,15 @@ function Lista({ auth, data, onData, onLogout }) {
                 <tr key={`${i.em}-${n}`} className="border-t border-paper-200">
                   <td className="px-4 py-3 whitespace-nowrap text-ink-500">{fmt(i.em)}</td>
                   <td className="px-4 py-3 font-semibold text-ink-900">{i.nome}</td>
-                  <td className="px-4 py-3 text-ink-700">{i.endereco}</td>
+                  <td className="px-4 py-3 whitespace-nowrap text-ink-700">
+                    {i.whatsapp ? (
+                      <a href={`https://wa.me/${waNumber(i.whatsapp)}`} target="_blank" rel="noopener noreferrer" className="font-semibold text-green-700 hover:underline">
+                        {phone(i.whatsapp)}
+                      </a>
+                    ) : (
+                      <span className="text-ink-500">{i.endereco ?? '—'}</span>
+                    )}
+                  </td>
                 </tr>
               ))}
               {!itens.length && (
