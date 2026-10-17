@@ -107,16 +107,16 @@ export function createSeed() {
     {
       id: 'a1', nome: 'Quiosque 1', tipo: 'Quiosque', icon: 'tent', foto: '/assets/areas/quiosque-1.webp', cor: 'from-sky-600 to-sky-900',
       descricao: 'Churrasqueira, pia e mesa de madeira com bancos, no meio do gramado.',
-      capacidade: 30, taxa: 50, slots: ['Manhã · 08h às 13h', 'Tarde · 13h às 18h', 'Noite · 18h às 22h'],
+      capacidade: 30, taxa: 50, slots: ['Dia inteiro · 08h às 22h'],
       antecedenciaDias: 2, limiteMes: 2, exigeAprovacao: false, ativo: true,
-      regras: ['Limpeza por conta do morador até o fim do período.', 'Som em volume moderado; silêncio após as 22h.', 'Convidados devem estar na lista de autorização.'],
+      regras: ['Limpeza por conta do morador até o fim do dia.', 'Som em volume moderado; silêncio após as 22h.', 'Convidados devem estar na lista de autorização.'],
     },
     {
       id: 'a2', nome: 'Quiosque 2', tipo: 'Quiosque', icon: 'tent', foto: '/assets/areas/quiosque-2.webp', cor: 'from-sky-600 to-sky-900',
       descricao: 'Churrasqueira, pia, mesa e cadeiras. Próximo ao playground.',
-      capacidade: 25, taxa: 50, slots: ['Manhã · 08h às 13h', 'Tarde · 13h às 18h', 'Noite · 18h às 22h'],
+      capacidade: 25, taxa: 50, slots: ['Dia inteiro · 08h às 22h'],
       antecedenciaDias: 2, limiteMes: 2, exigeAprovacao: false, ativo: true,
-      regras: ['Limpeza por conta do morador até o fim do período.', 'Proibido uso de vidro na área do playground.'],
+      regras: ['Limpeza por conta do morador até o fim do dia.', 'Proibido uso de vidro na área do playground.'],
     },
     {
       id: 'a4', nome: 'Campo de futebol', tipo: 'Esporte', icon: 'goal', foto: '/assets/areas/campo.webp', cor: 'from-sky-600 to-sky-900',
@@ -149,15 +149,15 @@ export function createSeed() {
   ]
 
   const reservations = [
-    { id: 'r1', areaId: 'a1', unitId: 'u1', personId: 'p1', data: addDays(t, 3), slot: 'Tarde · 13h às 18h', status: 'confirmada', convidados: 18, taxa: 50, criadaEm: at(-4) },
+    { id: 'r1', areaId: 'a1', unitId: 'u1', personId: 'p1', data: addDays(t, 3), slot: 'Dia inteiro · 08h às 22h', status: 'confirmada', convidados: 18, taxa: 50, criadaEm: at(-4) },
     { id: 'r2', areaId: 'a6', unitId: 'u1', personId: 'p1', data: addDays(t, 16), slot: 'Dia inteiro · 10h às 02h', status: 'pendente', convidados: 80, taxa: 350, criadaEm: at(-1, '20:14'), obs: 'Aniversário de 15 anos da Lívia' },
     { id: 'r3', areaId: 'a4', unitId: 'u1', personId: 'p2', data: addDays(t, -6), slot: '18h às 20h', status: 'concluída', convidados: 14, taxa: 0, criadaEm: at(-9) },
-    { id: 'r4', areaId: 'a2', unitId: 'u3', personId: 'p9', data: addDays(t, 3), slot: 'Noite · 18h às 22h', status: 'confirmada', convidados: 20, taxa: 50, criadaEm: at(-3) },
-    { id: 'r5', areaId: 'a1', unitId: 'u8', personId: 'p15', data: addDays(t, 5), slot: 'Manhã · 08h às 13h', status: 'confirmada', convidados: 12, taxa: 50, criadaEm: at(-2) },
+    { id: 'r4', areaId: 'a2', unitId: 'u3', personId: 'p9', data: addDays(t, 3), slot: 'Dia inteiro · 08h às 22h', status: 'confirmada', convidados: 20, taxa: 50, criadaEm: at(-3) },
+    { id: 'r5', areaId: 'a1', unitId: 'u8', personId: 'p15', data: addDays(t, 5), slot: 'Dia inteiro · 08h às 22h', status: 'confirmada', convidados: 12, taxa: 50, criadaEm: at(-2) },
     { id: 'r6', areaId: 'a4', unitId: 'u2', personId: 'p7', data: t, slot: '18h às 20h', status: 'confirmada', convidados: 16, taxa: 0, criadaEm: at(-5) },
     { id: 'r7', areaId: 'a5', unitId: 'u10', personId: 'p19', data: addDays(t, 1), slot: '08h às 10h', status: 'confirmada', convidados: 8, taxa: 0, criadaEm: at(-1) },
     { id: 'r8', areaId: 'a6', unitId: 'u12', personId: 'p22', data: addDays(t, 9), slot: 'Dia inteiro · 10h às 02h', status: 'pendente', convidados: 60, taxa: 350, criadaEm: at(-2), obs: 'Chá de bebê' },
-    { id: 'r9', areaId: 'a2', unitId: 'u4', personId: 'p11', data: t, slot: 'Tarde · 13h às 18h', status: 'confirmada', convidados: 25, taxa: 50, criadaEm: at(-6) },
+    { id: 'r9', areaId: 'a2', unitId: 'u4', personId: 'p11', data: t, slot: 'Dia inteiro · 08h às 22h', status: 'confirmada', convidados: 25, taxa: 50, criadaEm: at(-6) },
   ]
 
   const blocks = [

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Ban, Check, Lock, Pencil, Trash2, X } from 'lucide-react'
 import { areaById, personById, pushNotification, unitById, unitLabel, useStore } from '../lib/store.jsx'
-import { fmtDate, fmtMoney, today, uid } from '../lib/format.js'
+import { fmtDate, today, uid } from '../lib/format.js'
 import {
   AreaArt, Badge, Button, Card, Check as CheckBox, Empty, Field, Input, List, Modal, Notice, PageHeader, Row, SectionTitle, Select, StatusBadge, Table, Tabs, Td, Textarea, Toggle,
 } from '../ui/kit.jsx'
@@ -13,7 +13,7 @@ export function Areas() {
   const [edit, setEdit] = useState(null)
   return (
     <>
-      <PageHeader overline="Gestão" title="Áreas comuns e regras" lead="Horários, capacidade, taxas, limites e antecedência de cada espaço." />
+      <PageHeader overline="Gestão" title="Áreas comuns e regras" lead="Horários, capacidade, limites e antecedência de cada espaço." />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {db.areas.map((a) => (
           <Card key={a.id} padded={false} className="overflow-hidden">
@@ -29,8 +29,6 @@ export function Areas() {
               <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-[0.8rem]">
                 <dt className="text-ink-500">Capacidade</dt>
                 <dd className="font-semibold text-ink-900">{a.capacidade} pessoas</dd>
-                <dt className="text-ink-500">Taxa</dt>
-                <dd className="font-semibold text-ink-900">{fmtMoney(a.taxa)}</dd>
                 {a.semReserva ? (
                   <>
                     <dt className="text-ink-500">Reserva</dt>
@@ -99,9 +97,6 @@ function AreaEditor({ area, onClose }) {
       <form id="area-form" onSubmit={save} className="grid gap-4 sm:grid-cols-2">
         <Field label="Capacidade (pessoas)">
           <Input type="number" min={1} value={f.capacidade} onChange={num('capacidade')} />
-        </Field>
-        <Field label="Taxa (R$)">
-          <Input type="number" min={0} value={f.taxa} onChange={num('taxa')} />
         </Field>
         <Field label="Antecedência mínima (dias)">
           <Input type="number" min={0} value={f.antecedenciaDias} onChange={num('antecedenciaDias')} />
@@ -192,7 +187,7 @@ export function Reservations() {
       {filtered.length === 0 ? (
         <Empty title="Nenhuma reserva neste filtro" />
       ) : (
-        <Table head={['Data', 'Área', 'Unidade', 'Período', 'Convidados', 'Taxa', 'Situação', '']}>
+        <Table head={['Data', 'Área', 'Unidade', 'Período', 'Convidados', 'Situação', '']}>
           {filtered.map((r) => (
             <tr key={r.id}>
               <Td className="font-semibold whitespace-nowrap text-ink-900">{fmtDate(r.data)}</Td>
@@ -203,7 +198,6 @@ export function Reservations() {
               </Td>
               <Td className="text-[0.8rem] whitespace-nowrap text-ink-600">{r.slot}</Td>
               <Td>{r.convidados}</Td>
-              <Td className="whitespace-nowrap">{fmtMoney(r.taxa)}</Td>
               <Td>
                 <StatusBadge status={r.status} />
               </Td>

@@ -5,7 +5,7 @@ import { uid } from './format.js'
 /* Estado da demonstração: tudo em memória, com cópia no localStorage para sobreviver
    ao recarregar. Não existe banco; "Restaurar demonstração" volta aos dados fictícios. */
 
-const DATA_KEY = 'aquarius-demo-v13'
+const DATA_KEY = 'aquarius-demo-v14'
 const SESSION_KEY = 'aquarius-session-v1'
 
 const load = (key) => {

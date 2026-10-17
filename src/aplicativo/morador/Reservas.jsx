@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { CalendarX2, ChevronLeft, ChevronRight, ListChecks, Users } from 'lucide-react'
 import { areaById, pushNotification, unitById, unitLabel, useStore } from '../lib/store.jsx'
-import { addDays, fmtDate, fmtDateLong, fmtMoney, parseYmd, today, uid, ymd } from '../lib/format.js'
+import { addDays, fmtDate, fmtDateLong, parseYmd, today, uid, ymd } from '../lib/format.js'
 import { go } from '../lib/router.js'
 import { EASE } from '../lib/motion.js'
 import {
@@ -53,7 +53,7 @@ function Areas() {
               <div className="p-4">
                 <div className="flex items-start justify-between gap-2">
                   <p className="display text-[1.2rem] text-ink-900">{a.nome}</p>
-                  {a.semReserva ? <Badge tone="green">Uso livre</Badge> : <Badge tone={a.taxa ? 'gold' : 'blue'}>{fmtMoney(a.taxa)}</Badge>}
+                  {a.semReserva && <Badge tone="green">Uso livre</Badge>}
                 </div>
                 <p className="mt-1.5 line-clamp-2 text-[0.84rem] text-ink-600">{a.descricao}</p>
                 <p className="mt-3 flex items-center gap-1.5 text-[0.78rem] font-semibold text-ink-500">
@@ -73,8 +73,6 @@ function MyReservations({ list }) {
   const [cancel, setCancel] = useState(null)
   const upcoming = list.filter((r) => r.data >= today() && ACTIVE.includes(r.status)).sort((a, b) => a.data.localeCompare(b.data))
   const past = list.filter((r) => !upcoming.includes(r)).sort((a, b) => b.data.localeCompare(a.data))
-  const hoursLeft = cancel ? (parseYmd(cancel.data) - Date.now()) / 36e5 : 0
-  const free = hoursLeft >= db.settings.cancelamentoSemTaxaHoras
 
   const doCancel = () => {
     mutate(
@@ -104,7 +102,7 @@ function MyReservations({ list }) {
             {fmtDateLong(r.data)} · {r.slot}
           </p>
           <p className="mt-0.5 text-[0.8rem] text-ink-500">
-            {r.convidados} convidados · {fmtMoney(r.taxa)}
+            {r.convidados} convidados
             {r.obs && ` · ${r.obs}`}
           </p>
           {upcoming.includes(r) && (
@@ -162,12 +160,6 @@ function MyReservations({ list }) {
             <p>
               {areaById(db, cancel.areaId).nome} em {fmtDate(cancel.data)}, {cancel.slot}.
             </p>
-            {cancel.taxa > 0 &&
-              (free ? (
-                <Notice tone="green">Cancelamento com mais de {db.settings.cancelamentoSemTaxaHoras}h de antecedência: sem cobrança.</Notice>
-              ) : (
-                <Notice tone="gold">Faltam menos de {db.settings.cancelamentoSemTaxaHoras}h: a taxa de {fmtMoney(cancel.taxa)} será mantida, conforme o regimento.</Notice>
-              ))}
             <p className="text-ink-500">Listas de convidados ligadas a esta reserva também serão revogadas.</p>
           </div>
         )}
@@ -338,10 +330,6 @@ function AreaDetail({ areaId }) {
                   <dt className="text-ink-500">Capacidade</dt>
                   <dd className="font-bold text-ink-900">{area.capacidade} pessoas</dd>
                 </div>
-                <div>
-                  <dt className="text-ink-500">Taxa</dt>
-                  <dd className="font-bold text-ink-900">{fmtMoney(area.taxa)}</dd>
-                </div>
                 {!area.semReserva && (
                   <>
                     <div>
@@ -402,22 +390,15 @@ function BookingModal({ area, day, slot, onClose, onConfirm }) {
             {day && fmtDateLong(day)} · {slot}
           </p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Nº de convidados" hint={`Máximo de ${area.capacidade}`}>
-            <Input type="number" min={0} max={area.capacidade} value={form.convidados} onChange={(e) => setForm({ ...form, convidados: e.target.value })} />
-          </Field>
-          <Field label="Taxa de uso">
-            <p className="display pt-2 text-[1.5rem] text-ink-900">{fmtMoney(area.taxa)}</p>
-          </Field>
-        </div>
+        <Field label="Nº de convidados" hint={`Máximo de ${area.capacidade}`}>
+          <Input type="number" min={0} max={area.capacidade} value={form.convidados} onChange={(e) => setForm({ ...form, convidados: e.target.value })} />
+        </Field>
         <Field label="Observações" optional>
           <Textarea rows={2} value={form.obs} onChange={(e) => setForm({ ...form, obs: e.target.value })} placeholder="Ex.: aniversário da Lívia" />
         </Field>
-        {area.taxa > 0 && <Notice tone="gold">A taxa será lançada no próximo boleto do condomínio.</Notice>}
         {area.exigeAprovacao && <Notice>Este espaço exige aprovação da administração. Você será avisado assim que for analisado.</Notice>}
         <Check checked={accepted} onChange={setAccepted}>
-          Li e aceito as regras de uso do {area.nome.toLowerCase()}
-          {area.taxa > 0 ? ' e a cobrança da taxa' : ''}.
+          Li e aceito as regras de uso do {area.nome.toLowerCase()}.
         </Check>
       </div>
     </Modal>

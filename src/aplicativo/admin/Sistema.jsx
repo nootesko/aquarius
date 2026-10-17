@@ -15,7 +15,6 @@ const countBy = (items, key) =>
 export function Reports() {
   const { db } = useStore()
   const valid = db.reservations.filter((r) => !['cancelada', 'recusada'].includes(r.status))
-  const receita = valid.reduce((s, r) => s + (r.taxa || 0), 0)
   const resolvidas = db.requests.filter((r) => ['resolvida', 'encerrada'].includes(r.status)).length
   const habilitadas = db.units.filter((u) => u.status !== 'vazia').length
 
@@ -32,7 +31,6 @@ export function Reports() {
       <PageHeader overline="Sistema" title="Relatórios" lead="Uso dos espaços, atendimento e participação dos moradores." />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Stat label="Reservas no período" value={valid.length} />
-        <Stat label="Taxas de reserva" value={receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })} tone="gold" />
         <Stat label="Solicitações resolvidas" value={`${resolvidas}/${db.requests.length}`} tone="green" />
         <Stat label="Atividades com inscrição" value={db.activities.reduce((s, a) => s + a.inscritos.length, 0)} tone="navy" hint="inscrições no total" />
       </div>
