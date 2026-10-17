@@ -35,6 +35,7 @@ export default defineConfig(({ mode }) => {
           calcamento: resolve(import.meta.dirname, 'calcamento/index.html'),
           banner: resolve(import.meta.dirname, 'banner/index.html'),
           painel: resolve(import.meta.dirname, 'painel/index.html'),
+          aplicativo: resolve(import.meta.dirname, 'aplicativo/index.html'),
         },
       },
     },

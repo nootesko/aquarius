@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+/* Paleta e tipografia herdadas da Chapa Aquarius Sem Buracos. */
+@theme {
+  --color-navy-950: #050d1e;
+  --color-navy-900: #0a1730;
+  --color-navy-800: #0f2247;
+  --color-navy-700: #16305f;
+  --color-navy-600: #1d3d78;
+
+  --color-brand-700: #00429a;
+  --color-brand-600: #0057be;
+  --color-brand-500: #1b7be0;
+  --color-brand-400: #2b8fe8;
+  --color-brand-300: #6bb4f2;
+  --color-brand-100: #e3f0fd;
+  --color-brand-50: #f1f7fe;
+
+  --color-gold-600: #c99e00;
+  --color-gold-500: #e5b400;
+  --color-gold-400: #ffcc00;
+  --color-gold-300: #ffdd52;
+  --color-gold-100: #fff6cc;
+
+  --color-sky-800: #0a4fa8;
+  --color-sky-700: #0b5fc6;
+  --color-sky-600: #1373dd;
+  --color-sky-500: #2b8fe8;
+  --color-sky-300: #8cc8ff;
+  --color-sky-900: #0a3f8a;
+  --color-sky-950: #072d66;
+  --color-sky-975: #051f47;
+
+  --color-paper-50: #ffffff;
+  --color-paper-100: #f4f6f9;
+  --color-paper-200: #e9ecf1;
+  --color-paper-300: #dcdfe6;
+
+  /* Texto sobre fundo claro. Nunca usar gold-400 como texto aqui (1,6:1). */
+  --color-ink-900: #0a1730;
+  --color-ink-700: #33435c;
+  --color-ink-600: #4b5a6e;
+  --color-ink-500: #6b7889;
+  --color-gold-ink: #7a5c00;
+
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  /* Espaço da barra de rolagem sempre reservado: a tela não "pula" quando
+     a barra aparece ou some (troca de página, modal aberto). */
+  html {
+    -webkit-text-size-adjust: 100%;
+    scrollbar-gutter: stable;
+  }
+
+  /* Barra discreta, como no site da chapa */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-paper-100); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-paper-300);
+    border-radius: 999px;
+    border: 2px solid var(--color-paper-100);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-brand-300); }
+
+  body {
+    margin: 0;
+    background-color: var(--color-paper-100);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-gold-400);
+    color: var(--color-navy-900);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-gold-400);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Itens de grid podem encolher abaixo do conteúdo (tabelas, textos truncados) */
+  .grid > * { min-width: 0; }
+
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-stretch: 92%;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+/* Textura de calçamento intertravado */
+@utility paver-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-brand-400) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-brand-400) 12%, transparent) 1px, transparent 1px);
+  background-size: 56px 34px;
+}
+
+@utility paver-grid-light {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.09) 1px, transparent 1px);
+  background-size: 56px 34px;
+}
+
+@utility paver-grid-ink {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-ink-900) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-ink-900) 6%, transparent) 1px, transparent 1px);
+  background-size: 56px 34px;
+}
+
+@utility scroll-track {
+  overflow-x: auto;
+  scrollbar-width: none;
+}

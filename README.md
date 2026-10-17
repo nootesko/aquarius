@@ -177,3 +177,13 @@ As ilustrações da seção "A rua que temos e a rua que queremos" são **desenh
   Quando precisa de amarelo escrito, existe o token `gold-ink`; quando precisa de destaque,
   vira faixa amarela com texto navy.
 - Campos do formulário com rótulo visível, erro descrito em texto e `aria-invalid`.
+
+## Aplicativo (/aplicativo)
+
+Demonstração do aplicativo do condomínio, com dados fictícios e sem banco: tudo fica salvo no
+navegador (localStorage). Código em `src/aplicativo/`, fotos dos espaços em `public/assets/areas/`.
+
+- **Morador:** botão "Entrar como morador" na tela inicial.
+- **Administração e portaria:** link "Acesso da equipe", usuários `sindico` e `portaria`, senha `1234`.
+- Dados fictícios em `src/aplicativo/lib/seed.js`. Ao mudar a estrutura dos dados, troque a versão
+  da chave em `src/aplicativo/lib/store.jsx` (`aquarius-demo-vN`) para os navegadores recarregarem.
