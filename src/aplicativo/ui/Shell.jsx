@@ -7,12 +7,12 @@ import { timeAgo } from '../lib/format.js'
 import { EASE, SPRING } from '../lib/motion.js'
 import { Avatar, cx } from './kit.jsx'
 
-/* Moldura comum dos painéis: barra lateral azul-marinho (desktop), gaveta e barra
+/* Moldura comum dos painéis: barra lateral branca (desktop), gaveta e barra
    inferior (celular), cabeçalho com unidade, notificações e menu da conta. */
 
 export function Logo({ size = 'md' }) {
   const cls = { sm: 'h-10', md: 'h-[92px]', lg: 'h-36' }[size]
-  return <img src="/assets/logo-480.webp" alt="Chapa Aquarius Sem Buracos" className={cx('w-auto max-w-none shrink-0 self-start object-contain drop-shadow-[0_8px_18px_rgba(5,13,30,0.35)]', cls)} />
+  return <img src="/assets/logo-480.webp" alt="Chapa Aquarius Sem Buracos" className={cx('w-auto max-w-none shrink-0 self-start object-contain drop-shadow-[0_6px_12px_rgba(5,13,30,0.18)]', cls)} />
 }
 
 const PANEL_LABEL = { morador: 'Área do morador', admin: 'Administração', portaria: 'Portaria' }
@@ -22,7 +22,7 @@ function NavList({ panel, groups, active, onNavigate }) {
     <nav aria-label="Menu do painel" className="space-y-6">
       {groups.map((g) => (
         <div key={g.label ?? 'main'}>
-          {g.label && <p className="mb-2 px-3 text-[0.62rem] font-bold tracking-[0.22em] text-gold-300/90 uppercase">{g.label}</p>}
+          {g.label && <p className="mb-2 px-3 text-[0.62rem] font-bold tracking-[0.22em] text-brand-700 uppercase">{g.label}</p>}
           <ul className="space-y-0.5">
             {g.items.map((it) => {
               const on = active === it.id
@@ -34,7 +34,7 @@ function NavList({ panel, groups, active, onNavigate }) {
                     aria-current={on ? 'page' : undefined}
                     className={cx(
                       'relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[0.86rem] font-semibold transition-colors',
-                      on ? 'text-navy-900' : 'text-white/85 hover:bg-white/10 hover:text-white',
+                      on ? 'text-navy-900' : 'text-ink-700 hover:bg-paper-100 hover:text-ink-900',
                     )}
                   >
                     {on && <motion.span layoutId="side-pill" className="absolute inset-0 rounded-xl bg-gold-400" transition={SPRING.snappy} />}
@@ -281,13 +281,12 @@ export function Shell({ panel, groups, active, mobileTabs, children }) {
   return (
     <div className="min-h-screen lg:pl-[264px]">
       {/* Barra lateral (desktop) */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[264px] flex-col overflow-hidden bg-gradient-to-b from-sky-700 via-sky-800 to-sky-950 lg:flex">
-        <div className="paver-grid-light pointer-events-none absolute inset-0" aria-hidden="true" />
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[264px] flex-col overflow-hidden border-r border-paper-300 bg-white lg:flex">
         <div className="relative flex flex-col items-center px-5 pt-5 pb-4">
           <a href={href(panel)} aria-label="Início">
             <Logo />
           </a>
-          <p className="mt-4 inline-flex rounded-full bg-white/8 px-3 py-1 text-[0.68rem] font-bold tracking-[0.14em] text-white/80 uppercase ring-1 ring-white/10 ring-inset">
+          <p className="mt-4 inline-flex rounded-full bg-brand-50 px-3 py-1 text-[0.68rem] font-bold tracking-[0.14em] text-brand-700 uppercase">
             {PANEL_LABEL[panel]}
           </p>
         </div>
