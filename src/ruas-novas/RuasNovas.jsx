@@ -374,7 +374,7 @@ function Simulator() {
   const saved = useState(loadSaved)[0]
   const [photo, setPhoto] = useState(saved ? { dataUrl: saved.before, ratio: saved.ratio } : null) // { dataUrl, ratio }
   const [result, setResult] = useState(saved?.after ?? null)
-  // idle | ready | working | done | error | used | soldOut
+  // idle | ready | working | done | error | soldOut
   const [status, setStatus] = useState(saved ? 'done' : 'idle')
   const [error, setError] = useState('')
   const [lead, setLead] = useState(loadLead)
@@ -382,14 +382,13 @@ function Simulator() {
   const leadOk = lead.nome.trim().length >= 2 && phoneDigits.length >= 10 && phoneDigits.length <= 13
   const setField = (k) => (e) => setLead((l) => ({ ...l, [k]: e.target.value }))
 
-  /* Pergunta ao servidor se este aparelho já usou a vez ou se as vagas acabaram. */
+  /* Pergunta ao servidor se as vagas acabaram. */
   useEffect(() => {
     if (saved) return
     fetch('/api/ruas-novas')
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
-        if (d?.used) setStatus('used')
-        else if (d?.soldOut) setStatus('soldOut')
+        if (d?.soldOut) setStatus('soldOut')
       })
       .catch(() => {})
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -430,8 +429,8 @@ function Simulator() {
         signal: ctrl.signal,
       })
       const data = await r.json().catch(() => ({}))
-      if (data.code === 'used' || data.code === 'sold-out') {
-        setStatus(data.code === 'used' ? 'used' : 'soldOut')
+      if (data.code === 'sold-out') {
+        setStatus('soldOut')
         return
       }
       if (!r.ok || !data.image) throw new Error(data.error || 'Não conseguimos gerar a simulação agora. Tente novamente em instantes.')
@@ -451,18 +450,16 @@ function Simulator() {
     <div className="rounded-[2rem] bg-paper-50 p-4 shadow-[0_40px_90px_-40px_rgba(5,13,30,0.7)] sm:p-7">
       {status === 'idle' && <Dropzone onFile={onFile} />}
 
-      {(status === 'used' || status === 'soldOut') && (
+      {status === 'soldOut' && (
         <div className="px-4 py-12 text-center sm:py-16">
           <span className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-gold-400 text-navy-900">
             <Check size={30} strokeWidth={2.6} aria-hidden="true" />
           </span>
           <p className="display mt-5 text-[1.4rem] text-ink-900 sm:text-[1.7rem]">
-            {status === 'used' ? 'Você já fez a sua simulação.' : 'As simulações acabaram.'}
+            As simulações acabaram.
           </p>
           <p className="mx-auto mt-3 max-w-md text-[0.95rem] leading-relaxed text-ink-600">
-            {status === 'used'
-              ? 'Cada morador pode gerar uma imagem. Obrigado por participar!'
-              : 'Todas as simulações disponíveis já foram usadas pelos moradores. Obrigado pelo interesse!'}
+            Todas as simulações disponíveis já foram usadas pelos moradores. Obrigado pelo interesse!
           </p>
           <a href="/" className={`${btn} mt-7 bg-navy-900 text-white hover:bg-navy-800`}>
             Conheça as propostas
@@ -487,7 +484,7 @@ function Simulator() {
             <img src={photo.dataUrl} alt="Sua foto" className="h-full w-full object-cover" />
           </div>
           <p className="mt-5 text-center text-[0.85rem] text-ink-600">
-            <strong className="font-semibold text-ink-900">Cada morador pode gerar uma simulação.</strong> Confira se é a foto certa.
+            Confira se é a foto certa. Depois você pode simular outras ruas.
           </p>
           <form id="cadastro" onSubmit={generate} className="mx-auto mt-5 grid max-w-xl gap-3 sm:grid-cols-2">
             <label className="block text-[0.8rem] font-semibold text-ink-700">
@@ -544,6 +541,10 @@ function Simulator() {
               <Download size={17} strokeWidth={2.6} aria-hidden="true" />
               Baixar imagem
             </a>
+            <button type="button" onClick={reset} className={`${btn} bg-paper-100 text-ink-700 ring-1 ring-paper-300 ring-inset hover:bg-paper-200`}>
+              <RotateCcw size={16} strokeWidth={2.6} aria-hidden="true" />
+              Simular outra foto
+            </button>
           </div>
         </div>
       )}

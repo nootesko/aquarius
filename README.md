@@ -102,9 +102,10 @@ OpenAI (`gpt-image-2`, edição de imagem), já com o logo da chapa no canto. A 
 servidor, na função `api/ruas-novas.js`; o prompt usado está fixo nesse arquivo.
 
 **Limites de uso** (para o custo não passar do previsto):
-1. **1 simulação por aparelho**, por cookie. A imagem fica guardada no aparelho para ver e baixar de novo.
-2. **3 por conexão (IP)**: segura quem limpa o cookie ou usa aba anônima, sem barrar vizinhos
-   que saem pela mesma conexão da operadora. Ajuste com `SIMULADOR_POR_IP`.
+1. **Sem limite por morador**: cada um pode simular quantas fotos quiser. A última imagem fica
+   guardada no aparelho para ver e baixar de novo.
+2. **Por conexão (IP), opcional**: defina `SIMULADOR_POR_IP` para limitar quantas saem de uma
+   mesma conexão. Sem ela, não há esse limite.
 3. **Teto de 700 no total** (`SIMULADOR_MAX`). Ao chegar lá, a página avisa que acabou.
    Simulação que falha não conta.
 

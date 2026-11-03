@@ -6,16 +6,14 @@
      OPENAI_IMAGE_MODEL    modelo de imagem (padrão gpt-image-2)
      OPENAI_IMAGE_QUALITY  low | medium | high (padrão medium)
      SIMULADOR_MAX         teto de gerações no total (padrão 700)
-     SIMULADOR_POR_IP      gerações por conexão/IP (padrão 3)
+     SIMULADOR_POR_IP      gerações por conexão/IP (opcional; sem ela, não há limite por IP)
      KV_REST_API_URL / KV_REST_API_TOKEN   Redis da Upstash (veja api/_store.js)
 
-   Limites, do mais fácil ao mais difícil de burlar:
-     1. cookie: uma geração por aparelho/navegador;
-     2. IP: poucas gerações por conexão (vizinhos podem dividir o IP da operadora);
-     3. teto geral: nunca passa de SIMULADOR_MAX, aconteça o que acontecer.
+   Limites: o morador pode gerar quantas quiser. O que segura o custo é o teto geral
+   (nunca passa de SIMULADOR_MAX) e, se SIMULADOR_POR_IP estiver definida, um limite por conexão.
    Geração que falha devolve a vaga.
 
-   GET  → { used, soldOut }
+   GET  → { soldOut }
    POST { image: "data:image/jpeg;base64,...", ratio: largura/altura, nome, whatsapp } → { image } ou { error, code }
    Nome e WhatsApp ficam guardados para a chapa (veja /api/painel). */
 
@@ -28,21 +26,13 @@ const PROMPT =
 const MAX_BYTES = 3.5 * 1024 * 1024
 const TYPES = ['image/jpeg', 'image/png', 'image/webp']
 const MAX_TOTAL = Number(process.env.SIMULADOR_MAX) || 700
-const PER_IP = Number(process.env.SIMULADOR_POR_IP) || 3
-const COOKIE = 'rn_usado'
+const PER_IP = Number(process.env.SIMULADOR_POR_IP) || 0 // 0 = sem limite por IP
 const TOTAL_KEY = 'ruas-novas:total'
 
 /* O IP não é guardado: vira um hash curto. */
 const ipKey = (ip) => `ruas-novas:ip:${createHash('sha256').update(`aquarius:${ip}`).digest('hex').slice(0, 24)}`
 
 /* ---------------- utilitários HTTP ---------------- */
-const hasCookie = (req) => new RegExp(`(?:^|;\\s*)${COOKIE}=`).test(req.headers.cookie ?? '')
-
-function usedCookie(req) {
-  const secure = (req.headers['x-forwarded-proto'] ?? '').includes('https') ? '; Secure' : ''
-  return `${COOKIE}=1; Path=/; Max-Age=31536000; HttpOnly; SameSite=Lax${secure}`
-}
-
 async function readJson(req) {
   if (req.body && typeof req.body === 'object') return req.body
   const chunks = []
@@ -66,13 +56,13 @@ function sizeFor(ratio) {
 const clean = (v) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, 120)
 
 const FAIL = 'Não conseguimos gerar a simulação agora. Tente novamente em instantes.'
-const USED = 'Você já fez a sua simulação. Cada morador pode gerar uma imagem.'
+const USED = 'Muitas simulações saindo desta conexão. Tente de novo mais tarde.'
 const SOLD_OUT = 'As simulações disponíveis já foram todas usadas. Obrigado pelo interesse!'
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     const total = await store.get(TOTAL_KEY).catch(() => 0)
-    return send(res, 200, { used: hasCookie(req), soldOut: total >= MAX_TOTAL })
+    return send(res, 200, { soldOut: total >= MAX_TOTAL })
   }
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'GET, POST')
@@ -81,7 +71,6 @@ export default async function handler(req, res) {
 
   const key = process.env.OPENAI_API_KEY
   if (!key) return send(res, 503, { error: 'O simulador ainda não foi ativado. Tente mais tarde.', code: 'off' })
-  if (hasCookie(req)) return send(res, 409, { error: USED, code: 'used' })
 
   let body
   try {
@@ -114,11 +103,13 @@ export default async function handler(req, res) {
       await release()
       return send(res, 403, { error: SOLD_OUT, code: 'sold-out' })
     }
-    const perIp = await store.incr(ipK)
-    reserved.push(ipK)
-    if (perIp > PER_IP) {
-      await release()
-      return send(res, 409, { error: USED, code: 'used' })
+    if (PER_IP > 0) {
+      const perIp = await store.incr(ipK)
+      reserved.push(ipK)
+      if (perIp > PER_IP) {
+        await release()
+        return send(res, 429, { error: USED, code: 'ip' })
+      }
     }
   } catch (e) {
     console.error('[ruas-novas] contador', e)
@@ -161,7 +152,7 @@ export default async function handler(req, res) {
       return send(res, 502, { error: FAIL })
     }
 
-    return send(res, 200, { image: `data:image/jpeg;base64,${b64}` }, { 'Set-Cookie': usedCookie(req) })
+    return send(res, 200, { image: `data:image/jpeg;base64,${b64}` })
   } catch (e) {
     console.error('[ruas-novas]', e)
     await release()
