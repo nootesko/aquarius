@@ -95,6 +95,17 @@ npm run pdf   # grava public/apresentacao/aquarius-sem-buracos.pdf
 
 Se o Playwright não achar o Chrome sozinho, informe o caminho em `CHROME_PATH`.
 
+### Versão 2 (/apresentacao-v2)
+
+Mesmo esquema da primeira (capa, chapa, antes e depois, compromisso, simulador, encerramento),
+com as **propostas de gestão reescritas** a partir das artes da chapa: uma visão geral das 8
+propostas e um slide para cada uma (podas em dois: o problema e como funciona a compostagem),
+mais o clube (atividades) e natureza e qualidade de vida. Textos em `src/content.js` → `v2`.
+
+```bash
+npm run pdf -- v2   # grava public/apresentacao-v2/aquarius-sem-buracos-v2.pdf
+```
+
 ## 4. Simulador de rua (/ruas-novas)
 
 O morador envia a foto da rua e recebe uma simulação com bloquete sextavado, gerada pela
@@ -144,6 +155,7 @@ src/lib/motion.js    curvas, durações e variantes de animação compartilhadas
 src/components/      Nav, botões, carrossel, formulário, ilustrações SVG, faixas
 src/sections/        as seções na ordem em que aparecem
 src/apresentacao/    a apresentação em slides (/apresentacao)
+src/apresentacao-v2/ a segunda versão (/apresentacao-v2), que reaproveita os slides da primeira
 scripts/             gerar-pdf-apresentacao.mjs (npm run pdf)
 ```
 

@@ -17,7 +17,7 @@ const CV_ICONS = { Formação: GraduationCap, 'Pós-graduação': Award, Experi�
 /* ------------------------------------------------------------------ */
 /* Peças comuns                                                        */
 /* ------------------------------------------------------------------ */
-function Kicker({ children, tone = 'dark' }) {
+export function Kicker({ children, tone = 'dark' }) {
   return (
     <p
       className={`text-[0.95rem] font-bold tracking-[0.16em] uppercase lg:text-[1.25rem] ${
@@ -29,7 +29,7 @@ function Kicker({ children, tone = 'dark' }) {
   )
 }
 
-function Logo({ className = '' }) {
+export function Logo({ className = '' }) {
   return (
     <picture>
       <source srcSet="/assets/logo-800.webp" type="image/webp" />
@@ -41,7 +41,7 @@ function Logo({ className = '' }) {
 /* ------------------------------------------------------------------ */
 /* Slides                                                              */
 /* ------------------------------------------------------------------ */
-function CoverSlide() {
+export function CoverSlide() {
   return (
     <div className="slide-bg-sky flex flex-1 flex-col items-center justify-center gap-6 px-6 py-10 text-center text-white lg:gap-8">
       <Logo className="w-[min(78vw,20rem)] drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)] lg:w-[24rem]" />
@@ -58,7 +58,7 @@ function CoverSlide() {
   )
 }
 
-function MemberSlide({ m, index }) {
+export function MemberSlide({ m, index }) {
   return (
     <div className="flex flex-1 flex-col bg-sky-900 text-white lg:flex-row">
       <div className={`relative h-[42vh] shrink-0 lg:h-auto lg:w-[42%] ${index % 2 ? 'lg:order-2' : ''}`}>
@@ -103,10 +103,10 @@ function MemberSlide({ m, index }) {
 }
 
 /* ---------------- Antes e depois (fotos reais + simulação) ---------------- */
-const featuredStreet = streets.find((st) => st.name === defaultStreet)
-const otherStreets = streets.filter((st) => st.photos.length && st !== featuredStreet).slice(0, 3)
+export const featuredStreet = streets.find((st) => st.name === defaultStreet)
+export const otherStreets = streets.filter((st) => st.photos.length && st !== featuredStreet).slice(0, 3)
 
-function Shot({ src, label, alt, className = '' }) {
+export function Shot({ src, label, alt, className = '' }) {
   const after = label === 'Depois'
   return (
     <figure className={`relative overflow-hidden rounded-xl bg-paper-200 ${className}`}>
@@ -122,7 +122,7 @@ function Shot({ src, label, alt, className = '' }) {
   )
 }
 
-function PortariaSlide() {
+export function PortariaSlide() {
   const photo = featuredStreet.photos[0]
   return (
     <div className="flex flex-1 flex-col justify-center gap-6 bg-sun-50 px-6 py-8 lg:gap-7 lg:px-16">
@@ -142,7 +142,7 @@ function PortariaSlide() {
   )
 }
 
-function StreetsCompareSlide() {
+export function StreetsCompareSlide() {
   return (
     <div className="flex flex-1 flex-col justify-center gap-6 bg-white px-6 py-8 lg:gap-6 lg:px-16">
       <div>
@@ -166,7 +166,7 @@ function StreetsCompareSlide() {
   )
 }
 
-function CommitmentSlide() {
+export function CommitmentSlide() {
   return (
     <div className="flex flex-1 flex-col justify-center gap-6 bg-sun-50 px-6 py-8 lg:gap-8 lg:px-20">
       <div>
@@ -197,7 +197,7 @@ function CommitmentSlide() {
 const SIM_URL = 'https://aquariussemburacos.com.br/ruas-novas/' // absoluto: o link também vale dentro do PDF
 const SIM_URL_LABEL = 'aquariussemburacos.com.br/ruas-novas'
 
-function SimulateSlide() {
+export function SimulateSlide() {
   const example = otherStreets[0]?.photos[0] ?? featuredStreet.photos[0]
   return (
     <div className="slide-bg-sky flex flex-1 flex-col items-center gap-8 px-6 py-10 text-white lg:flex-row lg:gap-14 lg:px-16">
@@ -283,7 +283,7 @@ function ThemeSlide({ p, index }) {
   )
 }
 
-function ClosingSlide() {
+export function ClosingSlide() {
   return (
     <div className="slide-bg-sky flex flex-1 flex-col items-center justify-center gap-6 px-6 py-10 text-center text-white lg:gap-7">
       <h2 className="display text-[clamp(2.2rem,9vw,4rem)] leading-[0.95] lg:text-[4.6rem]">Faça parte dessa mudança.</h2>
@@ -323,10 +323,10 @@ const SLIDES = [
 /* ------------------------------------------------------------------ */
 /* Modo PDF: todos os slides em sequência, 1280×720 cada               */
 /* ------------------------------------------------------------------ */
-function PrintDeck() {
+function PrintDeck({ slides }) {
   return (
     <div className="print-deck force-desktop">
-      {SLIDES.map((s) => (
+      {slides.map((s) => (
         <section key={s.id} className="print-slide flex">
           {s.render()}
         </section>
@@ -370,20 +370,21 @@ function useStageScale(ref) {
 /* ------------------------------------------------------------------ */
 /* Apresentação navegável                                              */
 /* ------------------------------------------------------------------ */
-const readHash = () => {
+const readHash = (total) => {
   const n = Number.parseInt(window.location.hash.replace('#', ''), 10)
-  return Number.isFinite(n) ? Math.min(Math.max(n - 1, 0), SLIDES.length - 1) : 0
+  return Number.isFinite(n) ? Math.min(Math.max(n - 1, 0), total - 1) : 0
 }
 
-export function Presentation() {
+/* Usada pela v1 (slides padrão) e pela v2 (/apresentacao-v2), que passa os próprios slides e PDF. */
+export function Presentation({ slides = SLIDES, pdfUrl = PDF_URL, pdfName = 'Aquarius-Sem-Buracos-Propostas.pdf' }) {
   const isPdf = new URLSearchParams(window.location.search).has('pdf')
-  if (isPdf) return <PrintDeck />
-  return <Deck />
+  if (isPdf) return <PrintDeck slides={slides} />
+  return <Deck SLIDES={slides} pdfUrl={pdfUrl} pdfName={pdfName} />
 }
 
-function Deck() {
+function Deck({ SLIDES, pdfUrl, pdfName }) {
   const reduce = useReducedMotion()
-  const [[index, dir], setState] = useState(() => [readHash(), 0])
+  const [[index, dir], setState] = useState(() => [readHash(SLIDES.length), 0])
   const touch = useRef(null)
   const frameRef = useRef(null)
   const scale = useStageScale(frameRef)
@@ -393,7 +394,7 @@ function Deck() {
       const n = Math.min(Math.max(next, 0), SLIDES.length - 1)
       return n === cur ? [cur, 0] : [n, n > cur ? 1 : -1]
     })
-  }, [])
+  }, [SLIDES.length])
 
   useEffect(() => {
     history.replaceState(null, '', `#${index + 1}`)
@@ -441,8 +442,8 @@ function Deck() {
           <span className="hidden text-[1rem] font-semibold sm:inline">Voltar ao site</span>
         </a>
         <a
-          href={PDF_URL}
-          download="Aquarius-Sem-Buracos-Propostas.pdf"
+          href={pdfUrl}
+          download={pdfName}
           className="inline-flex items-center gap-2 rounded-full bg-gold-400 px-4 py-3 text-[1rem] font-bold text-navy-900 lg:px-6"
         >
           <Download size={20} strokeWidth={2.6} aria-hidden="true" />
