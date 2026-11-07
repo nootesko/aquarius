@@ -13,8 +13,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@300..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..900&family=Inter:wght@300..700&family=Google+Sans+Flex:wght@300..700&display=swap"
     />
+    <!-- Texto corrido das apresentações em Google Sans Flex (o resto do site segue em Inter). -->
+    <style>
+      :root { --font-sans: "Google Sans Flex", "Inter", ui-sans-serif, system-ui, sans-serif; }
+      /* Sem viúvas (palavra sozinha na última linha) no desktop e no PDF:
+         títulos equilibrados, textos com quebra "pretty". */
+      @media (min-width: 1024px) {
+        h1, h2, h3 { text-wrap-style: balance; }
+        p, li, dd, dt, figcaption, em, a { text-wrap-style: pretty; }
+      }
+      .print-deck :is(h1, h2, h3) { text-wrap-style: balance; }
+      .print-deck :is(p, li, dd, dt, figcaption, em, a) { text-wrap-style: pretty; }
+    </style>
   </head>
   <body>
     <div id="root"></div>

@@ -21,13 +21,17 @@ export function Kicker({ children, tone = 'dark' }) {
   return (
     <p
       className={`text-[0.95rem] font-bold tracking-[0.16em] uppercase lg:text-[1.25rem] ${
-        tone === 'light' ? 'text-gold-300' : 'text-brand-700'
+        tone === 'light' ? 'text-white/80' : 'text-brand-700'
       }`}
     >
       {children}
     </p>
   )
 }
+
+/* Botão padrão dos slides (as duas apresentações usam este): amarelo, mesmo tamanho e texto. */
+export const BUTTON =
+  'inline-flex items-center gap-3 whitespace-nowrap rounded-full bg-gold-400 px-7 pt-[1.06rem] pb-[0.94rem] text-[1.1rem] leading-none font-bold tracking-[0.06em] text-navy-900 uppercase lg:text-[1.3rem]'
 
 export function Logo({ className = '' }) {
   return (
@@ -43,15 +47,18 @@ export function Logo({ className = '' }) {
 /* ------------------------------------------------------------------ */
 export function CoverSlide() {
   return (
-    <div className="slide-bg-sky flex flex-1 flex-col items-center justify-center gap-6 px-6 py-10 text-center text-white lg:gap-8">
-      <Logo className="w-[min(78vw,20rem)] drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)] lg:w-[24rem]" />
-      <p className="rounded-full bg-white/15 px-5 py-2 text-[1rem] font-bold tracking-[0.12em] uppercase ring-1 ring-white/30 lg:px-7 lg:text-[1.5rem]">
+    <div className="relative flex flex-1 flex-col items-center justify-center gap-6 overflow-hidden px-6 py-10 text-center text-white lg:gap-8">
+      {/* Fundo: foto real da portaria do Residencial Aquarius, com véu azul para o logo e o texto ficarem legíveis. */}
+      <img src="/assets/v2/portaria-aquarius.webp" alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover object-[50%_45%]" />
+      <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-sky-700/80 via-sky-800/85 to-sky-950/95" />
+      <Logo className="relative w-[min(78vw,20rem)] drop-shadow-[0_20px_40px_rgba(0,0,0,0.35)] lg:w-[24rem]" />
+      <p className="relative rounded-full bg-white/15 px-5 py-2 text-[1rem] font-bold tracking-[0.12em] uppercase ring-1 ring-white/30 lg:px-7 lg:text-[1.5rem]">
         Fabi presidente · Latrofe vice
       </p>
-      <h1 className="display text-[clamp(2.6rem,12vw,4.2rem)] leading-[0.95] lg:text-[5.2rem]">
+      <h1 className="display relative text-[clamp(2.6rem,12vw,4.2rem)] leading-[0.95] lg:text-[5.2rem]">
         Nossas <span className="text-gold-300">propostas</span>
       </h1>
-      <p className="max-w-[30rem] text-[1.3rem] leading-snug text-white/90 lg:text-[1.9rem]">
+      <p className="relative max-w-[30rem] text-[1.3rem] leading-snug text-white/90 lg:text-[1.9rem]">
         para o Residencial Aquarius
       </p>
     </div>
@@ -91,7 +98,7 @@ export function MemberSlide({ m, index }) {
                 </span>
                 <div>
                   <dt className="text-[0.95rem] font-bold tracking-[0.12em] text-gold-300 uppercase lg:text-[1.15rem]">{c.label}</dt>
-                  <dd className="mt-1 text-[1.2rem] leading-snug lg:text-[1.6rem]">{c.text}</dd>
+                  <dd className="mt-1 text-[1.1rem] leading-snug lg:text-[1.4rem]">{c.text}</dd>
                 </div>
               </div>
             )
@@ -211,7 +218,9 @@ export function SimulateSlide() {
         <div className="flex flex-wrap items-center gap-5">
           <a
             href={SIM_URL}
-            className="inline-flex items-center gap-3 rounded-full bg-gold-400 px-7 py-4 text-[1.1rem] font-bold tracking-[0.06em] text-navy-900 uppercase lg:text-[1.3rem]"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={BUTTON}
           >
             <Sparkles size={22} strokeWidth={2.6} aria-hidden="true" />
             Simular minha rua
@@ -299,12 +308,11 @@ export function ClosingSlide() {
         href={whatsappLink}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-2 inline-flex items-center gap-3 rounded-full bg-gold-400 px-7 py-4 text-[1.1rem] font-bold tracking-[0.08em] text-navy-900 uppercase lg:px-9 lg:py-5 lg:text-[1.4rem]"
+        className={`mt-2 ${BUTTON}`}
       >
         <WhatsAppIcon size={24} />
         Entre no nosso grupo
       </a>
-      <p className="text-[1.2rem] text-white/90 lg:text-[1.6rem]">{closing.cta}</p>
     </div>
   )
 }

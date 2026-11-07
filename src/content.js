@@ -301,10 +301,10 @@ export const v2 = {
   },
 
   pruning: {
-    title: 'Chega de pagar R$ 350 pela retirada de podas',
-    goal: 'Reduzir de 80% a 90% esse custo, com coleta própria e compostagem no Aquarius.',
+    title: 'Economize até R$ 315 em cada retirada de podas',
+    goal: 'Hoje a retirada custa cerca de R$ 350. Com coleta própria e compostagem, pode sair por R$ 35 a R$ 70.',
     problem: [
-      'Hoje muitos moradores pagam cerca de R$ 350 por cada retirada de podas.',
+      'Hoje muitos moradores pagam cerca de R$\u00a0350 por cada retirada de podas.',
       'As podas saem da casa do morador, mas continuam dentro do próprio Aquarius, sem um projeto coletivo.',
       'Resultado: custo alto para o morador e pouco retorno para o residencial.',
     ],
@@ -344,7 +344,12 @@ export const v2 = {
     title: 'Pets e animais comunitários',
     subtitle: 'Cuidado com quem também mora aqui.',
     text: 'Criar uma comissão dedicada aos pets e aos animais comunitários do Aquarius, com critérios, ações e parcerias que promovam o bem-estar animal e a convivência harmoniosa.',
-    points: ['Critérios e regras claras de convivência', 'Ações de cuidado e bem-estar, com parceiros', 'Moradores voluntários na comissão'],
+    points: [
+      'Critérios e regras claras de convivência',
+      'Parcerias com ONGs e órgãos públicos para encaminhamento e adoção',
+      'Ações de cuidado e bem-estar animal',
+      'Moradores voluntários na comissão',
+    ],
   },
 
   mail: {
